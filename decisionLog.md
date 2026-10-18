@@ -2,6 +2,14 @@
 
 La plus récente en haut.
 
+## 2026-10-18 — Une touche par élément
+D'après le porteur, dans le jeu, chaque élément a toujours « prochain »,
+« tous sur la carte » et « tous à l'écran ». Une touche par élément, la
+mécanique dit le verbe (combinaison de préférence, double appui en dernier
+recours) ; quatrième critère d'étoile « même touche que l'élément » (0 à 4).
+« Sélectionner le X » devient « Prochain X ». Infanterie, distance,
+cavalerie et siège se sélectionnent à l'écran avant de créer leur groupe.
+
 ## 2026-10-18 — Suggestions jugées à leur intuitivité
 Une suggestion se juge à son intuitivité pour le joueur, dont fait partie le
 fait que les doigts ne quittent pas leur touche de référence. Les étoiles
