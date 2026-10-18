@@ -225,6 +225,9 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   les analyser à chaque fois pour proposer la suggestion la plus intuitive.
 - Test : avec seulement A, Z, E, R, Espace, Alt, Ctrl, Maj, Mouse 4 et
   Mouse 5, à quel moment manque-t-il des touches ?
+- Corrections : A, Z, E, R seuls sont possibles en faisant Échap avant ;
+  l'armée ne passe pas que par des groupes (en combat, « toute l'infanterie à
+  l'écran » pour contrer une cavalerie, par exemple).
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
