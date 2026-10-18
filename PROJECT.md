@@ -186,6 +186,12 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Une touche de la grille n'entre en conflit que si un élément est
   sélectionné ; en déplacement libre (rien de sélectionné), les touches de la
   grille ne sont pas des touches de grille.
+- Intuitivité : combiner la position de l'élément dans la grille du jeu, la
+  mécanique de la famille, une touche qui rappelle le nom et les conventions
+  des joueurs reconnus.
+- Partir du principe qu'un élément est toujours sélectionné (Échap
+  désélectionne rapidement).
+- L'indication par étoiles reste, mais elle devient le repère d'intuitivité.
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
