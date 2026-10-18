@@ -113,3 +113,4 @@ quittent leur touche de référence.
 | P1 v7 | Partie générique jusqu'à l'âge IV, mode entraînement | `prototypes/p1-pas-a-pas.html` | Retours : conventions des joueurs reconnus |
 | P1 v8 | Conventions des joueurs (groupes par rôle, production en groupes) | `prototypes/p1-pas-a-pas.html` | Retours : affichage, groupes adaptatifs, logique visible |
 | P1 v9 | Logique visible, groupes adaptatifs | `prototypes/p1-pas-a-pas.html` | Validé |
+| P1 v10 | Étoiles d'intuitivité, logiques par geste et par domaine | `prototypes/p1-pas-a-pas.html` | En test |
