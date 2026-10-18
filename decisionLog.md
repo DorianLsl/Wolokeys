@@ -22,7 +22,7 @@ deviennent le repère d'intuitivité : une par critère rempli (grille du jeu,
 famille, doigts immobiles) ; ni le nom ni le consensus des joueurs n'y
 comptent, les conventions (V15) restant la base des suggestions.
 On part du principe qu'un élément est toujours sélectionné (Échap
-désélectionne) : les touches de la grille restent au jeu. Double appui, sur
+désélectionne) : les touches de la grille restent au jeu, sauf après Échap. Double appui, sur
 n'importe quelle touche, en dernier recours seulement. Logiques par concept
 et par domaine calculées toutes les deux, départagées par les étoiles ; une
 touche maintenue pour l'économie comme pour le militaire, sans l'imposer.
