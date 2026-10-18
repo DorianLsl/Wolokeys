@@ -2,6 +2,12 @@
 
 La plus récente en haut.
 
+## 2026-10-18 — Logique par rôle et touches F
+A, Z, E, R (sous 1, 2, 3, 4) portent l'infanterie, la distance, la cavalerie
+et le siège ; le rôle est l'élément. D'après le porteur, F1 à F12 sont
+libres dans le jeu ; elles ne servent qu'en cas de gros manque
+d'intuitivité, la priorité restant de peu bouger les doigts.
+
 ## 2026-10-18 — Toutes les logiques analysées
 Aucune logique n'est abandonnée (par geste, par domaine, par élément) :
 l'outil les connaît toutes et les analyse à chaque suggestion pour proposer
