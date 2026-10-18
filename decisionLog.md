@@ -3,14 +3,16 @@
 La plus récente en haut.
 
 ## 2026-10-18 — Suggestions jugées à leur intuitivité
-Une suggestion se juge à son intuitivité pour le joueur, plus au fait qu'un
-doigt bouge ou non. Les étoiles deviennent le repère d'intuitivité : un point
-par critère rempli (grille du jeu, famille, nom, conventions des joueurs).
+Une suggestion se juge à son intuitivité pour le joueur, dont fait partie le
+fait que les doigts ne quittent pas leur touche de référence. Les étoiles
+deviennent le repère d'intuitivité : une par critère rempli (grille du jeu,
+famille, doigts immobiles) ; ni le nom ni le consensus des joueurs n'y
+comptent, les conventions (V15) restant la base des suggestions.
 On part du principe qu'un élément est toujours sélectionné (Échap
 désélectionne) : les touches de la grille restent au jeu. Double appui, sur
 n'importe quelle touche, en dernier recours seulement. Logiques par concept
 et par domaine calculées toutes les deux, départagées par les étoiles ; une
-touche maintenue pour l'économie comme pour le militaire.
+touche maintenue pour l'économie comme pour le militaire, sans l'imposer.
 
 ## 2026-10-18 — Objectif et règle « groupes appris » retirée
 Objectif rappelé par le porteur : utiliser les bonnes pratiques des joueurs
