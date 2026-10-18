@@ -15,7 +15,7 @@ pourront apparaître ou cohabiter.
   `Documents/My Games/Age of Empires IV/keyBindingProfiles` (porteur, Q7).
 
 ## État
-Phase 1. P1 v9 publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
+Phase 1. P1 v10 publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
 (`prototypes/p1-pas-a-pas.html`). Partie générique jusqu'à l'âge IV, avec les
 conventions des joueurs reconnus : armée par rôle en groupes 1 à 3, siège 4,
 centres-villes 5, production 6 à 0 ; 20 raccourcis à régler, plus 16 étapes de
@@ -212,4 +212,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Cahier à jour pour P1 v10 (H1, H2, V9 étoiles sur 3 critères), plus de question ouverte. Suite : P1 v10.
+P1 v10 publié, en test par le porteur (H1, H2, V9 étoiles sur 3 critères).
