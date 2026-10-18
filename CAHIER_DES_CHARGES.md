@@ -58,7 +58,7 @@ posture de référence.
   par le menu du jeu d'après le porteur. La touche de création de groupe est
   celle utilisée pour le premier groupe. Une touche ne peut pas servir à la
   fois seule et comme modificateur, ni seule et en double appui pour deux
-  actions différentes. Un double appui sur une touche hors repos n'est
+  actions différentes. Un double appui, sur n'importe quelle touche, n'est
   suggéré qu'en dernier recours.
 - V11. Une famille d'actions (caméra ; sélectionner un élément ; sélectionner
   tous) garde la mécanique de son premier raccourci. Le double appui et chaque
@@ -87,6 +87,12 @@ posture de référence.
   *(P1 v9)*
 ## Rejeté
 ## Hypothèses en test
+### P1 v10 — logique par domaine, étoiles d'intuitivité (`prototypes/p1-pas-a-pas.html`)
+- H1. Les logiques par concept et par domaine sont calculées toutes les deux ;
+  les étoiles les départagent et le premier choix de l'utilisateur fixe sa
+  logique. La mécanique de la famille s'entend dans la logique choisie.
+- H2. Au premier raccourci économique, une touche maintenue réservée à
+  l'économie est proposée, comme pour le militaire (V16).
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
@@ -95,9 +101,6 @@ posture de référence.
   `Documents/My Games/Age of Empires IV/keyBindingProfiles`, QWERTY (AZERTY
   seulement d'ici là), sauvegarde, autres civilisations.
 ## Questions ouvertes
-- Âges II à IV (prochain prototype).
-- Logique par domaine : une touche maintenue pour le militaire, une pour
-  l'économie, à côté de « une touche maintenue par concept » (V11).
 ## Historique des prototypes
 | # | Question | Fichier | Verdict |
 |---|---|---|---|
