@@ -202,6 +202,9 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Ne pas compter le consensus des joueurs reconnus dans les étoiles.
 - Touche maintenue de l'économie sur l'autre bouton du pouce : possible, mais
   sans forcer.
+- Oui aux trois changements : étoiles sur grille, famille et doigts
+  immobiles (0 à 3) ; objectif sans que les doigts quittent leur touche ;
+  touche de l'économie proposée sans être imposée.
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
@@ -209,4 +212,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Hypothèses de P1 v10 au cahier (H1, H2), plus de question ouverte. Suite : P1 v10.
+Cahier à jour pour P1 v10 (H1, H2, V9 étoiles sur 3 critères), plus de question ouverte. Suite : P1 v10.
