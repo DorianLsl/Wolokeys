@@ -196,6 +196,12 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Oui : calculer les deux logiques (concept, domaine), les étoiles
   départagent ; touche maintenue pour l'économie comme pour le militaire.
 - Oui : retirer la question ouverte « Âges II à IV ».
+- Alerte sur Espace x2 : on garde l'exception.
+- « Touche qui rappelle le nom » : pourquoi, alors qu'on privilégie de ne
+  pas bouger les doigts ?
+- Ne pas compter le consensus des joueurs reconnus dans les étoiles.
+- Touche maintenue de l'économie sur l'autre bouton du pouce : possible, mais
+  sans forcer.
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
