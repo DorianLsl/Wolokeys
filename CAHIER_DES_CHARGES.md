@@ -4,8 +4,8 @@
 > sur un prototype et la confirmation du porteur.
 
 **Objectif** : utiliser les bonnes pratiques des joueurs reconnus, en
-privilégiant des suggestions intuitives pour le joueur, à partir de sa
-posture de référence.
+privilégiant des suggestions intuitives pour le joueur, sans que les doigts
+quittent leur touche de référence.
 
 ## Validé
 - V1. Le principe « situation de jeu → touche proposée → j'accepte ou je
@@ -47,12 +47,10 @@ posture de référence.
   actions sur les villageois inactifs sont des extras. Chaque étape porte son
   étiquette, et le récapitulatif a deux tableaux.
 - V9. Interface visuelle : icônes, situation en 8 mots au plus, étoiles
-  d'intuitivité, geste suggéré animé, et deux vues
-  au choix de l'utilisateur, « main posée » (clavier dessiné) et « manette »,
-  commutables d'un clic. Les étoiles comptent un point par critère rempli
-  parmi quatre : position de l'élément dans la grille du jeu, mécanique de
-  la famille, touche qui rappelle le nom, conventions des joueurs reconnus
-  (3 étoiles = 3 ou 4 critères, 2 = 2, 1 = 0 ou 1).
+  d'intuitivité, geste suggéré animé, et deux vues au choix de
+  l'utilisateur, « main posée » (clavier dessiné) et « manette », commutables
+  d'un clic. Une étoile par critère rempli, de 0 à 3 : position de l'élément
+  dans la grille du jeu, mécanique de la famille, doigts immobiles.
 - V10. Combinaisons (Alt, Maj, Ctrl, Mouse 4 ou Mouse 5 maintenu, plus une
   touche) et doubles appuis (deux appuis en moins de 0,4 seconde), acceptés
   par le menu du jeu d'après le porteur. La touche de création de groupe est
@@ -92,7 +90,9 @@ posture de référence.
   les étoiles les départagent et le premier choix de l'utilisateur fixe sa
   logique. La mécanique de la famille s'entend dans la logique choisie.
 - H2. Au premier raccourci économique, une touche maintenue réservée à
-  l'économie est proposée, comme pour le militaire (V16).
+  l'économie est proposée parmi les suggestions, comme pour le militaire
+  (V16), sans être imposée : pré-sélectionnée seulement si elle a le plus
+  d'étoiles, plus proposée si l'utilisateur en choisit une autre.
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
