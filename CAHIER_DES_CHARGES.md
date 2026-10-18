@@ -112,10 +112,16 @@ quittent leur touche de référence.
 ### P1 v13 — logique par rôle, concepts hors éléments (`prototypes/p1-pas-a-pas.html`)
 - H6. Une logique par rôle, analysée avec les autres : A, Z, E, R (sous 1,
   2, 3, 4) portent l'infanterie, la distance, la cavalerie et le siège ;
-  chaque rôle réunit ses unités et son bâtiment ; Espace porte la base.
+  chaque rôle réunit ses unités et son bâtiment (le rôle est l'élément) ;
+  Espace porte la base.
 - H7. Les concepts qui ne sont pas des éléments (états comme « inactif »,
   ensembles comme « tous les bâtiments militaires », ordres comme
-  « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace.
+  « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace. La
+  priorité reste de peu bouger les doigts : les touches F1 à F12 (libres
+  dans le jeu) ne servent qu'en cas de gros manque d'intuitivité, par
+  exemple F1 villageois inactifs, F2 militaires inactifs, F3 bâtiments
+  militaires, F4 religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour
+  « tous ».
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
