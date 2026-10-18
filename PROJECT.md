@@ -177,6 +177,16 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   privilégiant une posture où les doigts ne quittent jamais leur touche de
   référence.
 
+## Réponses du porteur (logique par domaine, double appui, après P1 v9)
+- Penser aussi au double appui (x2) pour la logique par domaine.
+- Double appui sur une touche hors repos : seulement s'il n'y a vraiment plus
+  d'autre possibilité.
+- Une suggestion se juge à son intuitivité pour le joueur, pas au fait qu'un
+  doigt bouge ou non.
+- Une touche de la grille n'entre en conflit que si un élément est
+  sélectionné ; en déplacement libre (rien de sélectionné), les touches de la
+  grille ne sont pas des touches de grille.
+
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
 2. Restent à vérifier en vrai : boutons latéraux, clavier AZERTY, délai du
