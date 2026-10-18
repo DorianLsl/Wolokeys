@@ -103,6 +103,12 @@ quittent leur touche de référence.
 - H4. Quatre actions « à l'écran » (infanterie, distance, cavalerie, siège),
   chacune juste avant la création de son groupe : sélection sans souris,
   puis Ctrl + chiffre. L'infanterie va dans le groupe 1.
+### P1 v12 — mécanique habituelle par verbe (`prototypes/p1-pas-a-pas.html`)
+- H5. Une logique par verbe, analysée avec les autres : « prochain » sur le
+  bouton de repos du pouce droit (Mouse 4 par défaut), « tous sur la carte »
+  sur l'autre bouton, « tous à l'écran » sur Alt. Cette mécanique habituelle
+  est proposée d'abord au premier raccourci de chaque verbe, sans être
+  imposée.
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
