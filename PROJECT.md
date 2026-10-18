@@ -206,6 +206,14 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   immobiles (0 à 3) ; objectif sans que les doigts quittent leur touche ;
   touche de l'économie proposée sans être imposée.
 
+## Retours du porteur sur P1 v10
+- Logique intéressante : regrouper « sélectionner le prochain [bâtiment,
+  moine, ouvrier…] » sur une touche, et « tous les sélectionner » sur un
+  double appui ou une combinaison de cette touche.
+- Définir le raccourci « sélectionner toutes les unités d'infanterie à
+  l'écran », pour créer le groupe 1 sans clic de souris ; idem pour la
+  distance, la cavalerie et le siège.
+
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
 2. Restent à vérifier en vrai : boutons latéraux, clavier AZERTY, délai du
