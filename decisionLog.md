@@ -2,6 +2,11 @@
 
 La plus récente en haut.
 
+## 2026-10-18 — Toutes les logiques analysées
+Aucune logique n'est abandonnée (par geste, par domaine, par élément) :
+l'outil les connaît toutes et les analyse à chaque suggestion pour proposer
+la plus intuitive (porteur).
+
 ## 2026-10-18 — Une touche par élément
 D'après le porteur, dans le jeu, chaque élément a toujours « prochain »,
 « tous sur la carte » et « tous à l'écran ». Une touche par élément, la
