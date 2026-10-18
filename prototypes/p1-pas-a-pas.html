@@ -293,7 +293,8 @@ const POS = Object.fromEntries([0, 1, 2, 3, 4, 5].flatMap((row) => {
 }));
 // grid = séquence fixée par la grille du jeu en AZERTY (menu d'âge puis bâtiment, T = monument ; Maj + unité = file de 5 ; le porteur).
 // verb = famille par geste (caméra, un, tous) ; domain = économie ou militaire, pour la logique par domaine ;
-// pair = action jumelle dont on reprend la touche ; groupOnly = seulement par groupe de contrôle (l'armée, jamais « tout sélectionner ») ;
+// of = élément visé, partagé par ses actions (une touche par élément, porteur ; sinon l'action est son propre élément) ;
+// verb écran = tous ceux à l'écran ; groupOnly = seulement par groupe de contrôle (l'armée, jamais « tout sélectionner ») ;
 // groupFirst = groupe de contrôle proposé d'abord (bâtiments de production, comme chez les joueurs reconnus).
 // selects = élément sélectionné pendant et après l'étape ; element = élément qu'on peut mettre dans un groupe de contrôle ; after = sélection après le raccourci.
 // place = touche de l'élément dans la grille du jeu (le bâtiment dans son menu d'âge, l'unité dans son bâtiment), pour les étoiles.
@@ -305,13 +306,13 @@ const ACTIONS = {
   index: { name: 'Index', context: 'setup', finger: 'F' },
   pouce: { name: 'Pouce', context: 'setup', finger: 'Espace' },
   'pouce droit': { name: 'Pouce droit', context: 'setup', finger: 'Mouse 4' },
-  selectTc: { name: 'Sélectionner le centre-ville', short: 'Centre-ville', icon: 'tc', context: 'global', verb: 'un', domain: 'eco', element: true, selects: 'centre-ville' },
-  scout: { name: 'Éclaireur suivant', short: 'Éclaireur', icon: 'scout', context: 'global', verb: 'un', domain: 'mil', after: 'éclaireur' },
-  camera: { name: 'Centrer la caméra', short: 'Caméra', icon: 'camera', context: 'global', verb: 'camera' },
-  alert: { name: 'Caméra sur la dernière alerte', short: 'Alerte', icon: 'bell', context: 'global', verb: 'camera', pair: 'camera' },
-  idle: { name: 'Un villageois inactif', short: 'Inactif', icon: 'idle', context: 'global', verb: 'un', domain: 'eco', place: 'A', extra: true, after: 'villageois' },
-  idleAll: { name: 'Tous les inactifs', short: 'Inactifs', icon: 'idleAll', context: 'global', verb: 'tous', domain: 'eco', place: 'A', pair: 'idle', extra: true, after: 'villageois' },
-  allTc: { name: 'Tous les centres-villes', short: 'Centres-villes', icon: 'tcs', context: 'global', verb: 'tous', domain: 'eco', pair: 'selectTc', after: 'centres-villes' },
+  selectTc: { name: 'Prochain centre-ville', short: 'Centre-ville', icon: 'tc', context: 'global', verb: 'un', domain: 'eco', of: 'centre-ville', element: true, selects: 'centre-ville' },
+  scout: { name: 'Prochain éclaireur', short: 'Éclaireur', icon: 'scout', context: 'global', verb: 'un', domain: 'mil', after: 'éclaireur' },
+  camera: { name: 'Centrer la caméra', short: 'Caméra', icon: 'camera', context: 'global', verb: 'camera', of: 'caméra' },
+  alert: { name: 'Caméra sur la dernière alerte', short: 'Alerte', icon: 'bell', context: 'global', verb: 'camera', of: 'caméra' },
+  idle: { name: 'Prochain villageois inactif', short: 'Inactif', icon: 'idle', context: 'global', verb: 'un', domain: 'eco', of: 'inactifs', place: 'A', extra: true, after: 'villageois' },
+  idleAll: { name: 'Tous les inactifs', short: 'Inactifs', icon: 'idleAll', context: 'global', verb: 'tous', domain: 'eco', of: 'inactifs', place: 'A', extra: true, after: 'villageois' },
+  allTc: { name: 'Tous les centres-villes', short: 'Centres-villes', icon: 'tcs', context: 'global', verb: 'tous', domain: 'eco', of: 'centre-ville', after: 'centres-villes' },
   allBarracks: { name: 'Casernes', short: 'Casernes', icon: 'barracks', context: 'global', verb: 'tous', domain: 'mil', place: 'S', element: true, groupFirst: true, selects: 'casernes' },
   allRanges: { name: 'Champs de tir', short: 'Champs de tir', icon: 'range', context: 'global', verb: 'tous', domain: 'mil', place: 'Q', element: true, groupFirst: true, selects: 'champs de tir' },
   allStables: { name: 'Écuries', short: 'Écuries', icon: 'stable', context: 'global', verb: 'tous', domain: 'mil', place: 'S', element: true, groupFirst: true, selects: 'écuries' },
@@ -319,8 +320,12 @@ const ACTIONS = {
   monasteries: { name: 'Monastères', short: 'Monastères', icon: 'monastery', context: 'global', verb: 'tous', domain: 'mil', place: 'A', element: true, groupFirst: true, selects: 'monastères' },
   rally: { name: 'Tous les bâtiments militaires', short: 'Bâtiments militaires', icon: 'rally', context: 'global', verb: 'tous', domain: 'mil', after: 'bâtiments militaires' },
   cancelUnit: { name: 'Annuler la dernière unité', short: 'Annuler', icon: 'cancel', context: 'global', verb: 'ordre', domain: 'eco' },
-  idleMil: { name: 'Militaires inactifs', short: 'Militaires inactifs', icon: 'idleMil', context: 'global', verb: 'tous', domain: 'mil', pair: 'idleAll', extra: true, after: 'militaires' },
-  monk: { name: 'Moine suivant', short: 'Moine', icon: 'monk', context: 'global', verb: 'un', domain: 'mil', place: 'A', after: 'moine' },
+  idleMil: { name: 'Militaires inactifs', short: 'Militaires inactifs', icon: 'idleMil', context: 'global', verb: 'tous', domain: 'mil', extra: true, after: 'militaires' },
+  monk: { name: 'Prochain moine', short: 'Moine', icon: 'monk', context: 'global', verb: 'un', domain: 'mil', place: 'A', after: 'moine' },
+  meleeScreen: { name: "Infanterie à l'écran", short: 'Infanterie', icon: 'army', context: 'global', verb: 'écran', domain: 'mil', after: 'mêlée' },
+  rangedScreen: { name: "Distance à l'écran", short: "Distance à l'écran", icon: 'range', context: 'global', verb: 'écran', domain: 'mil', after: 'distance' },
+  cavalryScreen: { name: "Cavalerie à l'écran", short: "Cavalerie à l'écran", icon: 'stable', context: 'global', verb: 'écran', domain: 'mil', after: 'cavalerie' },
+  siegeScreen: { name: "Siège à l'écran", short: "Siège à l'écran", icon: 'siege', context: 'global', verb: 'écran', domain: 'mil', after: 'siège' },
   melee: { name: 'Armée de mêlée', short: 'Mêlée', icon: 'army', context: 'global', verb: 'un', domain: 'mil', element: true, groupOnly: true, selects: 'mêlée' },
   ranged: { name: 'Armée à distance', short: 'Distance', icon: 'range', context: 'global', verb: 'un', domain: 'mil', element: true, groupOnly: true, selects: 'distance' },
   cavalry: { name: 'Cavalerie', short: 'Cavalerie', icon: 'stable', context: 'global', verb: 'un', domain: 'mil', element: true, groupOnly: true, selects: 'cavalerie' },
@@ -391,7 +396,9 @@ const MOMENTS = [
   { at: '5:00', action: 'range', situation: 'Un champ de tir pour des archers.' },
   { at: '5:10', action: 'allRanges', situation: 'Tes champs de tir.' },
   { at: '5:20', drill: 'archers', situation: 'Maj : une file de 5 archers.' },
+  { at: '6:00', action: 'meleeScreen', situation: "Tes lanciers à l'écran, sans souris." },
   { at: '6:00', action: 'melee', situation: 'Tes lanciers : la mêlée.' },
+  { at: '6:10', action: 'rangedScreen', situation: "Tes archers à l'écran, sans souris." },
   { at: '6:10', action: 'ranged', situation: 'Tes archers : le tir à distance.' },
   { at: '7:00', action: 'rally', situation: 'Un point de ralliement commun.' },
   { at: '7:10', drill: 'rallyPoint', situation: 'Tous tes bâtiments militaires, puis clic droit.' },
@@ -403,6 +410,7 @@ const MOMENTS = [
   { at: '12:00', action: 'stable', situation: 'Il fait des archers : une écurie.' },
   { at: '12:10', action: 'allStables', situation: 'Tes écuries.' },
   { at: '12:20', drill: 'horsemen', situation: 'Maj : une file de 5 cavaliers.' },
+  { at: '12:30', action: 'cavalryScreen', situation: "Tes cavaliers à l'écran." },
   { at: '12:30', action: 'cavalry', situation: 'Tes cavaliers : la cavalerie.' },
   { at: '14:00', action: 'landmark3', situation: 'Âge III : le monument.' },
   { at: '16:00', age: 'III', action: 'allTc', situation: 'Deux centres-villes : relance-les ensemble.' },
@@ -410,6 +418,7 @@ const MOMENTS = [
   { at: '16:30', action: 'workshop', situation: 'Du siège : un atelier.' },
   { at: '16:40', action: 'allWorkshops', situation: 'Tes ateliers de siège.' },
   { at: '16:50', drill: 'springalds', situation: 'Maj : une file de 5 espringales.' },
+  { at: '17:00', action: 'siegeScreen', situation: "Tes espringales à l'écran." },
   { at: '17:00', action: 'siege', situation: 'Le siège dans son propre groupe.' },
   { at: '17:30', action: 'alert', situation: 'Alerte : raid sur tes mineurs !' },
   { at: '17:40', drill: 'goAlert', situation: "Va voir l'alerte." },
@@ -594,25 +603,33 @@ const teacherIn = (settled, logic, family) => Object.keys(settled).find((id) => 
 const takenIn = (settled, logic, family) => Object.keys(settled)
   .filter((id) => keyed(settled, id) && LOGICS[logic](ACTIONS[id]) !== family).map((id) => mechanicOf(settled[id])).filter((m) => m !== 'seule');
 
-// Critères d'intuitivité (porteur) : place de l'élément dans la grille du jeu, mécanique de la famille, doigts immobiles.
-// true, false, ou null = sans objet (compté comme rempli). La famille vaut dans une logique encore possible où la mécanique est libre ;
-// l'alerte sur la touche de la caméra en double appui suit la famille caméra (exception du porteur). like = action qui fixe la famille.
+const elementOf = (id) => ACTIONS[id].of || id;
+
+// Critères d'intuitivité (porteur) : place de l'élément dans la grille du jeu, mécanique de la famille, doigts immobiles,
+// même touche que l'élément. true, false, ou null = sans objet (compté comme rempli). La famille vaut dans une logique encore
+// possible où la mécanique est libre ; l'alerte sur la touche de la caméra en double appui suit la famille caméra (exception du porteur).
+// Une touche par élément : la touche déjà prise par son élément, sinon une touche qu'aucun autre élément n'a prise.
+// like = action qui fixe la famille ; same = action du même élément qui fixe la touche.
 function meetsOf(settled, id, value, logics = logicsOf(settled)) {
   const posture = postureOf(settled);
   const d = groupDigit(value);
-  if (d) return { grille: null, famille: null, doigts: reachOf(posture, d).effort === 0, like: null };
+  if (d) return { grille: null, famille: null, doigts: reachOf(posture, d).effort === 0, element: null, like: null, same: null };
   const a = ACTIONS[id];
   const m = mechanicOf(value);
-  const pair = a.pair && keyed(settled, a.pair) && partsOf(settled[a.pair]).key;
-  const cameraTwin = a.verb === 'camera' && m === 'double' && partsOf(value).key === pair;
+  const key = partsOf(value).key;
+  const others = Object.keys(settled).filter((x) => x !== id && keyed(settled, x));
+  const same = others.find((x) => elementOf(x) === elementOf(id));
+  const element = same ? partsOf(settled[same]).key === key : others.some((x) => partsOf(settled[x]).key === key) ? false : null;
+  const cameraTwin = a.verb === 'camera' && m === 'double' && element === true;
   const open = logics.filter((l) => !takenIn(settled, l, LOGICS[l](a)).includes(m)).map((l) => teacherIn(settled, l, LOGICS[l](a)));
   const like = open.find((t) => t && (mechanicOf(settled[t]) === m || cameraTwin));
   const famille = like ? true : open.some((t) => !t) ? null : false;
-  return { grille: a.place ? partsOf(value).key === a.place : null, famille, doigts: costOf(posture, value).effort === 0, like: like || null };
+  return { grille: a.place ? key === a.place : null, famille, doigts: costOf(posture, value).effort === 0, element, like: like || null, same: same || null };
 }
 
-// Une étoile par critère rempli, de 0 à 3.
-const starsOf = (meets) => ['grille', 'famille', 'doigts'].filter((k) => meets[k] !== false).length;
+// Une étoile par critère rempli, de 0 à 4.
+const CRITERIA_KEYS = ['grille', 'famille', 'doigts', 'element'];
+const starsOf = (meets) => CRITERIA_KEYS.filter((k) => meets[k] !== false).length;
 
 // Raccourcis possibles : touche seule, double appui ou touche maintenue + touche. Une touche maintenable ne sert jamais seule,
 // et le repos du pouce reste à la famille caméra.
@@ -626,8 +643,8 @@ function candidates(history, posture, a) {
     .filter((c) => c.effort < Infinity);
 }
 
-// Départage : étoiles, même touche que l'action jumelle, effort, mécanique la plus simple, puis la touche sous l'index d'abord.
-const byLogic = (p, q) => q.stars - p.stars || q.twin - p.twin || p.effort - q.effort
+// Départage : étoiles, effort, mécanique la plus simple, puis la touche sous l'index d'abord.
+const byLogic = (p, q) => q.stars - p.stars || p.effort - q.effort
   || MECHANICS.indexOf(p.mechanic) - MECHANICS.indexOf(q.mechanic)
   || FINGERS.indexOf(p.keyFinger) - FINGERS.indexOf(q.keyFinger);
 
@@ -647,18 +664,17 @@ function suggest(history) {
   const groupFirst = !!combo && (a.groupOnly || a.groupFirst);
   if (a.groupOnly) return { keys: [], combo, groupFirst };
   const logics = logicsOf(settled);
-  const pair = a.pair && keyed(settled, a.pair) && partsOf(settled[a.pair]).key;
   const all = candidates(history, posture, a)
     .filter((c) => logics.some((l) => !takenIn(settled, l, LOGICS[l](a)).includes(c.mechanic)))
-    .map((c) => { const meets = meetsOf(settled, step.action, c.key, logics); return { ...c, meets, stars: starsOf(meets), twin: partsOf(c.key).key === pair }; });
-  const plain = all.filter((c) => c.mechanic !== 'double' || (a.verb === 'camera' && c.twin));
+    .map((c) => { const meets = meetsOf(settled, step.action, c.key, logics); return { ...c, meets, stars: starsOf(meets) }; });
+  const plain = all.filter((c) => c.mechanic !== 'double' || (a.verb === 'camera' && c.meets.element));
   const sorted = (plain.length ? plain : all).sort(byLogic);
   const firstOfDomain = a.domain && logics.includes('domaine') && !Object.keys(settled).some((id) => keyed(settled, id) && ACTIONS[id].domain === a.domain);
   const reserved = firstOfDomain && sorted.find((c) => GRID_MODS.includes(c.mechanic) && !takenIn(settled, 'domaine', a.domain).includes(c.mechanic));
   const firsts = sorted.filter((c, i) => sorted.findIndex((d) => d.mechanic === c.mechanic) === i);
   const picks = [...new Set([sorted[0], reserved, ...firsts].filter(Boolean))].slice(0, 3);
   const keys = picks.map((c) => ({ key: c.key, stars: c.stars, meets: c.meets,
-    why: c === reserved ? { text: `Touche ${DOMAIN_NAMES[a.domain]} : ${c.mechanic}`, ref: null } : whyOf(c, c.twin && a.pair, c.meets.like, a.place) }));
+    why: c === reserved ? { text: `Touche ${DOMAIN_NAMES[a.domain]} : ${c.mechanic}`, ref: null } : whyOf(c, c.meets.element && c.meets.same, c.meets.like, a.place) }));
   return { keys, combo, groupFirst };
 }
 
@@ -815,25 +831,25 @@ function train(history, typed, value) {
 
   // Parcours complets jusqu'à l'âge IV : familles par geste, caméra sur le repos du pouce, alerte en double appui, armée en groupes.
   const keysOnly = play(T);
-  check(shortcuts(keysOnly) === 'selectTc=Mouse 4 + F scout=Mouse 4 + D camera=Espace idle=Mouse 4 + S idleAll=Mouse 5 + A allBarracks=groupe 6 '
-    + 'allRanges=groupe 7 melee=groupe 1 ranged=groupe 2 rally=Mouse 5 + F idleMil=Mouse 5 + D cancelUnit=G allStables=groupe 8 cavalry=groupe 3 '
-    + 'allTc=Mouse 5 + S allWorkshops=groupe 9 siege=groupe 4 alert=Espace x2 monasteries=groupe 0 monk=Mouse 4 + Q', 'partie = ' + shortcuts(keysOnly));
+  check(shortcuts(keysOnly) === 'selectTc=Mouse 4 + F scout=Mouse 4 + D camera=Espace idle=Mouse 4 + S idleAll=Mouse 5 + S allBarracks=groupe 6 '
+    + 'allRanges=groupe 7 meleeScreen=G melee=groupe 1 rangedScreen=< ranged=groupe 2 rally=Mouse 5 + Q idleMil=Mouse 5 + R cancelUnit=B allStables=groupe 8 '
+    + 'cavalryScreen=Tab cavalry=groupe 3 allTc=Mouse 5 + F allWorkshops=groupe 9 siegeScreen=² siege=groupe 4 alert=Espace x2 monasteries=groupe 0 monk=Mouse 4 + A', 'partie = ' + shortcuts(keysOnly));
   check(done(keysOnly, 'fait') === 17 && done(keysOnly, 'grille') === 16, 'entrainement : 17 sequences, 16 grilles');
   const quick = play(posture(['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'], []));
   check(shortcuts(quick) === shortcuts(keysOnly) && !done(quick, 'fait') && !done(quick, 'grille'), 'sans entrainement = ' + shortcuts(quick));
   const groupsOnly = play(T, viaGroup);
-  check(shortcuts(groupsOnly).startsWith('selectTc=groupe 5 scout=Mouse 4 + F camera=Espace idle=Mouse 4 + D idleAll=Mouse 5 + A'), 'groupes = ' + shortcuts(groupsOnly));
+  check(shortcuts(groupsOnly).startsWith('selectTc=groupe 5 scout=Mouse 4 + F camera=Espace idle=Mouse 4 + D idleAll=Mouse 5 + D'), 'groupes = ' + shortcuts(groupsOnly));
 
   // Premier choix d'une famille : une suggestion par mécanique, sans double appui (dernier recours) ; une autre posture donne d'autres suggestions.
-  check(names(base) === 'Mouse 4 + F,G,Mouse 5 + F' && suggest(base).keys[0].stars === 3, 'premier choix = ' + names(base));
+  check(names(base) === 'Mouse 4 + F,G,Mouse 5 + F' && suggest(base).keys[0].stars === 4, 'premier choix = ' + names(base));
   const thumbOnAlt = posture(['Maj', 'S', 'D', 'F', 'Alt', 'Mouse 5']);
-  check(names(thumbOnAlt).startsWith('Alt + F,Mouse 5 + F') && suggest(thumbOnAlt).keys[0].stars === 3, 'pouce sur Alt = ' + names(thumbOnAlt));
+  check(names(thumbOnAlt).startsWith('Alt + F,Mouse 5 + F') && suggest(thumbOnAlt).keys[0].stars === 4, 'pouce sur Alt = ' + names(thumbOnAlt));
   // Deux logiques calculées (par geste, par domaine) : au premier raccourci militaire, une touche maintenue réservée au militaire
   // est proposée sans être pré-sélectionnée ; le choix qui départage les logiques fixe celle de l'utilisateur.
   const atScout = until(choose(base, 'Mouse 4 + F').history, 'scout');
-  check(names(atScout) === 'Mouse 4 + D,Mouse 5 + F,G' && /militaire/.test(suggest(atScout).keys[1].why.text), 'eclaireur = ' + names(atScout));
+  check(names(atScout) === 'Mouse 4 + D,Mouse 5 + D,G' && /militaire/.test(suggest(atScout).keys[1].why.text), 'eclaireur = ' + names(atScout));
   check(logicsOf(settledOf(atScout)).join() === 'geste,domaine', 'deux logiques possibles avant l eclaireur');
-  const byDomain = choose(atScout, 'Mouse 5 + F').history;
+  const byDomain = choose(atScout, 'Mouse 5 + D').history;
   check(logicsOf(settledOf(byDomain)).join() === 'domaine' && logicsOf(settledOf(choose(atScout, 'Mouse 4 + D').history)).join() === 'geste', 'le choix fixe la logique');
   check(suggest(until(byDomain, 'allBarracks')).keys[0].key.startsWith('Mouse 5 + ') && suggest(until(byDomain, 'idleAll')).keys[0].key.startsWith('Mouse 4 + '),
     'militaire sur Mouse 5, economie sur Mouse 4');
@@ -845,8 +861,16 @@ function train(history, typed, value) {
   // Étoiles d'intuitivité : une par critère rempli (place de la grille, geste de la famille, doigts immobiles), sans objet = rempli.
   const barracksKey = suggest(until(byDomain, 'allBarracks')).keys[0];
   check(barracksKey.key === 'Mouse 5 + S' && barracksKey.meets.grille && barracksKey.meets.famille && !barracksKey.meets.doigts && barracksKey.stars === 2, 'casernes = ' + barracksKey.key);
-  check(starsOf({ grille: false, famille: false, doigts: false }) === 0 && starsOf({ grille: null, famille: null, doigts: true }) === 3, 'etoiles de 0 a 3');
-  check(suggest(until(base, 'allBarracks')).combo.stars === 2, 'groupe : doigts qui bougent, 2 etoiles');
+  check(starsOf({ grille: false, famille: false, doigts: false, element: false }) === 0 && starsOf({ grille: null, famille: null, doigts: true, element: null }) === 4, 'etoiles de 0 a 4');
+  check(suggest(until(base, 'allBarracks')).combo.stars === 3, 'groupe : doigts qui bougent, 3 etoiles');
+  // Une touche par élément : « tous » reprend la touche de « prochain » ; une touche d'un autre élément manque le critère.
+  const idleAllKey = suggest(until(base, 'idleAll')).keys[0];
+  check(idleAllKey.key === 'Mouse 5 + S' && idleAllKey.meets.element && /Même touche que Inactif/.test(idleAllKey.why.text), 'tous les inactifs = ' + idleAllKey.key);
+  check(settledOf(keysOnly).allTc === 'Mouse 5 + F', 'tous les centres-villes sur la touche du centre-ville');
+  check(meetsOf(settledOf(until(base, 'rally')), 'rally', 'Mouse 5 + F').element === false, 'F appartient au centre-ville');
+  // À l'écran avant le groupe : l'infanterie sélectionnée sans souris, puis le groupe 1.
+  const afterScreen = best(until(base, 'meleeScreen'));
+  check(currentStep(afterScreen).action === 'melee' && selectionOf(afterScreen, currentStep(afterScreen)) === 'mêlée', 'infanterie a l ecran puis groupe 1');
   // L'armée ne passe que par des groupes de contrôle ; la production, d'abord en groupe ; les numéros suivent les joueurs reconnus.
   check(suggest(until(base, 'melee')).keys.length === 0 && suggest(until(base, 'melee')).combo.digit === '1', 'melee en groupe 1 seulement');
   check(suggest(until(base, 'allBarracks')).groupFirst && suggest(until(base, 'allBarracks')).combo.digit === '6', 'casernes : groupe 6 d abord');
@@ -973,10 +997,10 @@ function starsFor(settled, id) {
 
 function scoreOf(settled) {
   const ids = shortcutIds();
-  return { got: ids.reduce((sum, id) => sum + (settled[id] ? starsFor(settled, id) || 0 : 0), 0), max: ids.length * 3 };
+  return { got: ids.reduce((sum, id) => sum + (settled[id] ? starsFor(settled, id) || 0 : 0), 0), max: ids.length * 4 };
 }
 
-const starsHtml = (n) => (n != null ? `<span class="stars" title="${n} sur 3">${[1, 2, 3].map((i) => ic('star', i <= n ? 'star on' : 'star')).join('')}</span>` : '');
+const starsHtml = (n) => (n != null ? `<span class="stars" title="${n} sur 4">${[1, 2, 3, 4].map((i) => ic('star', i <= n ? 'star on' : 'star')).join('')}</span>` : '');
 
 function caps(value) {
   const v = partsOf(value);
@@ -1279,7 +1303,7 @@ function whyHtml(why, settled) {
 }
 
 // Les trois critères des étoiles de la suggestion choisie : rempli, sans objet (compté comme rempli) ou manqué.
-const CRITERIA = { grille: 'Place de la grille', famille: 'Geste de la famille', doigts: 'Doigts immobiles' };
+const CRITERIA = { grille: 'Place de la grille', famille: 'Geste de la famille', doigts: 'Doigts immobiles', element: "Touche de l'élément" };
 function meetsHtml(meets) {
   if (!meets) return '';
   const item = (k) => { const m = meets[k]; return `<li class="${m ? 'on' : m === null ? 'na' : 'off'}" title="${m ? 'rempli' : m === null ? 'sans objet, compte comme rempli' : 'manque'}">${ic(m === false ? 'ban' : 'star', m === false ? '' : 'star on')}${CRITERIA[k]}</li>`; };
