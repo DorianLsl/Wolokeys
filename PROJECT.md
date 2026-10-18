@@ -213,6 +213,10 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Définir le raccourci « sélectionner toutes les unités d'infanterie à
   l'écran », pour créer le groupe 1 sans clic de souris ; idem pour la
   distance, la cavalerie et le siège.
+- Réponses : si le double appui gêne, une combinaison en priorité pour
+  « tous les X » ; oui aux actions « à l'écran » avant chaque groupe
+  (infanterie = groupe 1) ; dans le jeu, chaque élément a toujours
+  « prochain », « tous sur la carte » et « tous à l'écran ».
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
