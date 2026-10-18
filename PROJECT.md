@@ -192,6 +192,10 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Partir du principe qu'un élément est toujours sélectionné (Échap
   désélectionne rapidement).
 - L'indication par étoiles reste, mais elle devient le repère d'intuitivité.
+- Double appui, sur n'importe quelle touche, en dernier recours seulement.
+- Oui : calculer les deux logiques (concept, domaine), les étoiles
+  départagent ; touche maintenue pour l'économie comme pour le militaire.
+- Oui : retirer la question ouverte « Âges II à IV ».
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
@@ -199,4 +203,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Objectif, V9 (étoiles d'intuitivité) et V10 (double appui hors repos) changés. Suite : logique par domaine, puis P1 v10.
+Hypothèses de P1 v10 au cahier (H1, H2), plus de question ouverte. Suite : P1 v10.
