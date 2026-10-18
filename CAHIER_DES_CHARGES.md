@@ -144,4 +144,5 @@ quittent leur touche de référence.
 | P1 v9 | Logique visible, groupes adaptatifs | `prototypes/p1-pas-a-pas.html` | Validé |
 | P1 v10 | Étoiles d'intuitivité, logiques par geste et par domaine | `prototypes/p1-pas-a-pas.html` | Retours : une touche par élément, sélection à l'écran |
 | P1 v11 | Touche de l'élément, sélection à l'écran | `prototypes/p1-pas-a-pas.html` | Retours : concepts d'Alt, Mouse 4 et Mouse 5, Échap, armée à l'écran |
-| P1 v12 | Mécanique habituelle par verbe | `prototypes/p1-pas-a-pas.html` | En test |
+| P1 v12 | Mécanique habituelle par verbe | `prototypes/p1-pas-a-pas.html` | Retours : logique par rôle, touches F |
+| P1 v13 | Logique par rôle, touches F et Échap en dernier recours | `prototypes/p1-pas-a-pas.html` | En test |
