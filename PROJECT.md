@@ -234,6 +234,11 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   habituelle par verbe proposée d'abord (B) ; mode « touches limitées »
   reporté.
 
+## Synthèse verbe + élément (touches A Z E R, Espace, Alt, Ctrl, Maj, Mouse 4, Mouse 5)
+- Réponses : oui à la logique par rôle (A Z E R sous 1 2 3 4), « j'aime
+  beaucoup » ; oui à une règle pour les concepts hors éléments ; analyser
+  aussi F1 à F12 là où l'intuitivité baisse.
+
 ## Prochaines étapes
 - Plus tard : mode « touches limitées » (choisir ses touches avant la partie,
   voir où ça bloque).
