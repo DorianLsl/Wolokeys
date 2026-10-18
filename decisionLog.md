@@ -7,8 +7,10 @@ Une suggestion se juge à son intuitivité pour le joueur, plus au fait qu'un
 doigt bouge ou non. Les étoiles deviennent le repère d'intuitivité : un point
 par critère rempli (grille du jeu, famille, nom, conventions des joueurs).
 On part du principe qu'un élément est toujours sélectionné (Échap
-désélectionne) : les touches de la grille restent au jeu. Double appui hors
-repos en dernier recours seulement.
+désélectionne) : les touches de la grille restent au jeu. Double appui, sur
+n'importe quelle touche, en dernier recours seulement. Logiques par concept
+et par domaine calculées toutes les deux, départagées par les étoiles ; une
+touche maintenue pour l'économie comme pour le militaire.
 
 ## 2026-10-18 — Objectif et règle « groupes appris » retirée
 Objectif rappelé par le porteur : utiliser les bonnes pratiques des joueurs
