@@ -230,8 +230,13 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   l'écran » pour contrer une cavalerie, par exemple).
 - Oui aux trois changements : V3 (touche de la grille seule après Échap,
   deux appuis), V15 (armée par groupes ou à l'écran par type), decisionLog.
+- Oui : tableau Alt / Mouse 4 / Mouse 5 comme logique de plus ; mécanique
+  habituelle par verbe proposée d'abord (B) ; mode « touches limitées »
+  reporté.
 
 ## Prochaines étapes
+- Plus tard : mode « touches limitées » (choisir ses touches avant la partie,
+  voir où ça bloque).
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
 2. Restent à vérifier en vrai : boutons latéraux, clavier AZERTY, délai du
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
