@@ -586,6 +586,10 @@ const keyed = (settled, id) => isShortcut(id) && !ACTIONS[id].grid && settled[id
 const LOGICS = { geste: (a) => a.verb, domaine: (a) => (a.verb === 'camera' ? 'camera' : a.domain) };
 const DOMAIN_NAMES = { eco: "de l'économie", mil: 'du militaire' };
 
+// Logique par verbe (porteur) : « prochain » sur le bouton de repos du pouce droit, « tous » sur l'autre, « à l'écran » sur Alt.
+const VERB_NAMES = { un: 'prochain', tous: 'tous', 'écran': "à l'écran" };
+const habitOf = (posture, verb) => ({ un: posture['pouce droit'], tous: posture['pouce droit'] === 'Mouse 4' ? 'Mouse 5' : 'Mouse 4', 'écran': 'Alt' })[verb];
+
 // Logiques encore possibles : même famille si et seulement si même mécanique (la touche seule reste commune).
 // Le premier choix qui les départage fixe la logique ; si aucune ne tient, la logique par geste.
 function logicsOf(settled) {
@@ -672,9 +676,14 @@ function suggest(history) {
   const firstOfDomain = a.domain && logics.includes('domaine') && !Object.keys(settled).some((id) => keyed(settled, id) && ACTIONS[id].domain === a.domain);
   const reserved = firstOfDomain && sorted.find((c) => GRID_MODS.includes(c.mechanic) && !takenIn(settled, 'domaine', a.domain).includes(c.mechanic));
   const firsts = sorted.filter((c, i) => sorted.findIndex((d) => d.mechanic === c.mechanic) === i);
-  const picks = [...new Set([sorted[0], reserved, ...firsts].filter(Boolean))].slice(0, 3);
+  // Mécanique habituelle du verbe : proposée d'abord au premier raccourci du verbe, sans être imposée.
+  const habit = habitOf(posture, a.verb);
+  const firstOfVerb = habit && logics.includes('geste') && !teacherIn(settled, 'geste', a.verb) && !takenIn(settled, 'geste', a.verb).includes(habit);
+  const usual = firstOfVerb && sorted.find((c) => c.mechanic === habit);
+  const picks = [...new Set([usual || sorted[0], reserved, ...firsts].filter(Boolean))].slice(0, 3);
   const keys = picks.map((c) => ({ key: c.key, stars: c.stars, meets: c.meets,
-    why: c === reserved ? { text: `Touche ${DOMAIN_NAMES[a.domain]} : ${c.mechanic}`, ref: null } : whyOf(c, c.meets.element && c.meets.same, c.meets.like, a.place) }));
+    why: c === usual && !(c.meets.element && c.meets.same) ? { text: `Habitude : ${habit} pour « ${VERB_NAMES[a.verb]} »`, ref: null }
+      : c === reserved ? { text: `Touche ${DOMAIN_NAMES[a.domain]} : ${c.mechanic}`, ref: null } : whyOf(c, c.meets.element && c.meets.same, c.meets.like, a.place) }));
   return { keys, combo, groupFirst };
 }
 
@@ -832,8 +841,9 @@ function train(history, typed, value) {
   // Parcours complets jusqu'à l'âge IV : familles par geste, caméra sur le repos du pouce, alerte en double appui, armée en groupes.
   const keysOnly = play(T);
   check(shortcuts(keysOnly) === 'selectTc=Mouse 4 + F scout=Mouse 4 + D camera=Espace idle=Mouse 4 + S idleAll=Mouse 5 + S allBarracks=groupe 6 '
-    + 'allRanges=groupe 7 meleeScreen=G melee=groupe 1 rangedScreen=< ranged=groupe 2 rally=Mouse 5 + Q idleMil=Mouse 5 + R cancelUnit=B allStables=groupe 8 '
-    + 'cavalryScreen=Tab cavalry=groupe 3 allTc=Mouse 5 + F allWorkshops=groupe 9 siegeScreen=² siege=groupe 4 alert=Espace x2 monasteries=groupe 0 monk=Mouse 4 + A', 'partie = ' + shortcuts(keysOnly));
+    + 'allRanges=groupe 7 meleeScreen=Alt + Q melee=groupe 1 rangedScreen=Alt + G ranged=groupe 2 rally=Mouse 5 + R idleMil=Mouse 5 + E cancelUnit=< '
+    + 'allStables=groupe 8 cavalryScreen=Alt + Z cavalry=groupe 3 allTc=Mouse 5 + F allWorkshops=groupe 9 siegeScreen=Alt + A siege=groupe 4 alert=Espace x2 '
+    + 'monasteries=groupe 0 monk=Mouse 4 + Q', 'partie = ' + shortcuts(keysOnly));
   check(done(keysOnly, 'fait') === 17 && done(keysOnly, 'grille') === 16, 'entrainement : 17 sequences, 16 grilles');
   const quick = play(posture(['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'], []));
   check(shortcuts(quick) === shortcuts(keysOnly) && !done(quick, 'fait') && !done(quick, 'grille'), 'sans entrainement = ' + shortcuts(quick));
@@ -843,7 +853,7 @@ function train(history, typed, value) {
   // Premier choix d'une famille : une suggestion par mécanique, sans double appui (dernier recours) ; une autre posture donne d'autres suggestions.
   check(names(base) === 'Mouse 4 + F,G,Mouse 5 + F' && suggest(base).keys[0].stars === 4, 'premier choix = ' + names(base));
   const thumbOnAlt = posture(['Maj', 'S', 'D', 'F', 'Alt', 'Mouse 5']);
-  check(names(thumbOnAlt).startsWith('Alt + F,Mouse 5 + F') && suggest(thumbOnAlt).keys[0].stars === 4, 'pouce sur Alt = ' + names(thumbOnAlt));
+  check(names(thumbOnAlt).startsWith('Mouse 5 + F,Alt + F') && suggest(thumbOnAlt).keys[0].stars === 4, 'pouce sur Alt = ' + names(thumbOnAlt));
   // Deux logiques calculées (par geste, par domaine) : au premier raccourci militaire, une touche maintenue réservée au militaire
   // est proposée sans être pré-sélectionnée ; le choix qui départage les logiques fixe celle de l'utilisateur.
   const atScout = until(choose(base, 'Mouse 4 + F').history, 'scout');
@@ -868,6 +878,11 @@ function train(history, typed, value) {
   check(idleAllKey.key === 'Mouse 5 + S' && idleAllKey.meets.element && /Même touche que Inactif/.test(idleAllKey.why.text), 'tous les inactifs = ' + idleAllKey.key);
   check(settledOf(keysOnly).allTc === 'Mouse 5 + F', 'tous les centres-villes sur la touche du centre-ville');
   check(meetsOf(settledOf(until(base, 'rally')), 'rally', 'Mouse 5 + F').element === false, 'F appartient au centre-ville');
+  // Logique par verbe : Alt, habituel pour « à l'écran », proposé d'abord au premier raccourci du verbe, puis plus quand un autre est choisi.
+  const atScreen = until(base, 'meleeScreen');
+  check(suggest(atScreen).keys[0].key.startsWith('Alt + ') && /Habitude/.test(suggest(atScreen).keys[0].why.text), 'a l ecran : Alt d abord = ' + names(atScreen));
+  const screenOnG = choose(atScreen, 'G').history;
+  check(!suggest(until(screenOnG, 'rangedScreen')).keys.some((k) => /Habitude/.test(k.why.text)), 'habitude plus proposee apres G');
   // À l'écran avant le groupe : l'infanterie sélectionnée sans souris, puis le groupe 1.
   const afterScreen = best(until(base, 'meleeScreen'));
   check(currentStep(afterScreen).action === 'melee' && selectionOf(afterScreen, currentStep(afterScreen)) === 'mêlée', 'infanterie a l ecran puis groupe 1');
