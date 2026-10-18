@@ -49,8 +49,9 @@ quittent leur touche de référence.
 - V9. Interface visuelle : icônes, situation en 8 mots au plus, étoiles
   d'intuitivité, geste suggéré animé, et deux vues au choix de
   l'utilisateur, « main posée » (clavier dessiné) et « manette », commutables
-  d'un clic. Une étoile par critère rempli, de 0 à 3 : position de l'élément
-  dans la grille du jeu, mécanique de la famille, doigts immobiles.
+  d'un clic. Une étoile par critère rempli, de 0 à 4 : position de l'élément
+  dans la grille du jeu, mécanique de la famille, doigts immobiles, même
+  touche que l'élément.
 - V10. Combinaisons (Alt, Maj, Ctrl, Mouse 4 ou Mouse 5 maintenu, plus une
   touche) et doubles appuis (deux appuis en moins de 0,4 seconde), acceptés
   par le menu du jeu d'après le porteur. La touche de création de groupe est
@@ -93,6 +94,13 @@ quittent leur touche de référence.
   l'économie est proposée parmi les suggestions, comme pour le militaire
   (V16), sans être imposée : pré-sélectionnée seulement si elle a le plus
   d'étoiles, plus proposée si l'utilisateur en choisit une autre.
+### P1 v11 — touche de l'élément, sélection à l'écran (`prototypes/p1-pas-a-pas.html`)
+- H3. Une touche par élément ; la mécanique distingue « prochain »,
+  « tous sur la carte » et « tous à l'écran », par des combinaisons de
+  préférence. « Sélectionner le X » devient « Prochain X ».
+- H4. Quatre actions « à l'écran » (infanterie, distance, cavalerie, siège),
+  chacune juste avant la création de son groupe : sélection sans souris,
+  puis Ctrl + chiffre. L'infanterie va dans le groupe 1.
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
