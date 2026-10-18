@@ -17,7 +17,8 @@ quittent leur touche de référence.
 - V3. Les actions « à tout moment » vont hors de la grille du jeu, et toutes
   les touches de la grille (A Z E R, Q S D F, W X C V, T) restent au jeu ;
   elles peuvent toutefois se combiner avec Alt, Mouse 4 ou Mouse 5 (ni Ctrl,
-  ni Maj).
+  ni Maj). Une touche de la grille peut aussi servir seule, précédée d'Échap
+  (désélection) ; elle compte deux appuis.
 - V4. Mode grille uniquement dans la première version : les raccourcis de la
   grille du jeu sont fixes ; l'étape le dit et fait faire la séquence pour
   s'entraîner, le villageois étant considéré comme déjà sélectionné. Suivant
@@ -73,8 +74,9 @@ quittent leur touche de référence.
   règlent un raccourci.
 - V15. Conventions des joueurs reconnus, traduites en AZERTY : armée par rôle
   sur les groupes 1 à 3, siège 4, centres-villes 5, production 6 à 0 ; la
-  production passe par un groupe d'abord, « tous les X » ensuite ; jamais
-  « toute l'armée ».
+  production passe par un groupe d'abord, « tous les X » ensuite ; l'armée
+  passe par des groupes de contrôle ou par la sélection à l'écran par type
+  (infanterie, distance, cavalerie, siège), jamais par toute l'armée.
 - V16. Au premier raccourci militaire, une touche maintenue réservée au
   militaire est proposée ; la choisir active la logique par domaine.
 - V17. Actions tirées des guides : éclaireur suivant, point de ralliement
