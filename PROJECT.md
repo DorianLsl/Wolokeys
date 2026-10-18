@@ -199,4 +199,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-P1 v9 validé (V13 à V19). Suite : questions ouvertes (âges II à IV, logique par domaine).
+Objectif, V9 (étoiles d'intuitivité) et V10 (double appui hors repos) changés. Suite : logique par domaine, puis P1 v10.
