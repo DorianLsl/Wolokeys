@@ -109,6 +109,13 @@ quittent leur touche de référence.
   sur l'autre bouton, « tous à l'écran » sur Alt. Cette mécanique habituelle
   est proposée d'abord au premier raccourci de chaque verbe, sans être
   imposée.
+### P1 v13 — logique par rôle, concepts hors éléments (`prototypes/p1-pas-a-pas.html`)
+- H6. Une logique par rôle, analysée avec les autres : A, Z, E, R (sous 1,
+  2, 3, 4) portent l'infanterie, la distance, la cavalerie et le siège ;
+  chaque rôle réunit ses unités et son bâtiment ; Espace porte la base.
+- H7. Les concepts qui ne sont pas des éléments (états comme « inactif »,
+  ensembles comme « tous les bâtiments militaires », ordres comme
+  « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace.
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
