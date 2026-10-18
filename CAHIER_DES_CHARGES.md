@@ -4,8 +4,8 @@
 > sur un prototype et la confirmation du porteur.
 
 **Objectif** : utiliser les bonnes pratiques des joueurs reconnus, en
-privilégiant une posture où les doigts ne quittent jamais leur touche de
-référence.
+privilégiant des suggestions intuitives pour le joueur, à partir de sa
+posture de référence.
 
 ## Validé
 - V1. Le principe « situation de jeu → touche proposée → j'accepte ou je
@@ -47,15 +47,19 @@ référence.
   actions sur les villageois inactifs sont des extras. Chaque étape porte son
   étiquette, et le récapitulatif a deux tableaux.
 - V9. Interface visuelle : icônes, situation en 8 mots au plus, étoiles
-  d'immobilité (3 = aucun doigt ne bouge), geste suggéré animé, et deux vues
+  d'intuitivité, geste suggéré animé, et deux vues
   au choix de l'utilisateur, « main posée » (clavier dessiné) et « manette »,
-  commutables d'un clic.
+  commutables d'un clic. Les étoiles comptent un point par critère rempli
+  parmi quatre : position de l'élément dans la grille du jeu, mécanique de
+  la famille, touche qui rappelle le nom, conventions des joueurs reconnus
+  (3 étoiles = 3 ou 4 critères, 2 = 2, 1 = 0 ou 1).
 - V10. Combinaisons (Alt, Maj, Ctrl, Mouse 4 ou Mouse 5 maintenu, plus une
   touche) et doubles appuis (deux appuis en moins de 0,4 seconde), acceptés
   par le menu du jeu d'après le porteur. La touche de création de groupe est
   celle utilisée pour le premier groupe. Une touche ne peut pas servir à la
   fois seule et comme modificateur, ni seule et en double appui pour deux
-  actions différentes.
+  actions différentes. Un double appui sur une touche hors repos n'est
+  suggéré qu'en dernier recours.
 - V11. Une famille d'actions (caméra ; sélectionner un élément ; sélectionner
   tous) garde la mécanique de son premier raccourci. Le double appui et chaque
   touche maintenue n'appartiennent qu'à une famille, et une touche
