@@ -228,6 +228,8 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Corrections : A, Z, E, R seuls sont possibles en faisant Échap avant ;
   l'armée ne passe pas que par des groupes (en combat, « toute l'infanterie à
   l'écran » pour contrer une cavalerie, par exemple).
+- Oui aux trois changements : V3 (touche de la grille seule après Échap,
+  deux appuis), V15 (armée par groupes ou à l'écran par type), decisionLog.
 
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
