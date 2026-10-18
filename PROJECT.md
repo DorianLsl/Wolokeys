@@ -238,6 +238,9 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 - Réponses : oui à la logique par rôle (A Z E R sous 1 2 3 4), « j'aime
   beaucoup » ; oui à une règle pour les concepts hors éléments ; analyser
   aussi F1 à F12 là où l'intuitivité baisse.
+- F1 à F12 libres dans le jeu. Tableau F1-F4 : oui, à connaître en cas de
+  gros manque d'intuitivité ; la priorité reste de ne pas bouger énormément
+  les doigts. Le rôle est l'élément : oui.
 
 ## Prochaines étapes
 - Plus tard : mode « touches limitées » (choisir ses touches avant la partie,
