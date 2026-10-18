@@ -218,6 +218,14 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   (infanterie = groupe 1) ; dans le jeu, chaque élément a toujours
   « prochain », « tous sur la carte » et « tous à l'écran ».
 
+## Retours du porteur sur P1 v11
+- Pourquoi les combinaisons avec Alt ne sont pas mises en avant ? D'abord
+  s'accorder sur les concepts du jeu associés à Alt, Mouse 4 et Mouse 5.
+- Ne pas abandonner la logique par domaine : connaître toutes les logiques et
+  les analyser à chaque fois pour proposer la suggestion la plus intuitive.
+- Test : avec seulement A, Z, E, R, Espace, Alt, Ctrl, Maj, Mouse 4 et
+  Mouse 5, à quel moment manque-t-il des touches ?
+
 ## Prochaines étapes
 1. Le porteur teste P1 v6 (les deux vues restent, décision du porteur).
 2. Restent à vérifier en vrai : boutons latéraux, clavier AZERTY, délai du
