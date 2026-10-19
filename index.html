@@ -20,7 +20,7 @@
     #sequence { display: flex; gap: .5rem; list-style: none; padding: 0; font-size: 1.5rem; font-weight: 700; }
     #sequence .fait { opacity: .4; text-decoration: line-through; }
     body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant,
-    body[data-etape="posture"] .jeu, body[data-etape="fin"] .jeu,
+    body[data-etape="posture"] .jeu, body[data-etape="fin"] .jeu, body[data-etape="posture"] .recap,
     body:not([data-etape="grille"]):not([data-etape="enchainement"]) .entrainement { display: none; }
   </style>
 </head>
@@ -40,6 +40,13 @@
   </p>
   <p id="message" role="status" aria-live="polite"></p>
   <ul id="posture"></ul>
+  <section class="recap">
+    <h2>Tes raccourcis</h2>
+    <h3>Partie optimisée</h3>
+    <ul id="optimisee"></ul>
+    <h3>Extras</h3>
+    <ul id="extras"></ul>
+  </section>
   <script type="module" src="src/main.js"></script>
 </body>
 </html>

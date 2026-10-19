@@ -13,10 +13,11 @@ export function afficherPartie(historique, etape) {
   $('titre').textContent = `${moment.heure} · Âge ${ageA(etape.moment)}`;
   $('etiquette').textContent = etiquette(historique, etape);
   $('action').textContent = etape.enchainement ? ENCHAINEMENTS[etape.enchainement].nom : ACTIONS[etape.action].nom;
-  $('question').textContent = moment.situation;
+  $('question').textContent = etape.redemande ? 'Change ce raccourci.' : moment.situation;
 }
 
 function etiquette(historique, etape) {
+  if (etape.redemande) return 'Raccourci redemandé';
   if (etape.type === 'grille') return 'Grille du jeu, fixe';
   if (etape.type === 'enchainement') return 'Entraînement';
   return estExtra(historique, etape.action) ? 'Extra' : 'Partie optimisée';

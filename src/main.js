@@ -2,12 +2,14 @@ import { ecouter } from './clavier/adapters/ecoute.js';
 import { etapePosture, toucheSuggeree } from './posture/domain/posture.js';
 import { afficherPosture } from './posture/ui/posture.js';
 import { retour } from './partie/domain/historique.js';
-import { etapeEnCours, choisir, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif } from './partie/domain/partie.js';
+import { etapeEnCours, choisir, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, redemander } from './partie/domain/partie.js';
 import { afficherPartie } from './partie/ui/partie.js';
 import { suggestions, accepter } from './suggestions/domain/suggestions.js';
 import { afficherSuggestions } from './suggestions/ui/suggestions.js';
 import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement/domain/entrainement.js';
 import { afficherSequence } from './entrainement/ui/entrainement.js';
+import { recapitulatif } from './recapitulatif/domain/recapitulatif.js';
+import { afficherRecapitulatif } from './recapitulatif/ui/recapitulatif.js';
 
 let historique = [];
 let message = '';
@@ -36,6 +38,7 @@ function afficher() {
   if (!etape || etape.type !== 'posture') afficherPartie(historique, etape);
   document.getElementById('entrainement').checked = entrainementActif(historique);
   afficherSequence(sequenceDe(historique), appuis);
+  afficherRecapitulatif(recapitulatif(historique), (action) => appliquer(redemander(historique, action), false));
   liste = suggestions(historique);
   afficherSuggestions(liste, choisie, (i) => {
     choisie = i;
