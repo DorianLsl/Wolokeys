@@ -273,3 +273,5 @@ La partie jouée par la meilleure suggestion donne les raccourcis du prototype.
 5. V20 : la logique par rôle n'est jamais écartée par les choix ; sinon le
    moine passerait de Mouse 4 + Q à Mouse 4 + A. Garder la réservation
    permanente du prototype ?
+6. L'homme d'armes se lance par Maj + B dans le prototype (« 5 hommes d'armes ») ;
+   B n'est pas dans la grille du jeu. Quelle touche de la caserne ?
