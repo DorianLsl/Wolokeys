@@ -255,9 +255,11 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Phase 2 en cours, en automatique avec revues (standards, spec, ponytail) avant
-chaque push. #2 à #7 faits et poussés ; suite : #8 (entraînement), #9, #10.
-La partie jouée par la meilleure suggestion donne les raccourcis du prototype.
+Phase 2, automatisme arrêté par le porteur le 2026-10-19. #2 à #8 faits, revus
+et poussés. #9 (récapitulatif, redemander) fait et vérifié dans un navigateur
+sans écran, mais sa revue a été interrompue : à relancer avant de pousser.
+Puis #10 (interface visuelle : icônes du prototype, clavier dessiné, manette,
+grande carte, logique visible de chaque suggestion).
 
 ## Questions pour le porteur (relevées par les revues)
 1. V26 : les concepts (inactif, tous les bâtiments militaires, annuler) vont-ils
