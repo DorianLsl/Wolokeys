@@ -168,7 +168,11 @@
   .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 16px; }
   .lists section { display: grid; gap: 6px; align-content: start; }
   .lists ul { list-style: none; margin: 0; padding: 0; display: grid; }
-  .lists li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .lists li, .lists .redo { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; }
+  .lists li { padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .lists li:has(.redo) { display: block; padding: 0; }
+  .lists .redo { width: 100%; background: none; border: 0; padding: 5px 0; text-align: left; }
+  .lists .redo:hover { background: var(--key); }
   .nm { min-width: 0; }
   .kv { display: inline-flex; align-items: center; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
   .todo { color: var(--muted); display: inline-flex; gap: 4px; align-items: center; }
@@ -452,7 +456,8 @@ const mechanicOf = (value) => (groupDigit(value) ? 'groupe' : partsOf(value).mod
 // history = événements dans l'ordre :
 //   { type: 'answer', moment, action, key, declined? } : un raccourci, 'groupe N', 'grille' ou 'fait' (séquence faite), null (plus tard ou laissé de côté) ;
 //   { type: 'group', digit, element, mod } : modificateur + chiffre a mis la sélection dans ce groupe ;
-//   { type: 'mode', training } : l'interrupteur « entraînement » (désactivé par défaut).
+//   { type: 'mode', training } : l'interrupteur « entraînement » (désactivé par défaut) ;
+//   { type: 'redo', action } : clic dans la liste des raccourcis, le raccourci est redemandé tout de suite (réponse marquée redo).
 function groupsOf(history) {
   return history.filter((h) => h.type === 'group').reduce((g, h) => ({ ...g, [h.digit]: h.element }), {});
 }
@@ -465,12 +470,21 @@ function groupModOf(history) {
   return first ? first.mod : null;
 }
 
-// Réponses encore valables : un groupe dont l'élément a été remplacé ne compte plus.
+// Réponses encore valables : un groupe dont l'élément a été remplacé ne compte plus, un raccourci redemandé est effacé.
 function settledOf(history) {
   const groups = groupsOf(history);
-  return Object.fromEntries(history
-    .filter((h) => h.type === 'answer' && h.key && !(groupDigit(h.key) && groups[groupDigit(h.key)] !== ACTIONS[h.action].selects))
-    .map((h) => [h.action, h.key]));
+  const settled = {};
+  for (const h of history) {
+    if (h.type === 'redo') delete settled[h.action];
+    if (h.type === 'answer' && h.key && !(groupDigit(h.key) && groups[groupDigit(h.key)] !== ACTIONS[h.action].selects)) settled[h.action] = h.key;
+  }
+  return settled;
+}
+
+// Raccourci redemandé depuis la liste et pas encore répondu.
+function pendingRedo(history) {
+  const i = history.map((h) => h.type).lastIndexOf('redo');
+  return i >= 0 && !history.slice(i).some((h) => h.type === 'answer' && h.redo) ? history[i].action : null;
 }
 
 // Raccourcis réglés par l'utilisateur (ni touches de référence, ni grille, ni groupes).
@@ -520,7 +534,10 @@ function stepAt(history, settled, moment) {
 
 function currentStep(history) {
   const settled = settledOf(history);
-  const last = history.filter((h) => h.type === 'answer').pop();
+  // Un raccourci redemandé passe d'abord, sans changer le moment de la partie.
+  const last = history.filter((h) => h.type === 'answer' && !h.redo).pop();
+  const redo = pendingRedo(history);
+  if (redo) return { moment: last.moment, action: redo, kind: kindOf(redo), redo: true };
   // Un entraînement reste à faire au même moment après avoir réglé la touche qui lui manquait (sauf si elle a été ignorée) ;
   // le rattrapage final reste ouvert tant qu'il lui reste des actions.
   const sameMoment = last && ((last.key && MOMENTS[last.moment].drill && last.action !== MOMENTS[last.moment].drill) || MOMENTS[last.moment].final);
@@ -752,7 +769,7 @@ function whyOf(c, twin, like, place) {
 }
 
 function answer(history, step, key) {
-  return { history: [...history, { type: 'answer', moment: step.moment, action: step.action, key }] };
+  return { history: [...history, { type: 'answer', moment: step.moment, action: step.action, key, ...(step.redo && { redo: true }) }] };
 }
 
 // value : une touche, une combinaison 'Alt + G' ou un double appui '² x2'.
@@ -813,7 +830,7 @@ function skip(history) {
 // Ne pas utiliser ce raccourci : aucune touche maintenant, l'action revient en extra au rattrapage de la fin.
 function decline(history) {
   const step = currentStep(history);
-  return [...history, { type: 'answer', moment: step.moment, action: step.action, key: null, declined: true }];
+  return [...history, { type: 'answer', moment: step.moment, action: step.action, key: null, declined: true, ...(step.redo && { redo: true }) }];
 }
 
 function skippedAt(history, actionId) {
@@ -978,6 +995,14 @@ function train(history, typed, value) {
   check(/a refaire/.test(lost.note) && currentStep(lost.history).action === 'selectTc', 'remplacer le groupe 5 redemande le centre-ville');
   check(assignGroup([], '1').error && assignGroup(posture(['Q']), '1').error, 'rien de selectionne avant la partie');
 
+  // Revenir sur un raccourci depuis la liste : il est redemandé tout de suite, le reste de la partie ne bouge pas.
+  const redoEnd = [...keysOnly, { type: 'redo', action: 'scout' }];
+  check(currentStep(redoEnd).action === 'scout' && !settledOf(redoEnd).scout, 'eclaireur redemande');
+  const redone = choose(redoEnd, 'G').history;
+  check(settledOf(redone).scout === 'G' && !currentStep(redone) && settledOf(redone).selectTc === settledOf(keysOnly).selectTc, 'eclaireur change, partie finie');
+  const atIdle = until(base, 'idle');
+  const midRedo = [...atIdle, { type: 'redo', action: 'selectTc' }];
+  check(currentStep(choose(midRedo, 'G').history).action === 'idle' && currentStep(skip(midRedo)).action === 'idle', 'redemande en cours de partie, puis retour');
   // Plus tard : la caméra est redemandée au retour suivant.
   const camAgain = until(skip(until(choose(base, 'G').history, 'camera')), 'camera');
   check(MOMENTS[currentStep(camAgain).moment].at === '1:20', 'camera ignoree : redemandee a 1:20');
@@ -1307,14 +1332,14 @@ const ageOf = (moment) => `Âge ${MOMENTS.slice(0, moment + 1).filter((m) => m.a
 function stepHtml(step, sug, seq, dots) {
   const m = MOMENTS[step.moment];
   const a = ACTIONS[step.action] || DRILLS[step.action];
-  const [tagIcon, tagText] = step.kind === 'finger' ? ['hand', 'Avant la partie'] : step.kind === 'grid' ? ['lock', 'Grille du jeu, fixe dans cette version']
+  const [tagIcon, tagText] = step.redo ? ['undo', 'Raccourci redemandé depuis la liste'] : step.kind === 'finger' ? ['hand', 'Avant la partie'] : step.kind === 'grid' ? ['lock', 'Grille du jeu, fixe dans cette version']
     : step.kind === 'drill' ? ['swap', 'Aller-retour'] : isExtra(history, step.action) ? ['bolt', 'Extra'] : ['crown', 'Partie optimisée'];
   const skipped = skippedAt(history, step.action);
   const sel = step.kind !== 'finger' && selectionOf(history, step, typed);
   return `<div class="top">${step.kind === 'finger' ? '' : `<span class="time">${ageOf(step.moment)} · ${m.at}</span>`}<span class="tag" title="${tagText}">${ic(tagIcon)}<span class="sr">${tagText}</span></span>
       ${skipped.length ? `<span class="again" title="Ignorée à ${skipped.join(', ')}">${ic('hourglass')}${skipped.join(', ')}</span>` : ''}
       ${sel ? `<span class="sel" title="Sélection : ${sel}">${ic(ELEMENT_ICON[sel])}<span class="sr">Sélection : ${sel}</span></span>` : ''}${dots}</div>
-    <div class="act">${ic(iconOf(step.action), 'big')}<div><p class="action">${a.name}</p><p class="sit">${m.situation}</p></div></div>
+    <div class="act">${ic(iconOf(step.action), 'big')}<div><p class="action">${a.name}</p><p class="sit">${step.redo ? 'Change ce raccourci.' : m.situation}</p></div></div>
     ${seq ? seqHtml(seq) : sugHtml(step, sug)}`;
 }
 
@@ -1456,7 +1481,10 @@ function renderRecap(settled, done) {
     const d = groupDigit(v);
     return `${d ? groupCaps(groupModOf(history), d, true) : caps(v)}${starsHtml(starsFor(settled, id))}`;
   };
-  const list = (icon, title, items) => `<section><h3>${ic(icon)}${title}</h3><ul>${items.map((id) => `<li>${ic(ACTIONS[id].icon)}<span class="nm">${ACTIONS[id].name}</span><span class="kv">${keyHtml(id)}</span></li>`).join('')}</ul></section>`;
+  // Un raccourci défini se clique pour être redemandé.
+  const row = (id) => `${ic(ACTIONS[id].icon)}<span class="nm">${ACTIONS[id].name}</span><span class="kv">${keyHtml(id)}</span>`;
+  const item = (id) => (settled[id] ? `<li><button type="button" class="redo" data-redo="${id}" title="Revenir sur ce raccourci">${row(id)}</button></li>` : `<li>${row(id)}</li>`);
+  const list = (icon, title, items) => `<section><h3>${ic(icon)}${title}</h3><ul>${items.map(item).join('')}</ul></section>`;
   $('recap').innerHTML = `<h2>Tes raccourcis <span class="score">${ic('star', 'star on')}${s.got} / ${s.max}</span></h2>
     <div class="lists">${list('crown', 'Partie optimisée', ids.filter((id) => !isExtra(history, id)))}${list('bolt', 'Extras', ids.filter((id) => isExtra(history, id)))}</div>`;
 }
@@ -1471,6 +1499,10 @@ $('stage').addEventListener('click', (e) => {
   else if (act === 'decline') reset(decline(history));
   else if (act === 'back') back();
   else if (act === 'restart') reset([]);
+});
+$('recap').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-redo]');
+  if (b) reset([...history, { type: 'redo', action: b.dataset.redo }]);
 });
 $('stage').addEventListener('mouseover', (e) => peek(e.target.closest('.sug')));
 $('stage').addEventListener('mouseleave', () => peek(null));
