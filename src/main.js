@@ -50,7 +50,9 @@ clic('plus-tard', plusTard);
 clic('ne-pas-utiliser', nePasUtiliser);
 document.getElementById('entrainement').addEventListener('change', () => appliquer(basculerEntrainement(historique), false));
 ecouter({
-  surRaccourci: (raccourci) => appliquer(estEntrainement(historique) ? appuyer(historique, appuis, raccourci) : choisir(historique, raccourci, premierAccepte), true),
+  surRaccourci: (raccourci) => (estEntrainement(historique)
+    ? appliquer(appuyer(historique, appuis, raccourci, premierAccepte), false)
+    : appliquer(choisir(historique, raccourci, premierAccepte), true)),
   surRetour: () => appliquer({ historique: retour(historique) }, false),
 });
 afficher();

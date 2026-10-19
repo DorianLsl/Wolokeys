@@ -21,9 +21,11 @@ export function sequenceDe(historique) {
 }
 
 // appuis : ceux déjà faits de la séquence ; une erreur fait recommencer (V4).
-export function appuyer(historique, appuis, raccourci) {
-  if (!estEntrainement(historique)) return { appuis: [], erreur: 'Pas d entrainement en cours.' };
+// premierAccepte : comme pour choisir, le double appui remplace alors le choix de son premier appui (V10).
+export function appuyer(historique, appuis, raccourci, premierAccepte = false) {
   const lu = lireRaccourci(raccourci);
+  if (premierAccepte && lu.double) return { ...choisir(historique, raccourci, true), appuis: [] };
+  if (!estEntrainement(historique)) return { appuis: [], erreur: 'Pas d entrainement en cours.' };
   // Touche maintenue + chiffre crée un groupe à toute étape (V7).
   if (lu.maintenue && CHIFFRES.includes(lu.touche)) return { ...choisir(historique, raccourci), appuis };
   // Le second appui d'un double appui arrive ainsi : le premier a déjà compté.

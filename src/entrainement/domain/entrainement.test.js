@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement.js';
-import { choisir, etapeEnCours, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif } from '../../partie/domain/partie.js';
+import { choisir, etapeEnCours, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, raccourcisRegles } from '../../partie/domain/partie.js';
 import { groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, ENCHAINEMENTS } from '../../partie/domain/donnees.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
@@ -73,4 +73,11 @@ test('V7 : touche maintenue + chiffre cree un groupe meme pendant un entrainemen
   const cree = appuyer(surLanciers, ['6'], 'Ctrl + 9');
   assert.deepEqual(cree.appuis, ['6']);
   assert.equal(groupesDe(cree.historique)[9], 'casernes');
+});
+
+test('V10 : le double appui remplace le premier choix meme quand l etape suivante est un entrainement', () => {
+  const surVillageois = choisir(avecEntrainement(), 'G').historique;
+  assert.equal(etapeEnCours(surVillageois).action, 'villager');
+  const double = appuyer(surVillageois, [], 'G x2', true);
+  assert.equal(raccourcisRegles(double.historique).selectTc, 'G x2');
 });
