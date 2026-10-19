@@ -49,9 +49,9 @@ test('V7 : un aller-retour selectionne puis centre la camera ; par un groupe, de
   const parRaccourcis = jusqua(avecEntrainement(), 'goBase');
   assert.deepEqual(sequenceDe(parRaccourcis), ['Mouse 4 + F', 'Espace']);
   const carre = jusqua(choisir(jusqua(choisir(avecEntrainement(), '² x2').historique, 'camera'), 'B').historique, 'goBase');
-  assert.deepEqual(sequenceDe(carre), ['²', '²', 'B']);
+  assert.deepEqual(sequenceDe(carre), ['²', '² x2', 'B']);
   const parGroupe = jusqua(choisir(choisir(avecEntrainement(), 'Ctrl + 5').historique, '5').historique, 'goBase');
-  assert.deepEqual(sequenceDe(parGroupe), ['5', '5']);
+  assert.deepEqual(sequenceDe(parGroupe), ['5', '5 x2']);
 });
 
 test('V13, V28 : Maj + touche d unite lance une file de 5 ; l archer et le moine sont sur A', () => {
@@ -93,4 +93,17 @@ test('V4, V7 : pendant un entrainement, la selection est celle de la sequence', 
   assert.deepEqual([groupesDe(garde.historique)[5], etapeEnCours(garde.historique).enchainement], ['centre-ville', 'goBase']);
   const surInactif = jusqua(h, 'idle');
   assert.equal(groupesDe(choisir(surInactif, 'Ctrl + 2').historique)[2], 'villageois', 'apres la grille du camp de mineurs');
+});
+
+test('V3, V10 : Echap puis la touche se jouent en deux appuis ; un double appui doit etre rapide', () => {
+  const echap = jusqua(choisir(avecEntrainement(), 'Échap + A').historique, 'tcLoop');
+  assert.deepEqual(sequenceDe(echap), ['Échap', 'A', 'Maj + A']);
+  assert.deepEqual(appuyer(echap, [], 'Échap'), { appuis: ['Échap'] });
+  const alerte = jusqua(avecEntrainement(), 'goAlert');
+  assert.deepEqual(sequenceDe(alerte), ['Espace', 'Espace x2']);
+  assert.deepEqual(appuyer(alerte, ['Espace'], 'Espace'), { appuis: [], erreur: 'Pas Espace : recommence.' }, 'deux appuis lents');
+  assert.ok(appuyer(alerte, ['Espace'], 'Espace x2').historique);
+  const parGroupe = jusqua(choisir(choisir(avecEntrainement(), 'Ctrl + 5').historique, '5').historique, 'goBase');
+  assert.deepEqual(sequenceDe(parGroupe), ['5', '5 x2']);
+  assert.ok(appuyer(jusqua(avecEntrainement(), 'house'), ['A'], 'A').historique, 'la grille A puis A, lente, reste juste');
 });
