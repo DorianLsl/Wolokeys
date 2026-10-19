@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raccourcis AoE IV</title>
+  <style>
+    :root { --fond: #f6f4ef; --texte: #1f1d1a; --accent: #8a5a00; --erreur: #a12a1a; }
+    @media (prefers-color-scheme: dark) { :root { --fond: #1b1a18; --texte: #ece8e0; --accent: #e0a940; --erreur: #ff8a75; } }
+    body { background: var(--fond); color: var(--texte); font: 18px/1.5 system-ui, sans-serif; margin: 0 auto; max-width: 40rem; padding: 2rem 1rem; }
+    #suggestion { color: var(--accent); font-size: 2.5rem; font-weight: 700; }
+    #message { min-height: 1.5em; }
+    #suggestions { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+    .suggestion[aria-pressed="true"] { outline: 3px solid var(--accent); }
+    .etoiles { color: var(--accent); }
+    #message.erreur { color: var(--erreur); }
+    button { font: inherit; padding: .4rem 1.2rem; }
+    #etiquette { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+    #action { font-size: 1.5rem; font-weight: 700; margin: 0; }
+    body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant { display: none; }
+  </style>
+</head>
+<body>
+  <h1 id="titre"></h1>
+  <p class="partie" id="etiquette"></p>
+  <p class="partie" id="action"></p>
+  <p id="question"></p>
+  <div class="partie" id="suggestions"></div>
+  <p class="posture">Suggestion : <span id="suggestion"></span></p>
+  <p>
+    <button id="suivant" type="button">Suivant</button>
+    <button class="partie" id="plus-tard" type="button">Plus tard</button>
+    <button class="partie" id="ne-pas-utiliser" type="button">Ne pas utiliser</button>
+  </p>
+  <p id="message" role="status" aria-live="polite"></p>
+  <ul id="posture"></ul>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
