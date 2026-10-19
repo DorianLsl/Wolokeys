@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sequenceDe, appuyer, passer } from './entrainement.js';
+import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement.js';
 import { choisir, etapeEnCours, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif } from '../../partie/domain/partie.js';
 import { groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, ENCHAINEMENTS } from '../../partie/domain/donnees.js';
@@ -8,14 +8,13 @@ import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
 
 const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'].reduce((h, t) => choisir(h, t).historique, []);
 const avecEntrainement = () => basculerEntrainement(poser()).historique;
-const estEntrainement = (h) => ['grille', 'enchainement'].includes((etapeEnCours(h) || {}).type);
 // Comme Suivant : la séquence faite à la place de l'utilisateur, sinon la suggestion pré-sélectionnée.
 const suivant = (h) => (estEntrainement(h) ? passer(h) : accepter(h, suggestions(h)[0])).historique;
 const jusqua = (h, cible) => {
   while (![etapeEnCours(h).action, etapeEnCours(h).enchainement].includes(cible)) h = suivant(h);
   return h;
 };
-const faits = (h) => h.filter((e) => e.fait).map((e) => e.action);
+const faits = (h) => h.filter((e) => e.fait).map((e) => e.action || e.enchainement);
 const jouer = (h) => {
   while (etapeEnCours(h)) h = suivant(h);
   return h;

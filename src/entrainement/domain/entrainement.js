@@ -2,12 +2,14 @@ import { lireRaccourci, ascii, CHIFFRES } from '../../clavier/domain/touches.js'
 import { ACTIONS, ENCHAINEMENTS } from '../../partie/domain/donnees.js';
 import { etapeEnCours, reglages, choisir } from '../../partie/domain/partie.js';
 
-const estEntrainement = (etape) => !!etape && (etape.type === 'grille' || etape.type === 'enchainement');
+const estEtapeDEntrainement = (etape) => !!etape && (etape.type === 'grille' || etape.type === 'enchainement');
+
+export const estEntrainement = (historique) => estEtapeDEntrainement(etapeEnCours(historique));
 
 // Un double appui se joue en deux appuis ; un groupe se sélectionne d'un appui, et deux centrent aussi la caméra (V7).
 export function sequenceDe(historique) {
   const etape = etapeEnCours(historique);
-  if (!estEntrainement(etape)) return null;
+  if (!estEtapeDEntrainement(etape)) return null;
   if (etape.type === 'grille') return ACTIONS[etape.action].grille;
   const e = ENCHAINEMENTS[etape.enchainement];
   const regles = reglages(historique);
@@ -20,7 +22,7 @@ export function sequenceDe(historique) {
 
 // appuis : ceux déjà faits de la séquence ; une erreur fait recommencer (V4).
 export function appuyer(historique, appuis, raccourci) {
-  if (!estEntrainement(etapeEnCours(historique))) return { appuis: [], erreur: 'Pas d entrainement en cours.' };
+  if (!estEntrainement(historique)) return { appuis: [], erreur: 'Pas d entrainement en cours.' };
   const lu = lireRaccourci(raccourci);
   // Touche maintenue + chiffre crée un groupe à toute étape (V7).
   if (lu.maintenue && CHIFFRES.includes(lu.touche)) return { ...choisir(historique, raccourci), appuis };
@@ -35,7 +37,7 @@ export function appuyer(historique, appuis, raccourci) {
 // Suivant fait la séquence à la place de l'utilisateur (V4).
 export function passer(historique) {
   const etape = etapeEnCours(historique);
-  if (!estEntrainement(etape)) return { erreur: 'Pas d entrainement en cours.' };
-  const fait = { type: 'reponse', moment: etape.moment, action: etape.action || etape.enchainement, raccourci: null, fait: true };
+  if (!estEtapeDEntrainement(etape)) return { erreur: 'Pas d entrainement en cours.' };
+  const fait = { type: 'reponse', moment: etape.moment, action: etape.action, enchainement: etape.enchainement, raccourci: null, fait: true };
   return { historique: [...historique, fait] };
 }

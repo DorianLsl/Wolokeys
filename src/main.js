@@ -6,7 +6,7 @@ import { etapeEnCours, choisir, plusTard, nePasUtiliser, basculerEntrainement, e
 import { afficherPartie } from './partie/ui/partie.js';
 import { suggestions, accepter } from './suggestions/domain/suggestions.js';
 import { afficherSuggestions } from './suggestions/ui/suggestions.js';
-import { sequenceDe, appuyer, passer } from './entrainement/domain/entrainement.js';
+import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement/domain/entrainement.js';
 import { afficherSequence } from './entrainement/ui/entrainement.js';
 
 let historique = [];
@@ -45,13 +45,12 @@ function afficher() {
 }
 
 const clic = (id, faire) => document.getElementById(id).addEventListener('click', () => appliquer(faire(historique), false));
-const enEntrainement = (h) => ['grille', 'enchainement'].includes((etapeEnCours(h) || {}).type);
-clic('suivant', (h) => (etapePosture(h) ? choisir(h, toucheSuggeree(h)) : enEntrainement(h) ? passer(h) : accepter(h, liste[choisie])));
+clic('suivant', (h) => (etapePosture(h) ? choisir(h, toucheSuggeree(h)) : estEntrainement(h) ? passer(h) : accepter(h, liste[choisie])));
 clic('plus-tard', plusTard);
 clic('ne-pas-utiliser', nePasUtiliser);
 document.getElementById('entrainement').addEventListener('change', () => appliquer(basculerEntrainement(historique), false));
 ecouter({
-  surRaccourci: (raccourci) => appliquer(enEntrainement(historique) ? appuyer(historique, appuis, raccourci) : choisir(historique, raccourci, premierAccepte), true),
+  surRaccourci: (raccourci) => appliquer(estEntrainement(historique) ? appuyer(historique, appuis, raccourci) : choisir(historique, raccourci, premierAccepte), true),
   surRetour: () => appliquer({ historique: retour(historique) }, false),
 });
 afficher();
