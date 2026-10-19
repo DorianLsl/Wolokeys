@@ -254,4 +254,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-P1 v14 publié (clic dans la liste pour redemander un raccourci). Proposé : H1 à H7 dans « Validé », H8 pour le clic dans la liste.
+P1 v14 validé par le porteur : H1 à H7 et le clic dans la liste deviennent V20 à V27. Plus d'hypothèse ni de question ouverte. Suite : choisir entre un nouveau prototype et la transition vers la phase 2 (/ponytail-audit).
