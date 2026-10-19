@@ -17,14 +17,20 @@
     button { font: inherit; padding: .4rem 1.2rem; }
     #etiquette { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
     #action { font-size: 1.5rem; font-weight: 700; margin: 0; }
-    body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant { display: none; }
+    #sequence { display: flex; gap: .5rem; list-style: none; padding: 0; font-size: 1.5rem; font-weight: 700; }
+    #sequence .fait { opacity: .4; text-decoration: line-through; }
+    body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant,
+    body[data-etape="posture"] .jeu, body[data-etape="fin"] .jeu,
+    body:not([data-etape="grille"]):not([data-etape="enchainement"]) .entrainement { display: none; }
   </style>
 </head>
 <body>
+  <label><input type="checkbox" id="entrainement"> Entraînement</label>
   <h1 id="titre"></h1>
-  <p class="partie" id="etiquette"></p>
-  <p class="partie" id="action"></p>
+  <p class="jeu" id="etiquette"></p>
+  <p class="jeu" id="action"></p>
   <p id="question"></p>
+  <ol class="entrainement" id="sequence"></ol>
   <div class="partie" id="suggestions"></div>
   <p class="posture">Suggestion : <span id="suggestion"></span></p>
   <p>
