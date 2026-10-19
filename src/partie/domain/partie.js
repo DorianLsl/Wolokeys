@@ -7,11 +7,31 @@ import { creerGroupe, groupesDe, toucheDeCreation, touchePourCreer } from '../..
 
 const reponses = (historique) => historique.filter((e) => e.type === 'reponse');
 
-// Une action est réglée par un raccourci ou par le chiffre d'un groupe qui contient encore sa sélection (V7).
+// Une action est réglée par un raccourci ou par le chiffre d'un groupe qui contient encore sa sélection (V7) ;
+// un raccourci redemandé s'efface jusqu'à la réponse suivante (V27).
 export function reglages(historique) {
   const groupes = groupesDe(historique);
   const valable = (e) => e.raccourci || (e.chiffre && groupes[e.chiffre] === ACTIONS[e.action].selection);
-  return Object.fromEntries(reponses(historique).filter(valable).map((e) => [e.action, e.raccourci ? { raccourci: e.raccourci } : { chiffre: e.chiffre }]));
+  const regles = {};
+  for (const e of historique) {
+    if (e.type === 'redemande') delete regles[e.action];
+    if (e.type === 'reponse' && valable(e)) regles[e.action] = e.raccourci ? { raccourci: e.raccourci } : { chiffre: e.chiffre };
+  }
+  return regles;
+}
+
+// Le moment en cours est noté : la partie y reprend une fois le raccourci redemandé réglé ou remis à plus tard.
+export function redemander(historique, action) {
+  if (etapePosture(historique)) return { erreur: 'Avant la partie : une touche par doigt.' };
+  if (!reglages(historique)[action]) return { erreur: 'Rien a redemander.' };
+  const etape = etapeEnCours(historique);
+  return { historique: [...historique, { type: 'redemande', action, moment: etape ? etape.moment : MOMENTS.length - 1 }] };
+}
+
+// La réponse à un raccourci redemandé porte la marque redemande : elle ne fait pas avancer la partie.
+function redemandeEnCours(historique) {
+  const i = historique.map((e) => e.type).lastIndexOf('redemande');
+  return i >= 0 && !historique.slice(i).some((e) => e.type === 'reponse' && e.redemande) ? historique[i].action : null;
 }
 
 export function raccourcisRegles(historique) {
@@ -47,10 +67,12 @@ export function etapeEnCours(historique) {
   const doigt = etapePosture(historique);
   if (doigt) return { type: 'posture', doigt };
   const regles = reglages(historique);
-  const derniere = reponses(historique).pop();
+  const repere = [...historique].reverse().find((e) => (e.type === 'reponse' && !e.redemande) || e.type === 'redemande');
+  const redemandee = redemandeEnCours(historique);
+  if (redemandee) return { type: 'action', moment: repere.moment, action: redemandee, redemande: true };
   const perdue = actionPerdue(historique);
-  if (perdue) return { type: 'action', moment: derniere.moment, action: perdue };
-  for (let moment = premierMoment(derniere); moment < MOMENTS.length; moment++) {
+  if (perdue) return { type: 'action', moment: repere.moment, action: perdue };
+  for (let moment = premierMoment(repere); moment < MOMENTS.length; moment++) {
     const etape = etapeA(historique, regles, moment);
     if (etape) return { ...etape, moment };
   }
@@ -65,9 +87,11 @@ function actionPerdue(historique) {
   return perdue ? perdue.action : null;
 }
 
-// Un enchaînement reste au même moment tant qu'il lui manque un raccourci ; le rattrapage, tant qu'il reste une action.
+// Un enchaînement reste au même moment tant qu'il lui manque un raccourci ; le rattrapage, tant qu'il reste une action ;
+// après un raccourci redemandé, la partie reprend au moment noté.
 function premierMoment(derniere) {
   if (!derniere) return 0;
+  if (derniere.type === 'redemande') return derniere.moment;
   const m = MOMENTS[derniere.moment];
   return m.rattrapage || (m.enchainement && (derniere.raccourci || derniere.chiffre)) ? derniere.moment : derniere.moment + 1;
 }
@@ -106,7 +130,7 @@ export function choisir(historique, raccourci, premierAccepte = false) {
   if (CHIFFRES.includes(lu.touche) && !lu.double && ACTIONS[etape.action].rappelable) return rappeler(base, etape, lu.touche);
   const refus = refusRaccourci(raccourci) || conflit(base, etape.action, raccourci);
   if (refus) return { erreur: refus };
-  return { historique: [...base, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci }] };
+  return { historique: [...base, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci, ...marqueDe(etape) }] };
 }
 
 function conflit(historique, action, raccourci) {
@@ -138,7 +162,7 @@ function noteDeGroupe(avant, apres, chiffre, maintenue, selection) {
 function rappeler(historique, etape, chiffre) {
   const selection = ACTIONS[etape.action].selection;
   const dedans = groupesDe(historique)[chiffre];
-  if (dedans === selection) return { historique: [...historique, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci: null, chiffre }] };
+  if (dedans === selection) return { historique: [...historique, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci: null, chiffre, ...marqueDe(etape) }] };
   // Le groupe proposé reste affiché à l'étape : le refus dit seulement ce qui ne va pas.
   return { erreur: ascii(dedans ? `Groupe ${chiffre} = ${dedans}.` : `Groupe ${chiffre} vide : ${touchePourCreer(historique)} + ${chiffre} avant.`) };
 }
@@ -156,5 +180,7 @@ function reponseVide(historique, marque) {
   if (!etape) return { erreur: 'Partie terminee.' };
   if (etape.type === 'posture') return { erreur: 'Avant la partie : une touche par doigt.' };
   if (etape.type !== 'action') return { erreur: 'Entrainement : Suivant ou la sequence.' };
-  return { historique: [...historique, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci: null, ...marque }] };
+  return { historique: [...historique, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci: null, ...marque, ...marqueDe(etape) }] };
 }
+
+const marqueDe = (etape) => (etape.redemande ? { redemande: true } : {});

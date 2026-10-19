@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA } from './partie.js';
+import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA, redemander } from './partie.js';
 import { groupePropose, groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, MOMENTS } from './donnees.js';
 
@@ -205,4 +205,25 @@ test('les refus sont en ASCII simple, en 8 mots au plus', () => {
     assert.ok(typeof r === 'string' && /^[\x20-\x7e]+$/.test(r), `refus attendu en ASCII : ${r}`);
     assert.ok(r.split(' ').filter((m) => /[A-Za-z0-9]/.test(m)).length <= 8, `trop long : ${r}`);
   }
+});
+
+test('V27 : un clic sur un raccourci le redemande tout de suite, sans perdre le reste de la partie', () => {
+  const fin = jouer(poser()).h;
+  const redemande = redemander(fin, 'scout').historique;
+  assert.deepEqual([etapeEnCours(redemande).action, etapeEnCours(redemande).redemande], ['scout', true]);
+  assert.equal(reglages(redemande).scout, undefined);
+  const change = choisir(redemande, 'Mouse 4 + G').historique;
+  assert.deepEqual([reglages(change).scout, etapeEnCours(change)], [{ raccourci: 'Mouse 4 + G' }, null]);
+  assert.deepEqual(reglages(change).selectTc, reglages(fin).selectTc);
+  const surInactif = jusqua(poser(), 'idle');
+  const enCours = redemander(surInactif, 'selectTc').historique;
+  assert.equal(etapeEnCours(enCours).action, 'selectTc');
+  assert.equal(etapeEnCours(choisir(enCours, 'G').historique).action, 'idle');
+  const vide = plusTard(enCours).historique;
+  assert.deepEqual([reglages(vide).selectTc, etapeEnCours(vide).action], [undefined, 'idle'], 'Plus tard le laisse vide');
+});
+
+test('V27 : on ne redemande qu un raccourci regle, apres la posture', () => {
+  assert.equal(redemander(poser(), 'monk').erreur, 'Rien a redemander.');
+  assert.equal(redemander([], 'selectTc').erreur, 'Avant la partie : une touche par doigt.');
 });
