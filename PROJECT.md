@@ -15,7 +15,7 @@ pourront apparaître ou cohabiter.
   `Documents/My Games/Age of Empires IV/keyBindingProfiles` (porteur, Q7).
 
 ## État
-Phase 1. P1 v13 publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
+Phase 1. P1 v14 publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
 (`prototypes/p1-pas-a-pas.html`). Partie générique jusqu'à l'âge IV, avec les
 conventions des joueurs reconnus : armée par rôle en groupes 1 à 3, siège 4,
 centres-villes 5, production 6 à 0 ; 20 raccourcis à régler, plus 16 étapes de
@@ -242,6 +242,10 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
   gros manque d'intuitivité ; la priorité reste de ne pas bouger énormément
   les doigts. Le rôle est l'élément : oui.
 
+## Retours du porteur sur P1 v13
+- « Tout me va. » Ajouter : revenir sur un raccourci déjà défini en
+  cliquant dessus dans la liste du bas.
+
 ## Prochaines étapes
 - Plus tard : mode « touches limitées » (choisir ses touches avant la partie,
   voir où ça bloque).
@@ -250,4 +254,4 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-P1 v13 publié, en test par le porteur (H1 à H7, V9 étoiles sur 4 critères).
+P1 v14 publié (clic dans la liste pour redemander un raccourci). Proposé : H1 à H7 dans « Validé », H8 pour le clic dans la liste.
