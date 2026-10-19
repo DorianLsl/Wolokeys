@@ -41,8 +41,8 @@ test('V4 : la grille se joue telle quelle ; une erreur fait recommencer ; Suivan
   const fait = appuyer(surMaison, ['A'], 'A x2');
   assert.deepEqual([fait.appuis, faits(fait.historique).pop()], [[], 'house'], 'le second appui d un double compte');
   assert.deepEqual(faits(passer(surMaison).historique).pop(), 'house');
-  assert.equal(plusTard(surMaison).erreur, 'Entrainement : pas de Plus tard.');
-  assert.equal(nePasUtiliser(surMaison).erreur, 'Entrainement : pas de Plus tard.');
+  assert.equal(plusTard(surMaison).erreur, 'Entrainement : Suivant ou la sequence.');
+  assert.equal(nePasUtiliser(surMaison).erreur, 'Entrainement : Suivant ou la sequence.');
 });
 
 test('V7 : un aller-retour selectionne puis centre la camera ; par un groupe, deux appuis suffisent', () => {

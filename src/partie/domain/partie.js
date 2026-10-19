@@ -155,6 +155,6 @@ function reponseVide(historique, marque) {
   const etape = etapeEnCours(historique);
   if (!etape) return { erreur: 'Partie terminee.' };
   if (etape.type === 'posture') return { erreur: 'Avant la partie : une touche par doigt.' };
-  if (etape.type !== 'action') return { erreur: 'Entrainement : pas de Plus tard.' };
+  if (etape.type !== 'action') return { erreur: 'Entrainement : Suivant ou la sequence.' };
   return { historique: [...historique, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci: null, ...marque }] };
 }
