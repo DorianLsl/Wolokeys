@@ -60,8 +60,13 @@ Chacune prend l'historique et rend un nouvel historique, ou une erreur :
 - touche maintenue + chiffre passe par `choisir` et crée un groupe de contrôle ;
   `creerGroupe(historique, chiffre, maintenue, selection, raccourcis)` reçoit
   la sélection et les raccourcis de la partie, qui seule les connaît (V7) ;
-- `appuyer(historique, appuisFaits, touche)` : V4 (entraînement).
-En lecture : `etapeEnCours`, `suggestions`, `raccourcisRegles`.
+- `basculerEntrainement(historique)` : V14 ;
+- `appuyer(historique, appuis, raccourci, premierAccepte)` : V4 ; rend les appuis
+  faits de la séquence en cours (état de la page, l'historique ne les garde
+  pas), l'historique quand elle est finie, ou une erreur qui fait recommencer ;
+- `passer(historique)` : V4, Suivant fait la séquence à la place de l'utilisateur.
+En lecture : `etapeEnCours`, `suggestions`, `raccourcisRegles`, `reglages`,
+`sequenceDe`, `entrainementActif`.
 
 ## Erreurs
 Chaque cas prévisible rend un message court en ASCII simple (8 mots au plus),
