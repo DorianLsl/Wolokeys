@@ -18,13 +18,16 @@ export function raccourcisRegles(historique) {
   return Object.fromEntries(Object.entries(reglages(historique)).filter(([, r]) => r.raccourci).map(([a, r]) => [a, r.raccourci]));
 }
 
-// Pendant l'étape d'une action rappelable par un groupe, sa sélection est déjà faite, pour pouvoir créer le groupe.
+// Pendant l'étape d'une action rappelable, ou d'un entraînement (V4), sa sélection est déjà faite, pour créer le groupe.
 function selectionActuelle(historique) {
   const etape = etapeEnCours(historique);
   if (etape && etape.type === 'posture') return null;
-  if (etape && etape.type === 'action' && ACTIONS[etape.action].rappelable) return ACTIONS[etape.action].selection;
-  const derniere = reponses(historique).filter((e) => (e.raccourci || e.chiffre) && ACTIONS[e.action].selection).pop();
-  return derniere ? ACTIONS[derniere.action].selection : null;
+  const pendant = etape && (etape.type === 'enchainement' ? ENCHAINEMENTS[etape.enchainement].selection
+    : etape.type === 'grille' || ACTIONS[etape.action].rappelable ? ACTIONS[etape.action].selection : null);
+  if (pendant) return pendant;
+  const apres = (e) => (e.enchainement ? ENCHAINEMENTS[e.enchainement].selection : (e.raccourci || e.chiffre || e.fait) && ACTIONS[e.action].selection);
+  const derniere = reponses(historique).filter(apres).pop();
+  return derniere ? apres(derniere) : null;
 }
 
 // Ne pas utiliser pendant la partie : l'action ne revient qu'au rattrapage (V5).

@@ -81,3 +81,16 @@ test('V10 : le double appui remplace le premier choix meme quand l etape suivant
   const double = appuyer(surVillageois, [], 'G x2', true);
   assert.equal(raccourcisRegles(double.historique).selectTc, 'G x2');
 });
+
+test('V4, V7 : pendant un entrainement, la selection est celle de la sequence', () => {
+  const h = avecEntrainement();
+  assert.equal(groupesDe(appuyer(jusqua(h, 'house'), [], 'Ctrl + 1').historique)[1], 'villageois', 'le villageois est selectionne');
+  assert.equal(groupesDe(appuyer(jusqua(h, 'villager'), [], 'Ctrl + 5').historique)[5], 'centre-ville');
+  const surRelance = jusqua(choisir(h, 'G').historique, 'tcLoop');
+  assert.equal(groupesDe(appuyer(surRelance, ['G'], 'Ctrl + 5').historique)[5], 'centre-ville');
+  const parGroupe = jusqua(choisir(choisir(h, 'Ctrl + 5').historique, '5').historique, 'goBase');
+  const garde = appuyer(parGroupe, ['5'], 'Ctrl + 5');
+  assert.deepEqual([groupesDe(garde.historique)[5], etapeEnCours(garde.historique).enchainement], ['centre-ville', 'goBase']);
+  const surInactif = jusqua(h, 'idle');
+  assert.equal(groupesDe(choisir(surInactif, 'Ctrl + 2').historique)[2], 'villageois', 'apres la grille du camp de mineurs');
+});
