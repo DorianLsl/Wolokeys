@@ -86,35 +86,32 @@ quittent leur touche de référence.
 - V19. Les groupes de contrôle s'adaptent par bloc (armée, bâtiments) : au
   plus près du dernier groupe du bloc, sinon au numéro habituel.
   *(P1 v9)*
-## Rejeté
-## Hypothèses en test
-### P1 v10 — logique par domaine, étoiles d'intuitivité (`prototypes/p1-pas-a-pas.html`)
-- H1. Les logiques par concept et par domaine sont calculées toutes les deux ;
+- V20. Les logiques par concept et par domaine sont calculées toutes les deux ;
   les étoiles les départagent et le premier choix de l'utilisateur fixe sa
   logique. La mécanique de la famille s'entend dans la logique choisie.
-- H2. Au premier raccourci économique, une touche maintenue réservée à
+- V21. Au premier raccourci économique, une touche maintenue réservée à
   l'économie est proposée parmi les suggestions, comme pour le militaire
   (V16), sans être imposée : pré-sélectionnée seulement si elle a le plus
   d'étoiles, plus proposée si l'utilisateur en choisit une autre.
-### P1 v11 — touche de l'élément, sélection à l'écran (`prototypes/p1-pas-a-pas.html`)
-- H3. Une touche par élément ; la mécanique distingue « prochain »,
+  *(P1 v10)*
+- V22. Une touche par élément ; la mécanique distingue « prochain »,
   « tous sur la carte » et « tous à l'écran », par des combinaisons de
   préférence. « Sélectionner le X » devient « Prochain X ».
-- H4. Quatre actions « à l'écran » (infanterie, distance, cavalerie, siège),
+- V23. Quatre actions « à l'écran » (infanterie, distance, cavalerie, siège),
   chacune juste avant la création de son groupe : sélection sans souris,
   puis Ctrl + chiffre. L'infanterie va dans le groupe 1.
-### P1 v12 — mécanique habituelle par verbe (`prototypes/p1-pas-a-pas.html`)
-- H5. Une logique par verbe, analysée avec les autres : « prochain » sur le
+  *(P1 v11)*
+- V24. Une logique par verbe, analysée avec les autres : « prochain » sur le
   bouton de repos du pouce droit (Mouse 4 par défaut), « tous sur la carte »
   sur l'autre bouton, « tous à l'écran » sur Alt. Cette mécanique habituelle
   est proposée d'abord au premier raccourci de chaque verbe, sans être
   imposée.
-### P1 v13 — logique par rôle, concepts hors éléments (`prototypes/p1-pas-a-pas.html`)
-- H6. Une logique par rôle, analysée avec les autres : A, Z, E, R (sous 1,
+  *(P1 v12)*
+- V25. Une logique par rôle, analysée avec les autres : A, Z, E, R (sous 1,
   2, 3, 4) portent l'infanterie, la distance, la cavalerie et le siège ;
   chaque rôle réunit ses unités et son bâtiment (le rôle est l'élément) ;
   Espace porte la base.
-- H7. Les concepts qui ne sont pas des éléments (états comme « inactif »,
+- V26. Les concepts qui ne sont pas des éléments (états comme « inactif »,
   ensembles comme « tous les bâtiments militaires », ordres comme
   « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace. La
   priorité reste de peu bouger les doigts : les touches F1 à F12 (libres
@@ -122,6 +119,12 @@ quittent leur touche de référence.
   exemple F1 villageois inactifs, F2 militaires inactifs, F3 bâtiments
   militaires, F4 religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour
   « tous ».
+  *(P1 v13)*
+- V27. Un clic sur un raccourci de la liste le redemande tout de suite, sans
+  perdre le reste de la partie ; Plus tard le laisse vide.
+  *(P1 v14)*
+## Rejeté
+## Hypothèses en test
 ## Hors périmètre de la première version
 - Quitter le mode grille (changer un raccourci fixé par la grille du jeu).
 - Les téléphones.
@@ -146,4 +149,4 @@ quittent leur touche de référence.
 | P1 v11 | Touche de l'élément, sélection à l'écran | `prototypes/p1-pas-a-pas.html` | Retours : concepts d'Alt, Mouse 4 et Mouse 5, Échap, armée à l'écran |
 | P1 v12 | Mécanique habituelle par verbe | `prototypes/p1-pas-a-pas.html` | Retours : logique par rôle, touches F |
 | P1 v13 | Logique par rôle, touches F et Échap en dernier recours | `prototypes/p1-pas-a-pas.html` | « Tout me va » ; retour : revenir sur un raccourci depuis la liste |
-| P1 v14 | Revenir sur un raccourci depuis la liste | `prototypes/p1-pas-a-pas.html` | En test |
+| P1 v14 | Revenir sur un raccourci depuis la liste | `prototypes/p1-pas-a-pas.html` | Validé |
