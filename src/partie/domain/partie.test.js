@@ -30,9 +30,9 @@ test('V13, V17 : apres la posture, la partie demande chaque raccourci a son mome
   assert.deepEqual(etapeEnCours(debut), { type: 'action', moment: 0, action: 'selectTc' });
   const { h, demandes } = jouer(debut);
   assert.deepEqual(demandes, ['selectTc', 'scout', 'camera', 'idle', 'idleAll', 'allBarracks', 'allRanges', 'infantryScreen', 'infantry',
-    'rangedScreen', 'ranged', 'militaryBuildings', 'idleMil', 'cancelUnit', 'allStables', 'cavalryScreen', 'cavalry', 'allTc', 'allWorkshops',
+    'rangedScreen', 'ranged', 'militaryBuildings', 'idleMilNext', 'idleMil', 'cancelUnit', 'allStables', 'cavalryScreen', 'cavalry', 'allTc', 'allWorkshops',
     'siegeScreen', 'siege', 'alert', 'monasteries', 'monk']);
-  assert.equal(Object.keys(raccourcisRegles(h)).length, 24);
+  assert.equal(Object.keys(raccourcisRegles(h)).length, 25);
 });
 
 test('V10 : un raccourci deja pris, ou qui gene en jeu, est refuse avec l action qui le tient', () => {
@@ -91,7 +91,7 @@ test('V5, V8 : Ne pas utiliser saute l action et ses enchainements ; elle revien
 });
 
 test('V8 : les villageois inactifs sont des extras, le reste fait la partie optimisee', () => {
-  assert.deepEqual(['idle', 'idleAll', 'idleMil', 'selectTc', 'camera'].map((a) => estExtra(poser(), a)), [true, true, true, false, false]);
+  assert.deepEqual(['idle', 'idleAll', 'idleMilNext', 'idleMil', 'selectTc', 'camera'].map((a) => estExtra(poser(), a)), [true, true, true, true, false, false]);
 });
 
 test('avant la partie et apres la fin, les choix sont refuses avec un message', () => {
@@ -121,7 +121,7 @@ test('V5 : partie entiere avec un Plus tard et un Ne pas utiliser', () => {
   };
   const { h } = jouer(poser(), suivre);
   assert.deepEqual(momentsDe.filter((m) => /^(camera|scout)@/.test(m)), ['scout@0:05', 'camera@0:30', 'camera@8:00', 'scout@Fin']);
-  assert.equal(Object.keys(raccourcisRegles(h)).length, 24);
+  assert.equal(Object.keys(raccourcisRegles(h)).length, 25);
   assert.ok(estExtra(h, 'scout') && !estExtra(h, 'camera'));
 });
 
@@ -187,7 +187,7 @@ test('V15 : la partie entiere par les groupes proposes range l armee en 1 a 4 et
     return choisir(avecGroupe, p.chiffre).historique;
   };
   const { h } = jouer(poser(), parGroupe);
-  assert.equal(Object.keys(reglages(h)).length, 24);
+  assert.equal(Object.keys(reglages(h)).length, 25);
   assert.deepEqual(groupesDe(h), { 1: 'infanterie', 2: 'distance', 3: 'cavalerie', 4: 'siège', 5: 'centre-ville', 6: 'casernes', 7: 'champs de tir', 8: 'écuries', 9: 'ateliers', 0: 'monastères' });
 });
 

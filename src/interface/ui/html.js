@@ -2,7 +2,7 @@
 const ICONES = {
   selectTc: 'tc', scout: 'scout', camera: 'camera', alert: 'bell', idle: 'idle', idleAll: 'idleAll', allTc: 'tcs',
   allBarracks: 'barracks', allRanges: 'range', allStables: 'stable', allWorkshops: 'workshop', monasteries: 'monastery',
-  militaryBuildings: 'rally', cancelUnit: 'cancel', idleMil: 'idleMil', monk: 'monk',
+  militaryBuildings: 'rally', cancelUnit: 'cancel', idleMilNext: 'idleMil', idleMil: 'idleMil', monk: 'monk',
   infantryScreen: 'army', rangedScreen: 'range', cavalryScreen: 'stable', siegeScreen: 'siege', infantry: 'army', ranged: 'range', cavalry: 'stable', siege: 'siege',
   villager: 'villager', house: 'house', mining: 'mining', lumber: 'lumber', mill: 'mill', farm: 'farm', barracks: 'barracks', range: 'range',
   stable: 'stable', workshop: 'workshop', monastery: 'monastery', keep: 'keep', university: 'university',

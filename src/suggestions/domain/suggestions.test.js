@@ -84,7 +84,7 @@ test('V12 : Suivant seul joue toute la partie, et chaque suggestion est acceptee
     for (const s of raccourcis(h)) assert.ok(choisir(h, s.raccourci).historique, `${etapeEnCours(h).action} : ${s.raccourci}`);
     h = suivant(h);
   }
-  assert.equal(Object.keys(reglages(h)).length, 24, 'les raccourcis obtenus sont figes dans logiques.test.js');
+  assert.equal(Object.keys(reglages(h)).length, 25, 'les raccourcis obtenus sont figes dans logiques.test.js');
 });
 
 test('V12 : la meilleure suggestion passe en premier, le groupe avant les raccourcis quand il passe d abord', () => {
@@ -104,12 +104,13 @@ test('Suivant sans suggestion, ou apres la fin, rend un message et non une excep
   assert.equal(accepter(surInfanterie, suggestions(surInfanterie)[0]).erreur, 'Aucune suggestion : tape un raccourci.');
 });
 
-// Logiques : l'auto-test du prototype P1 v14, validé par le porteur, sert d'oracle.
-test('V20 : la partie entiere, logiques comprises, donne les raccourcis du prototype', () => {
+// Logiques : l'auto-test du prototype P1 v14, validé par le porteur, sert d'oracle ; le prochain militaire inactif s'y est ajouté (V8).
+test('V20 : la partie entiere, logiques comprises, donne les raccourcis du prototype et le prochain militaire inactif', () => {
   assert.equal(partie(jouer(poser())), 'selectTc=Mouse 4 + F scout=Mouse 4 + D camera=Espace idle=Mouse 4 + S idleAll=Mouse 5 + S '
     + 'allBarracks=groupe 6 allRanges=groupe 7 infantryScreen=Alt + Q infantry=groupe 1 rangedScreen=Alt + G ranged=groupe 2 '
-    + 'militaryBuildings=Mouse 5 + Espace idleMil=Mouse 5 + V cancelUnit=< allStables=groupe 8 cavalryScreen=Alt + D cavalry=groupe 3 '
-    + 'allTc=Mouse 5 + F allWorkshops=groupe 9 siegeScreen=Alt + R siege=groupe 4 alert=Espace x2 monasteries=groupe 0 monk=Mouse 4 + Q');
+    + 'militaryBuildings=Mouse 5 + Espace idleMilNext=Mouse 4 + Q idleMil=Mouse 5 + Q cancelUnit=< allStables=groupe 8 cavalryScreen=Alt + D '
+    + 'cavalry=groupe 3 allTc=Mouse 5 + F allWorkshops=groupe 9 siegeScreen=Alt + R siege=groupe 4 alert=Espace x2 monasteries=groupe 0 '
+    + 'monk=Mouse 4 + Espace');
   assert.ok(partie(jouer(poser(), parGroupe)).startsWith('selectTc=groupe 5 scout=Mouse 4 + F camera=Espace idle=Mouse 4 + D idleAll=Mouse 5 + D'));
 });
 
@@ -188,4 +189,13 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
 test('V9 : le groupe propose a ses criteres, seuls les doigts comptent', () => {
   const surCasernes = suggestions(jusqua(parGroupe(poser()), 'allBarracks'))[0];
   assert.deepEqual(surCasernes.criteres, { grille: null, famille: null, doigts: false, element: null });
+});
+
+test('V26 : prochain et tous les militaires inactifs partagent une touche', () => {
+  const surTous = suivant(jusqua(poser(), 'idleMilNext'));
+  const prochain = raccourcisRegles(surTous).idleMilNext;
+  const [meilleure] = raccourcis(surTous);
+  assert.equal(etapeEnCours(surTous).action, 'idleMil');
+  assert.equal(meilleure.raccourci.split(' + ').pop(), prochain.split(' + ').pop(), `${prochain} puis ${meilleure.raccourci}`);
+  assert.deepEqual(meilleure.logique, { texte: 'Même touche que Militaire inactif', action: 'idleMilNext' });
 });

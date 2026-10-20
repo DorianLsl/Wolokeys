@@ -18,7 +18,7 @@ const ligne = (h, action) => [...recapitulatif(h).optimisee, ...recapitulatif(h)
 
 test('V8 : le recapitulatif a deux tableaux, partie optimisee et extras', () => {
   const r = recapitulatif(jouer(poser()));
-  assert.deepEqual(r.extras.map((l) => l.action), ['idle', 'idleAll', 'idleMil']);
+  assert.deepEqual(r.extras.map((l) => l.action), ['idle', 'idleAll', 'idleMilNext', 'idleMil']);
   assert.equal(r.optimisee.length, 21);
   assert.ok(recapitulatif(nePasUtiliser(poser()).historique).extras.some((l) => l.action === 'selectTc'), 'non utilisee : en extra');
   assert.deepEqual(ligne(jouer(poser()), 'selectTc').reglage, { raccourci: 'Mouse 4 + F' });
@@ -42,6 +42,6 @@ test('V9 : chaque raccourci regle a ses etoiles, et le score les additionne sur 
   assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [4, 3, null]);
   const r = recapitulatif(fin);
   const lignes = [...r.optimisee, ...r.extras];
-  assert.deepEqual(r.score, { obtenu: lignes.reduce((total, l) => total + l.etoiles, 0), max: 96 });
-  assert.deepEqual(recapitulatif(poser()).score, { obtenu: 0, max: 96 });
+  assert.deepEqual(r.score, { obtenu: lignes.reduce((total, l) => total + l.etoiles, 0), max: 100 });
+  assert.deepEqual(recapitulatif(poser()).score, { obtenu: 0, max: 100 });
 });
