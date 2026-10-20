@@ -38,8 +38,8 @@ export function suggestions(historique) {
   const etape = etapeEnCours(historique);
   if (!etape || etape.type !== 'action') return [];
   const a = ACTIONS[etape.action];
-  const groupe = a.rappelable ? groupeNote(historique, a.selection) : null;
-  const avecGroupe = groupe ? [{ groupe, etoiles: groupe.etoiles, logique: logiqueDuGroupe(historique, a.selection, groupe) }] : [];
+  const groupe = a.rappelable ? suggestionDeGroupe(historique, a.selection) : null;
+  const avecGroupe = groupe ? [groupe] : [];
   if (a.seulementGroupe) return avecGroupe;
   const raccourcis = raccourcisProposes(historique, etape.action);
   return a.groupeDabord ? [...avecGroupe, ...raccourcis] : [...raccourcis, ...avecGroupe];
@@ -115,11 +115,12 @@ function toucheReserveeAuDomaine({ action, regles, logiques }, tries) {
   return premier ? tries.find((c) => MAINTENABLES_GRILLE.includes(c.mecanique) && !prisesAilleurs(regles, 'domaine', domaine).includes(c.mecanique)) : undefined;
 }
 
-function groupeNote(historique, selection) {
-  const propose = groupePropose(historique, selection);
-  if (!propose) return null;
-  const doigts = effortDe(postureDe(historique), propose.chiffre) === 0;
-  return { ...propose, etoiles: etoiles({ grille: null, famille: null, doigts, element: null }) };
+// Le groupe proposé est noté comme un raccourci : seuls les doigts comptent, le reste est sans objet.
+function suggestionDeGroupe(historique, selection) {
+  const groupe = groupePropose(historique, selection);
+  if (!groupe) return null;
+  const doigts = effortDe(postureDe(historique), groupe.chiffre) === 0;
+  return { groupe, etoiles: etoiles({ grille: null, famille: null, doigts, element: null }), logique: logiqueDuGroupe(historique, selection, groupe) };
 }
 
 // Le double appui n'est suggéré qu'en dernier recours, sauf l'alerte sur la touche de la caméra (V7, V10).
