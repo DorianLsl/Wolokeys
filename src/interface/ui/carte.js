@@ -1,6 +1,6 @@
 import { lireRaccourci } from '../../clavier/domain/touches.js';
 import { reglages } from '../../partie/domain/partie.js';
-import { icone, touchesHtml, echapper } from './html.js';
+import { icone, touchesHtml, echapper, etoilesHtml } from './html.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -34,7 +34,7 @@ export function afficherCarte(historique, liste, choisie, surClic) {
     bouton.className = i === choisie ? 'suggestion grande' : 'suggestion';
     bouton.setAttribute('aria-pressed', String(i === choisie));
     bouton.innerHTML = `<span class="touches">${s.raccourci ? touchesHtml(lireRaccourci(s.raccourci)) : groupeHtml(s.groupe)}`
-      + `<span class="etoiles" aria-label="${s.etoiles} sur 4">${'★'.repeat(s.etoiles)}${'☆'.repeat(4 - s.etoiles)}</span></span>${logiqueHtml(s.logique, regles)}`
+      + `${etoilesHtml(s.etoiles)}</span>${logiqueHtml(s.logique, regles)}`
       + `${i === choisie ? criteresHtml(s.criteres) : ''}`;
     bouton.addEventListener('click', () => surClic(i));
     return bouton;

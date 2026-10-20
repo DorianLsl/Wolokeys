@@ -16,6 +16,8 @@ export const icone = (id, classe = '') => `<svg class="ic ${classe}" aria-hidden
 
 export const echapper = (texte) => texte.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
+export const etoilesHtml = (n) => `<span class="etoiles" aria-label="${n} sur 4">${'★'.repeat(n)}${'☆'.repeat(4 - n)}</span>`;
+
 const kbd = (touche) => `<kbd>${echapper(touche)}</kbd>`;
 
 // Une combinaison s'écrit touche maintenue + touche ; Échap se relâche avant la touche (V3).
