@@ -1,7 +1,7 @@
 import { TOUCHES, lireRaccourci } from '../../clavier/domain/touches.js';
 import { MAINTENABLES, MAINTENABLES_GRILLE, mecaniqueDe } from '../../clavier/domain/raccourcis.js';
 import { postureDe } from '../../posture/domain/posture.js';
-import { groupePropose, voisinDe } from '../../groupes/domain/groupes.js';
+import { groupePropose, voisinDe, estArmee } from '../../groupes/domain/groupes.js';
 import { ACTIONS } from '../../partie/domain/donnees.js';
 import { etapeEnCours, choisir, raccourcisRegles, reglages } from '../../partie/domain/partie.js';
 import { atteinte, effortDe } from './effort.js';
@@ -88,7 +88,7 @@ function mouvement(posture, c) {
 function logiqueDuGroupe(historique, selection, groupe) {
   if (!groupe.creer) return { texte: `Ton groupe ${groupe.chiffre}`, action: null };
   const voisin = voisinDe(historique, selection);
-  if (!voisin) return { texte: 'Numéro habituel', action: null };
+  if (!voisin) return { texte: `Numéro habituel ${estArmee(selection) ? "de l'armée" : 'des bâtiments'}`, action: null };
   const regles = reglages(historique);
   return { texte: `À côté de ton groupe ${voisin}`, action: Object.keys(regles).find((x) => regles[x].chiffre === voisin) || null };
 }

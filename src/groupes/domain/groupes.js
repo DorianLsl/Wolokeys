@@ -5,6 +5,8 @@ import { MAINTENABLES, seGenent } from '../../clavier/domain/raccourcis.js';
 const NUMEROS = { infanterie: '1', distance: '2', cavalerie: '3', 'siège': '4', 'centre-ville': '5', casernes: '6', 'champs de tir': '7', 'écuries': '8', ateliers: '9', 'monastères': '0' };
 const BLOCS = [['infanterie', 'distance', 'cavalerie', 'siège'], ['centre-ville', 'casernes', 'champs de tir', 'écuries', 'ateliers', 'monastères']];
 
+export const estArmee = (selection) => BLOCS[0].includes(selection);
+
 const evenements = (historique) => historique.filter((e) => e.type === 'groupe');
 
 export const groupesDe = (historique) => Object.fromEntries(evenements(historique).map((e) => [e.chiffre, e.selection]));

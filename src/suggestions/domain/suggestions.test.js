@@ -170,7 +170,7 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
     ['Mouse 4 + F', 'Habitude : Mouse 4 pour « prochain »', null],
     ['G', "Index bouge d'une touche", null],
     ['Mouse 5 + F', "Pouce droit bouge d'une touche", null],
-    ['groupe 5', 'Numéro habituel', null],
+    ['groupe 5', 'Numéro habituel des bâtiments', null],
   ]);
   const centreVille = choisir(poser(), 'Mouse 4 + F').historique;
   assert.deepEqual(logiques(jusqua(centreVille, 'scout')), [
@@ -182,6 +182,7 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   assert.deepEqual(logiques(surInactifs)[0], ['Mouse 5 + S', 'Même touche que Inactif', 'idle']);
   assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
   assert.deepEqual(logiques(choisir(poser(), 'Ctrl + 5').historique)[3], ['groupe 5', 'Ton groupe 5', null]);
+  assert.deepEqual(logiques(jusqua(poser(), 'infantry')), [['groupe 1', "Numéro habituel de l'armée", null]]);
 });
 
 test('V9 : le groupe propose a ses criteres, seuls les doigts comptent', () => {
