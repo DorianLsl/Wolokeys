@@ -5,11 +5,15 @@ import { retour } from './partie/domain/historique.js';
 import { etapeEnCours, choisir, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, redemander } from './partie/domain/partie.js';
 import { afficherPartie } from './partie/ui/partie.js';
 import { suggestions, accepter } from './suggestions/domain/suggestions.js';
-import { afficherSuggestions } from './suggestions/ui/suggestions.js';
 import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement/domain/entrainement.js';
 import { afficherSequence } from './entrainement/ui/entrainement.js';
 import { recapitulatif } from './recapitulatif/domain/recapitulatif.js';
 import { afficherRecapitulatif } from './recapitulatif/ui/recapitulatif.js';
+import { geste, touchesEntourees, deplacements } from './interface/domain/interface.js';
+import { afficherIcone, afficherCarte } from './interface/ui/carte.js';
+import { afficherClavier } from './interface/ui/clavier.js';
+import { afficherManette } from './interface/ui/manette.js';
+import { installerVues } from './interface/ui/vues.js';
 
 let historique = [];
 let message = '';
@@ -40,10 +44,15 @@ function afficher() {
   afficherSequence(sequenceDe(historique), appuis);
   afficherRecapitulatif(recapitulatif(historique), (action) => appliquer(redemander(historique, action), false));
   liste = suggestions(historique);
-  afficherSuggestions(liste, choisie, (i) => {
+  const g = geste(historique, liste[choisie], appuis);
+  const entourees = touchesEntourees(historique, liste[choisie]);
+  afficherIcone(etape);
+  afficherCarte(historique, liste, choisie, (i) => {
     choisie = i;
     afficher();
   });
+  afficherClavier(historique, g, entourees);
+  afficherManette(historique, g, entourees, deplacements(historique, g));
   document.getElementById('message').textContent = message;
 }
 
@@ -58,4 +67,5 @@ ecouter({
     : appliquer(choisir(historique, raccourci, premierAccepte), true)),
   surRetour: () => appliquer({ historique: retour(historique) }, false),
 });
+installerVues();
 afficher();
