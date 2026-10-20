@@ -36,3 +36,12 @@ test('V5 : une action en Plus tard apparait a definir une fois son age fini', ()
   const deuxFois = nePasUtiliser(jusqua(sansCentreVille, 'selectTc')).historique;
   assert.equal(ligne(deuxFois, 'selectTc').etat, 'non utilise');
 });
+
+test('V9 : chaque raccourci regle a ses etoiles, et le score les additionne sur 4 par raccourci', () => {
+  const fin = jouer(poser());
+  assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [4, 3, null]);
+  const r = recapitulatif(fin);
+  const lignes = [...r.optimisee, ...r.extras];
+  assert.deepEqual(r.score, { obtenu: lignes.reduce((total, l) => total + l.etoiles, 0), max: 96 });
+  assert.deepEqual(recapitulatif(poser()).score, { obtenu: 0, max: 96 });
+});
