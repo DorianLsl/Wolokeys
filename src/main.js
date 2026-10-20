@@ -8,7 +8,7 @@ import { suggestions, accepter } from './suggestions/domain/suggestions.js';
 import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement/domain/entrainement.js';
 import { afficherSequence } from './entrainement/ui/entrainement.js';
 import { recapitulatif } from './recapitulatif/domain/recapitulatif.js';
-import { afficherRecapitulatif } from './recapitulatif/ui/recapitulatif.js';
+import { afficherRecapitulatif } from './interface/ui/recapitulatif.js';
 import { geste, touchesEntourees, deplacements, conflits } from './interface/domain/interface.js';
 import { afficherIcone, afficherCarte } from './interface/ui/carte.js';
 import { afficherClavier } from './interface/ui/clavier.js';
