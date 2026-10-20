@@ -115,13 +115,15 @@ function toucheReserveeAuDomaine({ action, regles, logiques }, tries) {
   return premier ? tries.find((c) => MAINTENABLES_GRILLE.includes(c.mecanique) && !prisesAilleurs(regles, 'domaine', domaine).includes(c.mecanique)) : undefined;
 }
 
-// Le groupe proposé est noté comme un raccourci : seuls les doigts comptent, le reste est sans objet.
 function suggestionDeGroupe(historique, selection) {
   const groupe = groupePropose(historique, selection);
   if (!groupe) return null;
-  const criteres = { grille: null, famille: null, doigts: effortDe(postureDe(historique), groupe.chiffre) === 0, element: null };
+  const criteres = criteresDuGroupe(historique, groupe.chiffre);
   return { groupe, criteres, etoiles: etoiles(criteres), logique: logiqueDuGroupe(historique, selection, groupe) };
 }
+
+// Un groupe est noté comme un raccourci : seuls les doigts comptent, le reste est sans objet.
+export const criteresDuGroupe = (historique, chiffre) => ({ grille: null, famille: null, doigts: effortDe(postureDe(historique), chiffre) === 0, element: null });
 
 // Le double appui n'est suggéré qu'en dernier recours, sauf l'alerte sur la touche de la caméra (V7, V10).
 function notees({ historique, action, regles, logiques }) {
