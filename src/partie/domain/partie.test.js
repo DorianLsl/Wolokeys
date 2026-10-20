@@ -23,6 +23,7 @@ const jusqua = (h, action) => {
 };
 const quand = (h) => MOMENTS[etapeEnCours(h).moment].heure;
 const reponsesA = (h, action) => h.filter((e) => e.type === 'reponse' && e.action === action).length;
+const reglagesSauf = (h, action) => Object.fromEntries(Object.entries(reglages(h)).filter(([a]) => a !== action));
 
 test('V13, V17 : apres la posture, la partie demande chaque raccourci a son moment, jusqu a l age IV', () => {
   const debut = poser();
@@ -214,13 +215,14 @@ test('V27 : un clic sur un raccourci le redemande tout de suite, sans perdre le 
   assert.equal(reglages(redemande).scout, undefined);
   const change = choisir(redemande, 'Mouse 4 + G').historique;
   assert.deepEqual([reglages(change).scout, etapeEnCours(change)], [{ raccourci: 'Mouse 4 + G' }, null]);
-  assert.deepEqual(reglages(change).selectTc, reglages(fin).selectTc);
+  assert.deepEqual(reglagesSauf(change, 'scout'), reglagesSauf(fin, 'scout'));
   const surInactif = jusqua(poser(), 'idle');
   const enCours = redemander(surInactif, 'selectTc').historique;
   assert.equal(etapeEnCours(enCours).action, 'selectTc');
   assert.equal(etapeEnCours(choisir(enCours, 'G').historique).action, 'idle');
   const vide = plusTard(enCours).historique;
   assert.deepEqual([reglages(vide).selectTc, etapeEnCours(vide).action], [undefined, 'idle'], 'Plus tard le laisse vide');
+  assert.deepEqual(reglagesSauf(vide, 'selectTc'), reglagesSauf(surInactif, 'selectTc'));
 });
 
 test('V27 : on ne redemande qu un raccourci regle, apres la posture', () => {
