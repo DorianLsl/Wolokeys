@@ -47,8 +47,8 @@ que le `domain/` des tranches dont elle dépend.
 | `groupes` | Groupes de contrôle, touche de création, numéros par bloc ; la sélection actuelle et le rappel par chiffre restent dans `partie` | V7, V15, V19, V23 |
 | `suggestions` | Candidats, étoiles, familles, logiques, dernier recours, pré-sélection | V9, V11, V12, V16, V20 à V22, V24 à V26 |
 | `entrainement` | Séquences de la grille et enchaînements | V4, V7, V14, V28 |
-| `recapitulatif` | Deux tableaux, clic pour redemander | V8, V27 |
-| `interface` | Vues main posée et manette, grande carte, logique visible | V9, V18 |
+| `recapitulatif` | Deux tableaux, étoiles et score ; affichés par `interface` | V8, V9, V27 |
+| `interface` | Vues main posée et manette, grande carte, logique visible, récapitulatif affiché | V9, V18 |
 
 ## Fonctions publiques du domaine
 Chacune prend l'historique et rend un nouvel historique, ou une erreur :
@@ -65,8 +65,10 @@ Chacune prend l'historique et rend un nouvel historique, ou une erreur :
   faits de la séquence en cours (état de la page, l'historique ne les garde
   pas), l'historique quand elle est finie, ou une erreur qui fait recommencer ;
 - `passer(historique)` : V4, Suivant fait la séquence à la place de l'utilisateur.
-En lecture : `etapeEnCours`, `suggestions`, `raccourcisRegles`, `reglages`,
-`sequenceDe`, `entrainementActif`.
+En lecture : `etapeEnCours`, `suggestions` (chacune avec sa `logique` : texte et
+action qui l'inspire, V18), `raccourcisRegles`, `reglages`, `sequenceDe`,
+`entrainementActif` ; pour l'interface, `geste`, `touchesEntourees` et
+`deplacements` (V9, V18).
 
 ## Erreurs
 Chaque cas prévisible rend un message court en ASCII simple (8 mots au plus),
