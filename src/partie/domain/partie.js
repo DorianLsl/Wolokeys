@@ -136,7 +136,7 @@ export function choisir(historique, raccourci, premierAccepte = false) {
   return { historique: [...base, { type: 'reponse', moment: etape.moment, action: etape.action, raccourci, ...marqueDe(etape) }] };
 }
 
-function conflit(historique, action, raccourci) {
+export function conflit(historique, action, raccourci) {
   const regles = raccourcisRegles(historique);
   const creation = toucheDeCreation(historique);
   if (creation && seGenent(`${creation} + 1`, raccourci)) return ascii(`${raccourci} deja pris : groupes.`);
