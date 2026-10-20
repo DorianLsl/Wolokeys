@@ -229,3 +229,9 @@ test('V27 : on ne redemande qu un raccourci regle, apres la posture', () => {
   assert.equal(redemander(poser(), 'monk').erreur, 'Rien a redemander.');
   assert.equal(redemander([], 'selectTc').erreur, 'Avant la partie : une touche par doigt.');
 });
+
+test('V27 : cliquer un autre raccourci pendant une redemande laisse le premier comme il etait', () => {
+  const fin = jouer(poser()).h;
+  const autre = redemander(redemander(fin, 'scout').historique, 'monk').historique;
+  assert.deepEqual([etapeEnCours(autre).action, reglages(autre).scout], ['monk', reglages(fin).scout]);
+});

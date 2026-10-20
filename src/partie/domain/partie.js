@@ -23,9 +23,12 @@ export function reglages(historique) {
 // Le moment en cours est noté : la partie y reprend une fois le raccourci redemandé réglé ou remis à plus tard.
 export function redemander(historique, action) {
   if (etapePosture(historique)) return { erreur: 'Avant la partie : une touche par doigt.' };
-  if (!reglages(historique)[action]) return { erreur: 'Rien a redemander.' };
-  const etape = etapeEnCours(historique);
-  return { historique: [...historique, { type: 'redemande', action, moment: etape ? etape.moment : MOMENTS.length - 1 }] };
+  // Un autre clic pendant une redemande la retire : le premier raccourci reste comme il était.
+  const enCours = redemandeEnCours(historique);
+  const base = historique.filter((e) => e !== enCours);
+  if (!reglages(base)[action]) return { erreur: 'Rien a redemander.' };
+  const etape = etapeEnCours(base);
+  return { historique: [...base, { type: 'redemande', action, moment: etape ? etape.moment : MOMENTS.length - 1 }] };
 }
 
 // La réponse à un raccourci redemandé porte la marque redemande : elle ne fait pas avancer la partie.
