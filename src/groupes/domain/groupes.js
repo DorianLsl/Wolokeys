@@ -39,10 +39,16 @@ export function groupePropose(historique, selection) {
   const maintenue = touchePourCreer(historique);
   const sien = CHIFFRES.find((c) => groupes[c] === selection);
   if (sien) return { chiffre: sien, creer: false, maintenue };
+  const libre = chiffreLibreLePlusProche(groupes, voisinDe(historique, selection) || NUMEROS[selection]);
+  return libre ? { chiffre: libre, creer: true, maintenue } : null;
+}
+
+// Le dernier groupe du bloc qui contient encore sa sélection ; null si le bloc est vide.
+export function voisinDe(historique, selection) {
+  const groupes = groupesDe(historique);
   const bloc = BLOCS.find((b) => b.includes(selection));
   const voisin = evenements(historique).reverse().find((e) => bloc.includes(e.selection) && groupes[e.chiffre] === e.selection);
-  const libre = chiffreLibreLePlusProche(groupes, voisin ? voisin.chiffre : NUMEROS[selection]);
-  return libre ? { chiffre: libre, creer: true, maintenue } : null;
+  return voisin ? voisin.chiffre : null;
 }
 
 // À égale distance, le chiffre au-dessus d'abord.
