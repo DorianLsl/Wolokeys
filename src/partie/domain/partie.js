@@ -31,7 +31,7 @@ export function redemander(historique, action) {
 // La réponse à un raccourci redemandé porte la marque redemande : elle ne fait pas avancer la partie.
 function redemandeEnCours(historique) {
   const i = historique.map((e) => e.type).lastIndexOf('redemande');
-  return i >= 0 && !historique.slice(i).some((e) => e.type === 'reponse' && e.redemande) ? historique[i].action : null;
+  return i >= 0 && !historique.slice(i).some((e) => e.type === 'reponse' && e.redemande) ? historique[i] : null;
 }
 
 export function raccourcisRegles(historique) {
@@ -69,7 +69,7 @@ export function etapeEnCours(historique) {
   const regles = reglages(historique);
   const repere = [...historique].reverse().find((e) => (e.type === 'reponse' && !e.redemande) || e.type === 'redemande');
   const redemandee = redemandeEnCours(historique);
-  if (redemandee) return { type: 'action', moment: repere.moment, action: redemandee, redemande: true };
+  if (redemandee) return { type: 'action', moment: redemandee.moment, action: redemandee.action, redemande: true };
   const perdue = actionPerdue(historique);
   if (perdue) return { type: 'action', moment: repere.moment, action: perdue };
   for (let moment = premierMoment(repere); moment < MOMENTS.length; moment++) {
