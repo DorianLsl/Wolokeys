@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { geste, touchesEntourees, deplacements } from './interface.js';
+import { geste, touchesEntourees, deplacements, conflits } from './interface.js';
 import { choisir, etapeEnCours, basculerEntrainement } from '../../partie/domain/partie.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
 
@@ -40,6 +40,14 @@ test('V9 : sur la manette, le doigt qui quitte sa touche de reference annonce la
   assert.deepEqual(deplacements(h, touche('G')), { index: 'G' });
   assert.deepEqual(deplacements(h, touche('F', 'Mouse 5')), { 'pouce droit': 'Mouse 5' });
   assert.deepEqual(deplacements([], touche('Q')), {}, 'pendant la posture');
+});
+
+test('P1 v2 : les touches qu une autre action tient deja, ou un groupe d une autre selection, sont en conflit', () => {
+  const h = poser();
+  assert.deepEqual(conflits([]), [], 'pendant la posture');
+  assert.deepEqual(conflits(jusqua(choisir(h, 'Mouse 4 + F').historique, 'scout')), ['Mouse 4']);
+  const surCasernes = conflits(jusqua(accepter(h, suggestions(h)[3]).historique, 'allBarracks'));
+  assert.ok(surCasernes.includes('5') && !surCasernes.includes('6'), surCasernes.join());
 });
 
 function jouee(h) {

@@ -7,11 +7,11 @@
   <style>
     :root {
       --fond: #f6f4ef; --carte: #ffffff; --texte: #1f1d1a; --discret: #625c52; --trait: #cdc6b8; --touche: #e8e3d9; --grille: #dde5d6;
-      --accent: #8a5a00; --geste: #1f62c4; --sur-geste: #ffffff; --erreur: #a12a1a;
+      --accent: #8a5a00; --geste: #1f62c4; --sur-geste: #ffffff; --conflit: #b0172f; --sur-conflit: #ffffff; --erreur: #a12a1a;
     }
     @media (prefers-color-scheme: dark) {
       :root { --fond: #1b1a18; --carte: #24221f; --texte: #ece8e0; --discret: #a59e91; --trait: #45413b; --touche: #2e2b27; --grille: #26301f;
-        --accent: #e0a940; --geste: #6aa6ff; --sur-geste: #10131a; --erreur: #ff8a75; }
+        --accent: #e0a940; --geste: #6aa6ff; --sur-geste: #10131a; --conflit: #e04a62; --sur-conflit: #14060a; --erreur: #ff8a75; }
     }
     body { background: var(--fond); color: var(--texte); font: 17px/1.45 system-ui, sans-serif; margin: 0 auto; max-width: 46rem; padding: 1.5rem 1rem 3rem; }
     h1 { font-size: 1.3rem; margin: 0; }
@@ -67,6 +67,8 @@
     .touche.grille { background: var(--grille); }
     .touche.reservee { background: transparent; border-style: dashed; color: var(--discret); font-weight: 500; }
     .touche.repos { box-shadow: 0 0 0 2px var(--fond), 0 0 0 4px var(--texte); }
+    .touche.conflit { background: var(--conflit); border-color: var(--conflit); border-style: solid; color: var(--sur-conflit); }
+    .touche.conflit .icones { color: inherit; }
     .icones { display: flex; gap: 1px; color: var(--discret); }
     .icones .ic { width: .85rem; height: .85rem; }
     .doigt { position: absolute; bottom: 1px; right: 2px; font: 700 .55rem system-ui, sans-serif; font-style: normal; background: var(--texte); color: var(--fond); border-radius: 999px; padding: 0 3px; }

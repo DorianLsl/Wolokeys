@@ -9,7 +9,7 @@ import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement/dom
 import { afficherSequence } from './entrainement/ui/entrainement.js';
 import { recapitulatif } from './recapitulatif/domain/recapitulatif.js';
 import { afficherRecapitulatif } from './recapitulatif/ui/recapitulatif.js';
-import { geste, touchesEntourees, deplacements } from './interface/domain/interface.js';
+import { geste, touchesEntourees, deplacements, conflits } from './interface/domain/interface.js';
 import { afficherIcone, afficherCarte } from './interface/ui/carte.js';
 import { afficherClavier } from './interface/ui/clavier.js';
 import { afficherManette } from './interface/ui/manette.js';
@@ -51,7 +51,7 @@ function afficher() {
     choisie = i;
     afficher();
   });
-  afficherClavier(historique, g, entourees);
+  afficherClavier(historique, g, entourees, conflits(historique));
   afficherManette(historique, g, entourees, deplacements(historique, g));
   document.getElementById('message').textContent = message;
 }

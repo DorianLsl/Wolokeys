@@ -37,17 +37,17 @@ function construire() {
   }
 }
 
-// Vue main posée (V9) : touches de référence, grille du jeu, raccourcis réglés, geste animé, touches entourées (V18).
-export function afficherClavier(historique, g, entourees) {
+// Vue main posée (V9) : touches de référence, grille du jeu, raccourcis réglés, conflits, geste animé, touches entourées (V18).
+export function afficherClavier(historique, g, entourees, enConflit) {
   if (!Object.keys(touches).length) construire();
   const doigts = Object.fromEntries(Object.entries(postureDe(historique)).map(([d, t]) => [t, d]));
   const parTouche = actionsParTouche(historique);
   for (const t of TOUCHES) {
     const sur = parTouche[t.id] || [];
     const doigt = doigts[t.id];
-    touches[t.id].className = ['touche', t.id.length > 2 && 'longue', t.grille && 'grille', t.reservee && 'reservee', doigt && 'repos',
+    touches[t.id].className = ['touche', t.id.length > 2 && 'longue', t.grille && 'grille', t.reservee && 'reservee', doigt && 'repos', enConflit.includes(t.id) && 'conflit',
       classeDuGeste(g, t.id), entourees.includes(t.id) && 'entouree'].filter(Boolean).join(' ');
-    touches[t.id].title = [doigt, ...sur.map((s) => s.titre), t.grille && 'Grille du jeu', t.reservee].filter(Boolean).join(' · ');
+    touches[t.id].title = [doigt, ...sur.map((s) => s.titre), t.grille && 'Grille du jeu', t.reservee, enConflit.includes(t.id) && 'Conflit'].filter(Boolean).join(' · ');
     touches[t.id].innerHTML = `<span>${echapper(t.id)}</span>${sur.length ? `<span class="icones">${sur.slice(0, 2).map((s) => s.icone).join('')}</span>` : ''}`
       + `${doigt ? `<i class="doigt">${ABREGES[doigt]}</i>` : ''}`;
   }
