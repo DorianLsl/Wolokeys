@@ -235,3 +235,9 @@ test('V27 : cliquer un autre raccourci pendant une redemande laisse le premier c
   const autre = redemander(redemander(fin, 'scout').historique, 'monk').historique;
   assert.deepEqual([etapeEnCours(autre).action, reglages(autre).scout], ['monk', reglages(fin).scout]);
 });
+
+test('V9 : chaque situation fait 8 mots au plus', () => {
+  for (const { situation } of MOMENTS) {
+    assert.ok(situation.split(' ').filter((m) => /[\p{L}\p{N}]/u.test(m)).length <= 8, `trop long : ${situation}`);
+  }
+});
