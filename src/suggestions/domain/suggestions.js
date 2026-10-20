@@ -1,9 +1,9 @@
 import { TOUCHES, lireRaccourci } from '../../clavier/domain/touches.js';
 import { MAINTENABLES, MAINTENABLES_GRILLE, mecaniqueDe } from '../../clavier/domain/raccourcis.js';
 import { postureDe } from '../../posture/domain/posture.js';
-import { groupePropose } from '../../groupes/domain/groupes.js';
+import { groupePropose, voisinDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS } from '../../partie/domain/donnees.js';
-import { etapeEnCours, choisir, raccourcisRegles } from '../../partie/domain/partie.js';
+import { etapeEnCours, choisir, raccourcisRegles, reglages } from '../../partie/domain/partie.js';
 import { atteinte, effortDe } from './effort.js';
 
 // Départage, de la plus simple à la plus composée.
@@ -11,6 +11,8 @@ const MECANIQUES = ['seule', 'double', ...MAINTENABLES];
 const DOIGTS = ['index', 'majeur', 'annulaire', 'auriculaire', 'pouce', 'pouce droit'];
 // Les touches sous 1, 2, 3, 4, comme les groupes de l'armée chez les joueurs reconnus (V25).
 const ROLES = { infanterie: 'A', distance: 'Z', cavalerie: 'E', 'siège': 'R' };
+const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran': "tous à l'écran" };
+const DOMAINES = { 'économie': "de l'économie", militaire: 'du militaire' };
 
 // Toutes calculées (V20), chacune avec ses familles (V11) et sa proposition, faite sans être imposée.
 const LOGIQUES = {
@@ -37,7 +39,7 @@ export function suggestions(historique) {
   if (!etape || etape.type !== 'action') return [];
   const a = ACTIONS[etape.action];
   const groupe = a.rappelable ? groupeNote(historique, a.selection) : null;
-  const avecGroupe = groupe ? [{ groupe, etoiles: groupe.etoiles }] : [];
+  const avecGroupe = groupe ? [{ groupe, etoiles: groupe.etoiles, logique: logiqueDuGroupe(historique, a.selection, groupe) }] : [];
   if (a.seulementGroupe) return avecGroupe;
   const raccourcis = raccourcisProposes(historique, etape.action);
   return a.groupeDabord ? [...avecGroupe, ...raccourcis] : [...raccourcis, ...avecGroupe];
@@ -52,7 +54,43 @@ function raccourcisProposes(historique, action) {
   const premiersParMecanique = tries.filter((c, i) => tries.findIndex((d) => d.mecanique === c.mecanique) === i);
   const choisis = [...new Set([habituelle || tries[0], ...autres, ...premiersParMecanique].filter(Boolean))].slice(0, 3);
   const proposees = [habituelle, ...autres];
-  return choisis.map((c) => ({ ...c, logiques: noms.filter((nom, i) => proposees[i] === c) }));
+  return choisis.map((c) => {
+    const avecLogiques = { ...c, logiques: noms.filter((nom, i) => proposees[i] === c) };
+    return { ...avecLogiques, logique: logiqueDe(contexte, avecLogiques) };
+  });
+}
+
+// V18 : la logique qui propose la suggestion, sinon ce qui la rend intuitive, avec l'action qui l'inspire.
+function logiqueDe({ historique, action, regles, logiques }, c) {
+  const a = ACTIONS[action];
+  const sans = (texte) => ({ texte, action: null });
+  const memeTouche = c.criteres.element && Object.keys(regles)
+    .find((x) => x !== action && elementDe(x) === elementDe(action) && touche(regles[x]) === touche(c.raccourci));
+  if (c.logiques.includes('role')) return sans(`Rôle ${a.role} sur ${touche(c.raccourci)}${c.logiques.includes('verbe') ? `, habitude ${c.mecanique}` : ''}`);
+  if (c.logiques.includes('verbe') && !memeTouche) return sans(`Habitude : ${c.mecanique} pour « ${VERBES[a.verbe]} »`);
+  if (c.logiques.includes('domaine')) return sans(`Touche ${DOMAINES[a.domaine]} : ${c.mecanique}`);
+  if (memeTouche) return { texte: `Même touche que ${ACTIONS[memeTouche].court}`, action: memeTouche };
+  const memeGeste = c.criteres.famille && modelesDe(regles, logiques, action, c.mecanique).find((t) => t && mecaniqueDe(regles[t]) === c.mecanique);
+  if (memeGeste) return { texte: `Même geste que ${ACTIONS[memeGeste].court}`, action: memeGeste };
+  if (c.criteres.grille) return sans(`Même place que dans la grille : ${a.place}`);
+  return sans(mouvement(postureDe(historique), c));
+}
+
+// Le doigt qui bouge le plus dit l'effort.
+function mouvement(posture, c) {
+  if (c.effort === 0) return 'Aucun doigt ne bouge';
+  const lu = lireRaccourci(c.raccourci);
+  const { doigt } = [lu.maintenue, lu.touche].filter(Boolean).map((t) => atteinte(posture, t)).reduce((p, q) => (q.effort > p.effort ? q : p));
+  return `${doigt[0].toUpperCase()}${doigt.slice(1)} ${c.effort <= 1.5 ? "bouge d'une touche" : "s'étire"}`;
+}
+
+// V19 : son groupe, à côté du dernier groupe de son bloc, ou au numéro habituel.
+function logiqueDuGroupe(historique, selection, groupe) {
+  if (!groupe.creer) return { texte: `Ton groupe ${groupe.chiffre}`, action: null };
+  const voisin = voisinDe(historique, selection);
+  if (!voisin) return { texte: 'Numéro habituel', action: null };
+  const regles = reglages(historique);
+  return { texte: `À côté de ton groupe ${voisin}`, action: Object.keys(regles).find((x) => regles[x].chiffre === voisin) || null };
 }
 
 // V24 : prochain sur la touche de référence du pouce droit, tous sur la carte sur l'autre bouton, tous à l'écran sur Alt.

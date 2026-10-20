@@ -163,3 +163,23 @@ test('V20 : si aucune logique ne tient, la logique par verbe reste, et les sugge
   assert.deepEqual(logiquesPossibles(surInactif), ['verbe']);
   assert.ok(raccourcis(jusqua(surInactif, 'idleAll')).length > 0);
 });
+
+test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l inspire', () => {
+  const logiques = (h) => suggestions(h).map((s) => [s.raccourci || `groupe ${s.groupe.chiffre}`, s.logique.texte, s.logique.action]);
+  assert.deepEqual(logiques(poser()), [
+    ['Mouse 4 + F', 'Habitude : Mouse 4 pour « prochain »', null],
+    ['G', "Index bouge d'une touche", null],
+    ['Mouse 5 + F', "Pouce droit bouge d'une touche", null],
+    ['groupe 5', 'Numéro habituel', null],
+  ]);
+  const centreVille = choisir(poser(), 'Mouse 4 + F').historique;
+  assert.deepEqual(logiques(jusqua(centreVille, 'scout')), [
+    ['Mouse 4 + D', 'Même geste que Centre-ville', 'selectTc'],
+    ['Mouse 4 + E', 'Rôle cavalerie sur E', null],
+    ['Mouse 5 + D', 'Touche du militaire : Mouse 5', null],
+  ]);
+  const surInactifs = jusqua(centreVille, 'idleAll');
+  assert.deepEqual(logiques(surInactifs)[0], ['Mouse 5 + S', 'Même touche que Inactif', 'idle']);
+  assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
+  assert.deepEqual(logiques(choisir(poser(), 'Ctrl + 5').historique)[3], ['groupe 5', 'Ton groupe 5', null]);
+});
