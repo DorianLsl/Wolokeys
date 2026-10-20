@@ -183,3 +183,8 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
   assert.deepEqual(logiques(choisir(poser(), 'Ctrl + 5').historique)[3], ['groupe 5', 'Ton groupe 5', null]);
 });
+
+test('V9 : le groupe propose a ses criteres, seuls les doigts comptent', () => {
+  const surCasernes = suggestions(jusqua(parGroupe(poser()), 'allBarracks'))[0];
+  assert.deepEqual(surCasernes.criteres, { grille: null, famille: null, doigts: false, element: null });
+});

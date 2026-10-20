@@ -52,6 +52,10 @@
     .logique kbd { font-size: .75rem; padding: 0 4px; }
     .grande .logique { font-size: 1rem; color: var(--texte); }
     .grande .logique kbd { font-size: .85rem; }
+    .criteres { display: flex; flex-wrap: wrap; gap: .3rem .8rem; font-size: .8rem; }
+    .criteres span:not(.manque) { color: var(--accent); }
+    .criteres .sans-objet { opacity: .6; }
+    .criteres .manque { color: var(--discret); text-decoration: line-through; }
     .outils { display: flex; gap: .5rem; flex-wrap: wrap; }
     .outils button { padding: .35rem 1rem; }
     #message { min-height: 1.5em; }

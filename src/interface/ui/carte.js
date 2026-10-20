@@ -16,6 +16,15 @@ function logiqueHtml(logique, regles) {
   return `<span class="logique">${logique.action ? icone(logique.action) : ''}${echapper(logique.texte)}${r && r.raccourci ? ` : ${touchesHtml(lireRaccourci(r.raccourci))}` : ''}</span>`;
 }
 
+const CRITERES = { grille: 'Place de la grille', famille: 'Geste de la famille', doigts: 'Doigts immobiles', element: "Touche de l'élément" };
+
+// Les quatre critères des étoiles (V9) : rempli, sans objet (compté comme rempli) ou manqué.
+function criteresHtml(criteres) {
+  const critere = (k) => (criteres[k] === false ? `<span class="manque" title="manque">✗ ${CRITERES[k]}</span>`
+    : `<span class="${criteres[k] === null ? 'sans-objet' : ''}" title="${criteres[k] === null ? 'sans objet, compte comme rempli' : 'rempli'}">★ ${CRITERES[k]}</span>`);
+  return `<span class="criteres">${Object.keys(CRITERES).map(critere).join('')}</span>`;
+}
+
 // La suggestion choisie en grande carte (V18), les autres en petit dessous ; un clic en choisit une (V12).
 export function afficherCarte(historique, liste, choisie, surClic) {
   const regles = reglages(historique);
@@ -25,7 +34,8 @@ export function afficherCarte(historique, liste, choisie, surClic) {
     bouton.className = i === choisie ? 'suggestion grande' : 'suggestion';
     bouton.setAttribute('aria-pressed', String(i === choisie));
     bouton.innerHTML = `<span class="touches">${s.raccourci ? touchesHtml(lireRaccourci(s.raccourci)) : groupeHtml(s.groupe)}`
-      + `<span class="etoiles" aria-label="${s.etoiles} sur 4">${'★'.repeat(s.etoiles)}${'☆'.repeat(4 - s.etoiles)}</span></span>${logiqueHtml(s.logique, regles)}`;
+      + `<span class="etoiles" aria-label="${s.etoiles} sur 4">${'★'.repeat(s.etoiles)}${'☆'.repeat(4 - s.etoiles)}</span></span>${logiqueHtml(s.logique, regles)}`
+      + `${i === choisie ? criteresHtml(s.criteres) : ''}`;
     bouton.addEventListener('click', () => surClic(i));
     return bouton;
   });

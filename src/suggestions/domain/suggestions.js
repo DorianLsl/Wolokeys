@@ -119,8 +119,8 @@ function toucheReserveeAuDomaine({ action, regles, logiques }, tries) {
 function suggestionDeGroupe(historique, selection) {
   const groupe = groupePropose(historique, selection);
   if (!groupe) return null;
-  const doigts = effortDe(postureDe(historique), groupe.chiffre) === 0;
-  return { groupe, etoiles: etoiles({ grille: null, famille: null, doigts, element: null }), logique: logiqueDuGroupe(historique, selection, groupe) };
+  const criteres = { grille: null, famille: null, doigts: effortDe(postureDe(historique), groupe.chiffre) === 0, element: null };
+  return { groupe, criteres, etoiles: etoiles(criteres), logique: logiqueDuGroupe(historique, selection, groupe) };
 }
 
 // Le double appui n'est suggéré qu'en dernier recours, sauf l'alerte sur la touche de la caméra (V7, V10).
