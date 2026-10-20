@@ -93,6 +93,14 @@
     @media (prefers-reduced-motion: reduce) { .tape, .tape2 { animation: none; } }
     .entouree { outline: 2px dashed var(--texte); outline-offset: 4px; }
 
+    .recap ul { list-style: none; padding: 0; margin: 0; }
+    .recap li > * { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .5rem; width: 100%;
+      padding: .3rem 0; border: 0; border-bottom: 1px solid var(--trait); background: none; text-align: left; }
+    .recap button:hover { background: var(--touche); }
+    .valeur { display: inline-flex; align-items: center; gap: 3px; }
+    .etat { color: var(--discret); }
+    #score { color: var(--accent); margin-left: .5rem; }
+
     body[data-vue="manette"] #clavier, body:not([data-vue="manette"]) #manette,
     body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant,
     body[data-etape="posture"] .jeu, body[data-etape="fin"] .jeu, body[data-etape="posture"] .recap,
@@ -163,7 +171,7 @@
   </section>
   <ul id="posture"></ul>
   <section class="recap">
-    <h2>Tes raccourcis</h2>
+    <h2>Tes raccourcis <span id="score"></span></h2>
     <h3>Partie optimisée</h3>
     <ul id="optimisee"></ul>
     <h3>Extras</h3>
