@@ -2,6 +2,31 @@
 
 La plus récente en haut.
 
+## 2026-10-20 — V8 et V26 reformulées, prochain militaire inactif
+Validé par le porteur : V26 décrit le comportement gardé (concepts suivant
+les mêmes logiques que les éléments, Échap + touche et touches F en dernier
+recours) ; « Prochain militaire inactif » s'ajoute en extra, à 9:30 juste
+avant « Militaires inactifs », sur la même touche ; V8 parle des unités
+inactives, villageois et militaires.
+
+## 2026-10-20 — Réponses du porteur aux questions des revues
+Le comportement du prototype est gardé : les concepts suivent les mêmes
+logiques que les éléments, Échap + touche et les touches F en dernier recours
+(V26 à reformuler) ; 3 raccourcis plus le groupe de contrôle ; « inactifs » a
+sa touche partagée par « prochain » et « tous » ; la touche d'un rôle reste
+réservée, même prise par un autre élément, et la logique par rôle n'est jamais
+écartée. L'homme d'armes passe sur Z, dans la grille de la caserne. Précision
+du porteur : le villageois est une unité économique, et « prochain » existe
+aussi pour les militaires inactifs.
+
+## 2026-10-20 — La tranche interface affiche la carte, le clavier, la manette et le récapitulatif
+Les icônes ne servent qu'à l'interface : la grande carte des suggestions, le
+clavier dessiné, la manette et le récapitulatif s'affichent dans la tranche
+interface, qui lit le domaine des autres tranches ; les anciens affichages des
+suggestions et du récapitulatif sont retirés.
+Pendant un raccourci redemandé, un clic sur un autre raccourci de la liste
+laisse le premier tel qu'il était (V27, sans perdre le reste de la partie).
+
 ## 2026-10-19 — Groupes de contrôle : la partie aiguille, la tranche groupes calcule
 La sélection actuelle dépend de l'étape en cours : elle reste dans la tranche
 partie, qui aiguille touche maintenue + chiffre vers la tranche groupes et

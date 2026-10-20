@@ -255,25 +255,23 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Phase 2, automatisme arrêté par le porteur le 2026-10-19. #2 à #8 faits, revus
-et poussés. #9 (récapitulatif, redemander) fait et vérifié dans un navigateur
-sans écran, mais sa revue a été interrompue : à relancer avant de pousser.
-Puis #10 (interface visuelle : icônes du prototype, clavier dessiné, manette,
-grande carte, logique visible de chaque suggestion).
+Phase 2, 2026-10-20. #2 à #8 poussés. #9 revu (un défaut corrigé : un autre
+clic pendant une redemande effaçait le premier raccourci) et #10 fait (logique
+de chaque suggestion, icônes, vues main posée et manette, grande carte,
+touches entourées, geste animé), vérifiés dans un navigateur sans écran ; pas
+encore poussés. Tous les tickets #2 à #10 sont faits : reste la v1 à faire
+tester au porteur. Depuis : V8 et V26 reformulées, « Prochain militaire
+inactif » ajouté (25 raccourcis ; le moine passe sur Mouse 4 + Espace),
+homme d'armes sur Z.
+Repris ensuite du prototype, à la demande du porteur : couleur des conflits sur
+le clavier, critères des étoiles sous la grande carte, icônes, étoiles et
+score du récapitulatif, « de l'armée / des bâtiments » après « Numéro
+habituel ».
 
-## Questions pour le porteur (relevées par les revues)
-1. V26 : les concepts (inactif, tous les bâtiments militaires, annuler) vont-ils
-   d'abord sur Échap + touche ou Ctrl/Maj + Espace ? Le prototype les traitait
-   en dernier recours, comme les touches F.
-2. Trois raccourcis plus le groupe de contrôle s'affichent (4 suggestions),
-   comme dans le prototype : garder ?
-3. « Inactifs » est traité comme un élément partagé par Prochain inactif et
-   Tous les inactifs (étoile « même touche ») alors que le glossaire en fait un
-   concept : garder ?
-4. V25 : la touche d'un rôle (A, Z, E, R) reste réservée et proposée même si
-   un autre élément la tient déjà (ex. centre-ville sur Mouse 4 + A) : garder ?
-5. V20 : la logique par rôle n'est jamais écartée par les choix ; sinon le
-   moine passerait de Mouse 4 + Q à Mouse 4 + A. Garder la réservation
-   permanente du prototype ?
-6. L'homme d'armes se lance par Maj + B dans le prototype (« 5 hommes d'armes ») ;
-   B n'est pas dans la grille du jeu. Quelle touche de la caserne ?
+## Réponses du porteur (questions des revues, phase 2)
+- 1 à 5 : oui, le comportement du prototype est gardé (concepts, 4
+  suggestions, « inactifs » sur une touche partagée, touche du rôle réservée,
+  logique par rôle jamais écartée).
+- 3 : le villageois peut être considéré comme une unité économique ; on peut
+  aussi faire « suivant » sur une unité militaire inactive.
+- 6 : homme d'armes sur Z (Maj + Z, file de 5).
