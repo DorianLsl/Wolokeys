@@ -102,7 +102,13 @@ _Éviter_ : mêlée
 
 **Concept** :
 Ce que vise une action quand ce n'est pas un élément : un état (inactif), un
-ensemble (tous les bâtiments militaires) ou un ordre (annuler).
+ensemble (tous les bâtiments militaires) ou un ordre (annuler). Un concept peut
+avoir sa touche, comme un élément.
+
+**Inactifs** :
+Unités qui ne font rien : les villageois, unités économiques, ou les
+militaires ; dans le jeu, chacun a « prochain » et « tous ». Les villageois
+inactifs ont une touche partagée par « prochain » et « tous ».
 
 **Verbe** :
 Ce que fait une action sur ce qu'elle vise : prochain, tous sur la carte, tous
