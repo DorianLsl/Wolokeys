@@ -155,11 +155,14 @@ function critereElement(regles, action, raccourci) {
 // L'alerte en double appui sur la touche de la caméra suit la famille caméra (V7).
 function critereFamille(regles, logiques, action, raccourci, alerteSurCamera) {
   const m = mecaniqueDe(raccourci);
-  const famille = (l) => familleDe(l, action);
-  const modeles = logiques.filter((l) => !prisesAilleurs(regles, l, famille(l)).includes(m)).map((l) => modeleDe(regles, l, famille(l)));
+  const modeles = modelesDe(regles, logiques, action, m);
   if (modeles.some((t) => t && (mecaniqueDe(regles[t]) === m || alerteSurCamera))) return true;
   return modeles.some((t) => !t) ? null : false;
 }
+
+// Dans chaque logique où la mécanique est libre, l'action qui fixe celle de la famille ; undefined si aucune n'est réglée.
+const modelesDe = (regles, logiques, action, m) => logiques.filter((l) => !prisesAilleurs(regles, l, familleDe(l, action)).includes(m))
+  .map((l) => modeleDe(regles, l, familleDe(l, action)));
 
 // Un groupe proposé se crée d'abord s'il n'existe pas, puis se rappelle par son chiffre.
 export function accepter(historique, suggestion) {
