@@ -44,9 +44,9 @@ quittent leur touche de référence.
   ouvriers se font en entraînement. L'alerte prend la touche de la caméra en
   double appui (Espace x2), seule exception au conflit entre touche seule et
   double appui.
-- V8. Chaque raccourci est classé « partie optimisée » ou « extra » ; les deux
-  actions sur les villageois inactifs sont des extras. Chaque étape porte son
-  étiquette, et le récapitulatif a deux tableaux.
+- V8. Chaque raccourci est classé « partie optimisée » ou « extra » ; les
+  actions sur les unités inactives (villageois et militaires) sont des extras.
+  Chaque étape porte son étiquette, et le récapitulatif a deux tableaux.
 - V9. Interface visuelle : icônes, situation en 8 mots au plus, étoiles
   d'intuitivité, geste suggéré animé, et deux vues au choix de
   l'utilisateur, « main posée » (clavier dessiné) et « manette », commutables
@@ -112,12 +112,12 @@ quittent leur touche de référence.
   Espace porte la base.
 - V26. Les concepts qui ne sont pas des éléments (états comme « inactif »,
   ensembles comme « tous les bâtiments militaires », ordres comme
-  « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace. La
-  priorité reste de peu bouger les doigts : les touches F1 à F12 (libres
-  dans le jeu) ne servent qu'en cas de gros manque d'intuitivité, par
-  exemple F1 villageois inactifs, F2 militaires inactifs, F3 bâtiments
-  militaires, F4 religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour
-  « tous ».
+  « annuler ») suivent les mêmes logiques que les éléments ; « inactifs » a
+  sa touche, partagée par « prochain » et « tous », comme un élément. Échap +
+  touche et les touches F1 à F12 (libres dans le jeu) ne servent qu'en
+  dernier recours, en cas de gros manque d'intuitivité, par exemple F1
+  villageois inactifs, F2 militaires inactifs, F3 bâtiments militaires, F4
+  religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour « tous ».
   *(P1 v13)*
 - V27. Un clic sur un raccourci de la liste le redemande tout de suite, sans
   perdre le reste de la partie ; Plus tard le laisse vide.
