@@ -55,7 +55,7 @@ export const ENCHAINEMENTS = {
   archers: { nom: '5 archers', selection: 'champs de tir', besoins: ['allRanges'], puis: ['Maj + A'] },
   rallyPoint: { nom: 'Point de ralliement', selection: 'bâtiments militaires', besoins: ['militaryBuildings'] },
   goArmy: { nom: "Envoyer l'infanterie", selection: 'infanterie', besoins: ['infantry'], allerRetour: true },
-  menAtArms: { nom: "5 hommes d'armes", selection: 'casernes', besoins: ['allBarracks'], puis: ['Maj + B'] },
+  menAtArms: { nom: "5 hommes d'armes", selection: 'casernes', besoins: ['allBarracks'], puis: ['Maj + Z'] },
   horsemen: { nom: '5 cavaliers', selection: 'écuries', besoins: ['allStables'], puis: ['Maj + A'] },
   tcsLoop: { nom: 'Relancer les centres-villes', selection: 'centres-villes', besoins: ['allTc'], puis: ['Maj + A'] },
   springalds: { nom: '5 espringales', selection: 'ateliers', besoins: ['allWorkshops'], puis: ['Maj + A'] },

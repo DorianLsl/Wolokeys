@@ -54,9 +54,10 @@ test('V7 : un aller-retour selectionne puis centre la camera ; par un groupe, de
   assert.deepEqual(sequenceDe(parGroupe), ['5', '5 x2']);
 });
 
-test('V13, V28 : Maj + touche d unite lance une file de 5 ; l archer et le moine sont sur A', () => {
+test('V13, V28 : Maj + touche d unite lance une file de 5 ; l archer et le moine sont sur A, l homme d armes sur Z', () => {
   const h = avecEntrainement();
   assert.deepEqual(sequenceDe(jusqua(h, 'spearmen')), ['6', 'Maj + A']);
+  assert.deepEqual(sequenceDe(jusqua(h, 'menAtArms')), ['6', 'Maj + Z']);
   assert.deepEqual(sequenceDe(jusqua(h, 'archers')), ['7', 'Maj + A']);
   assert.deepEqual(sequenceDe(jusqua(h, 'monks')), ['0', 'Maj + A']);
 });
