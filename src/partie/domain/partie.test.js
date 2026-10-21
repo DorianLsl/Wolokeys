@@ -56,6 +56,12 @@ test('V7 : l alerte prend la touche de la camera en double appui, seule exceptio
   assert.equal(choisir(cameraDouble, 'Espace').erreur, 'Espace deja pris : Camera.', 'seulement l alerte sur le double appui');
 });
 
+test('V7, V27 : la camera redemandee reprend sa touche, l alerte restant en double appui', () => {
+  const surAlerte = jusqua(choisir(jusqua(poser(), 'camera'), 'Espace').historique, 'alert');
+  const camera = redemander(choisir(surAlerte, 'Espace x2').historique, 'camera').historique;
+  assert.equal(raccourcisRegles(choisir(camera, 'Espace').historique).camera, 'Espace');
+});
+
 test('V10 : le second appui d un double appui remplace le choix du premier', () => {
   const surCamera = jusqua(poser(), 'camera');
   const premier = choisir(surCamera, 'Espace').historique;
