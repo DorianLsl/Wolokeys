@@ -1,7 +1,7 @@
 # aoe-keybinds
 
 ## Méthode de travail (sans attendre qu'on le demande) — détail : METHODE.md
-Phase en cours : **phase 1**.
+Phase en cours : **phase 2**.
 Phase 1 (Ponytail ultra) : /grilling sur les questions ouvertes avant chaque
 nouveau prototype ; /prototype (un fichier HTML, logique pure isolée, données
 fictives, le plus simple) ; avant de livrer : /ponytail-review, auto-test,

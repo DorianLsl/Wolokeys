@@ -15,10 +15,11 @@ pourront apparaître ou cohabiter.
   `Documents/My Games/Age of Empires IV/keyBindingProfiles` (porteur, Q7).
 
 ## État
-Phase 1. P1 v14 publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
+Phase 2 (2026-10-19), après l'audit de transition.
+Prototype de référence, P1 v14, publié au même lien : https://claude.ai/artifact/A8HcDtcjL1LRjykGCzSKA9
 (`prototypes/p1-pas-a-pas.html`). Partie générique jusqu'à l'âge IV, avec les
 conventions des joueurs reconnus : armée par rôle en groupes 1 à 3, siège 4,
-centres-villes 5, production 6 à 0 ; 20 raccourcis à régler, plus 16 étapes de
+centres-villes 5, production 6 à 0 ; 24 raccourcis à régler, plus 16 étapes de
 grille et 17 entraînements en mode entraînement. P1 v9 : logique de chaque
 suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 
@@ -254,4 +255,20 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-P1 v14 validé par le porteur : H1 à H7 et le clic dans la liste deviennent V20 à V27. Plus d'hypothèse ni de question ouverte. Suite : choisir entre un nouveau prototype et la transition vers la phase 2 (/ponytail-audit).
+Phase 2, 2026-10-21. Tickets #2 à #10 faits ; branche fusionnée dans `main`
+après une revue sur quatre axes avec vérification adverse (8 constats
+corrigés, dont la caméra redemandée qui ne pouvait plus reprendre Espace).
+Depuis #10 : V8 et V26 reformulées, « Prochain militaire inactif » ajouté
+(25 raccourcis ; le moine passe sur Mouse 4 + Espace), homme d'armes sur Z ;
+repris du prototype : couleur des conflits, critères des étoiles, icônes,
+étoiles et score du récapitulatif, bloc après « Numéro habituel ».
+Prochaine étape : le porteur teste la v1. Ensuite, d'après ses réponses :
+import et export du profil du jeu, QWERTY.
+
+## Réponses du porteur (questions des revues, phase 2)
+- 1 à 5 : oui, le comportement du prototype est gardé (concepts, 4
+  suggestions, « inactifs » sur une touche partagée, touche du rôle réservée,
+  logique par rôle jamais écartée).
+- 3 : le villageois peut être considéré comme une unité économique ; on peut
+  aussi faire « suivant » sur une unité militaire inactive.
+- 6 : homme d'armes sur Z (Maj + Z, file de 5).

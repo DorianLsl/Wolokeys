@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raccourcis AoE IV</title>
+  <style>
+    :root {
+      --fond: #f6f4ef; --carte: #ffffff; --texte: #1f1d1a; --discret: #625c52; --trait: #cdc6b8; --touche: #e8e3d9; --grille: #dde5d6;
+      --accent: #8a5a00; --geste: #1f62c4; --sur-geste: #ffffff; --conflit: #b0172f; --sur-conflit: #ffffff; --erreur: #a12a1a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --fond: #1b1a18; --carte: #24221f; --texte: #ece8e0; --discret: #a59e91; --trait: #45413b; --touche: #2e2b27; --grille: #26301f;
+        --accent: #e0a940; --geste: #6aa6ff; --sur-geste: #10131a; --conflit: #e04a62; --sur-conflit: #14060a; --erreur: #ff8a75; }
+    }
+    body { background: var(--fond); color: var(--texte); font: 17px/1.45 system-ui, sans-serif; margin: 0 auto; max-width: 46rem; padding: 1.5rem 1rem 3rem; }
+    h1 { font-size: 1.3rem; margin: 0; }
+    h2 { font-size: 1rem; margin: 0; }
+    p { margin: 0; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .ic { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; flex: none; }
+    .ic.grande { width: 3rem; height: 3rem; stroke-width: 1.6; }
+    kbd { font: 700 .95rem system-ui, sans-serif; display: inline-block; min-width: 1.8em; text-align: center; padding: 1px 6px;
+      background: var(--touche); border: 1px solid var(--trait); border-bottom-width: 3px; border-radius: 6px; white-space: nowrap; }
+    .lien { color: var(--discret); font-size: .85rem; }
+
+    .tete { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tete label { margin-left: auto; }
+    .vues { display: flex; border: 1px solid var(--trait); border-radius: 999px; overflow: hidden; }
+    .vues button { background: none; border: 0; padding: .3rem .8rem; display: flex; gap: .4rem; align-items: center; }
+    .vues button[aria-pressed="true"] { background: var(--texte); color: var(--fond); }
+
+    .scene { background: var(--carte); border: 1px solid var(--trait); border-radius: 12px; padding: 1rem; display: grid; gap: .8rem; }
+    .haut { display: flex; gap: .75rem; align-items: baseline; flex-wrap: wrap; color: var(--discret); }
+    #etiquette { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    .acte { display: flex; align-items: center; gap: .9rem; }
+    #action { font-size: 1.4rem; font-weight: 700; line-height: 1.15; }
+    #question { color: var(--discret); }
+    #sequence { display: flex; gap: .5rem; list-style: none; padding: 0; margin: 0; font-size: 1.4rem; font-weight: 700; }
+    #sequence .fait { opacity: .4; text-decoration: line-through; }
+    #suggestion { color: var(--accent); font-size: 2rem; font-weight: 700; }
+    #suggestions { display: grid; gap: .5rem; justify-items: start; }
+    .autres { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .suggestion { display: inline-grid; gap: 3px; justify-items: start; text-align: left; background: var(--carte); border: 2px solid var(--trait); border-radius: 10px; padding: .35rem .6rem; }
+    .suggestion:hover { background: var(--touche); }
+    .suggestion.grande { padding: .7rem 1.1rem; border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+    .suggestion.grande kbd { font-size: 1.3rem; }
+    .touches { display: inline-flex; align-items: center; gap: 4px; }
+    .etoiles { color: var(--accent); margin-left: .4rem; }
+    .logique { font-size: .8rem; color: var(--discret); display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    .logique kbd { font-size: .75rem; padding: 0 4px; }
+    .grande .logique { font-size: 1rem; color: var(--texte); }
+    .grande .logique kbd { font-size: .85rem; }
+    .criteres { display: flex; flex-wrap: wrap; gap: .3rem .8rem; font-size: .8rem; }
+    .criteres span:not(.manque) { color: var(--accent); }
+    .criteres .sans-objet { opacity: .6; }
+    .criteres .manque { color: var(--discret); text-decoration: line-through; }
+    .outils { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .outils button { padding: .35rem 1rem; }
+    #message { min-height: 1.5em; }
+    #message.erreur { color: var(--erreur); }
+
+    .mains { margin: 1rem 0; }
+    #clavier { --u: 2.9rem; display: grid; gap: 4px; overflow-x: auto; padding: 6px; }
+    .rangee { display: flex; gap: 4px; }
+    .touche { position: relative; flex: none; width: calc(var(--u) * var(--largeur) - 4px); height: calc(var(--u) * .95); background: var(--touche);
+      border: 1px solid var(--trait); border-bottom-width: 3px; border-radius: 6px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 1px; font-weight: 700; font-size: .9rem; line-height: 1.1; }
+    .touche.longue { font-size: .7rem; }
+    .touche.grille { background: var(--grille); }
+    .touche.reservee { background: transparent; border-style: dashed; color: var(--discret); font-weight: 500; }
+    .touche.repos { box-shadow: 0 0 0 2px var(--fond), 0 0 0 4px var(--texte); }
+    .touche.conflit { background: var(--conflit); border-color: var(--conflit); border-style: solid; color: var(--sur-conflit); }
+    .touche.conflit .icones { color: inherit; }
+    .icones { display: flex; gap: 1px; color: var(--discret); }
+    .icones .ic { width: .85rem; height: .85rem; }
+    .doigt { position: absolute; bottom: 1px; right: 2px; font: 700 .55rem system-ui, sans-serif; font-style: normal; background: var(--texte); color: var(--fond); border-radius: 999px; padding: 0 3px; }
+    #manette { position: relative; width: 100%; max-width: 34rem; aspect-ratio: 2.2 / 1; }
+    .souris { position: absolute; left: 77%; top: 10%; width: 18%; height: 82%; border: 2px solid var(--trait); border-radius: 46% 46% 50% 50%; }
+    .place { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 2px; }
+    .bouton { width: 4rem; aspect-ratio: 1; border-radius: 50%; background: var(--touche); border: 2px solid var(--trait); border-bottom-width: 5px;
+      display: grid; place-content: center; justify-items: center; line-height: 1.05; }
+    .bouton small { font-size: .6rem; color: var(--discret); }
+    .mouvement { font-size: .8rem; font-weight: 700; color: var(--geste); white-space: nowrap; }
+    :is(.touche, .bouton):is(.tape, .tape2, .tenue) { background: var(--geste); border-color: var(--geste); border-style: solid; color: var(--sur-geste); }
+    :is(.tape, .tape2, .tenue) :is(.icones, small) { color: inherit; }
+    .tenue { transform: translateY(2px); border-bottom-width: 1px; }
+    .tape { animation: tape 1.4s ease-in-out 3; }
+    .tape2 { animation: tape2 1.4s ease-in-out 3; }
+    @keyframes tape { 0%, 55%, 100% { transform: none; } 25% { transform: translateY(3px); } }
+    @keyframes tape2 { 0%, 50%, 100% { transform: none; } 12%, 32% { transform: translateY(3px); } 22% { transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .tape, .tape2 { animation: none; } }
+    .entouree { outline: 2px dashed var(--texte); outline-offset: 4px; }
+
+    .recap ul { list-style: none; padding: 0; margin: 0; }
+    .recap li > * { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .5rem; width: 100%;
+      padding: .3rem 0; border: 0; border-bottom: 1px solid var(--trait); background: none; text-align: left; }
+    .recap button:hover { background: var(--touche); }
+    .valeur { display: inline-flex; align-items: center; gap: 3px; }
+    .etat { color: var(--discret); }
+    #score { color: var(--accent); margin-left: .5rem; }
+
+    body[data-vue="manette"] #clavier, body:not([data-vue="manette"]) #manette,
+    body:not([data-etape="posture"]) .posture, body:not([data-etape="action"]) .partie, body[data-etape="fin"] #suivant,
+    body[data-etape="posture"] .jeu, body[data-etape="fin"] .jeu, body[data-etape="posture"] .recap,
+    body:not([data-etape="grille"]):not([data-etape="enchainement"]) .entrainement { display: none; }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tc" viewBox="0 0 24 24"><path d="M3 21V10h3V7h3v3h2V5h2v5h2V7h3v3h3v11Z"/><path d="M10 21v-4h4v4"/></symbol>
+  <symbol id="i-scout" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4Z"/><path d="M10 21h4"/></symbol>
+  <symbol id="i-idle" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4"/><path d="M16 3h5l-5 5h5"/></symbol>
+  <symbol id="i-idleAll" viewBox="0 0 24 24"><circle cx="6" cy="9" r="2.5"/><circle cx="13" cy="9" r="2.5"/><path d="M1 21v-3a5 5 0 0 1 10 0v3M8 21v-3a5 5 0 0 1 10 0v3"/><path d="M18 2h4l-4 4h4"/></symbol>
+  <symbol id="i-tcs" viewBox="0 0 24 24"><path d="M2 21v-8h2v-2h2v2h2v-2h2v10Z"/><path d="M12 21V9h2V7h2v2h2V7h2v2h2v12Z"/></symbol>
+  <symbol id="i-barracks" viewBox="0 0 24 24"><path d="m4 4 12 12M20 4 8 16"/><path d="m14 18 3 3M10 18l-3 3M17 15l3 3M7 15l-3 3"/></symbol>
+  <symbol id="i-range" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-stable" viewBox="0 0 24 24"><path d="M6 20v-9a6 6 0 0 1 12 0v9"/><path d="M4 20h4M16 20h4"/></symbol>
+  <symbol id="i-workshop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></symbol>
+  <symbol id="i-monastery" viewBox="0 0 24 24"><path d="M12 2v4M10 4h4"/><path d="M5 21V11l7-5 7 5v10Z"/><path d="M10 21v-5h4v5"/></symbol>
+  <symbol id="i-rally" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M8 20V4l8 3-8 3"/></symbol>
+  <symbol id="i-cancel" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/></symbol>
+  <symbol id="i-idleMil" viewBox="0 0 24 24"><path d="M10 4 3 7v5c0 4 3 7 7 8 4-1 7-4 7-8V7Z"/><path d="M17 2h5l-5 5h5"/></symbol>
+  <symbol id="i-monk" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="m6 21 2-9h8l2 9Z"/></symbol>
+  <symbol id="i-army" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 4 8 8 9 4-1 8-4 8-9V6Z"/></symbol>
+  <symbol id="i-siege" viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/><path d="M7 17 18 5M15 5h5v5"/></symbol>
+  <symbol id="i-villager" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-mining" viewBox="0 0 24 24"><path d="M3 8c5-5 13-5 18 0"/><path d="M12 5 7 21"/></symbol>
+  <symbol id="i-lumber" viewBox="0 0 24 24"><path d="M15 6 4 21"/><path d="M12 9c1-4 5-6 9-5-1 4-4 7-8 7"/></symbol>
+  <symbol id="i-mill" viewBox="0 0 24 24"><path d="M12 11 6 4M12 11l8-3M12 11l5 7M12 11l-8 3"/><path d="M10 21l2-10 2 10"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M7 21V9h10v12"/><path d="M5 9h14"/><path d="M12 9V3l5 2-5 2"/><path d="M10 21v-4h4v4"/></symbol>
+  <symbol id="i-farm" viewBox="0 0 24 24"><path d="M12 21V8"/><path d="M12 8C9 8 8 6 8 3c3 0 4 2 4 5Zm0 0c3 0 4-2 4-5-3 0-4 2-4 5Z"/><path d="M12 15c-3 0-4-2-4-4 3 0 4 2 4 4Zm0 0c3 0 4-2 4-4-3 0-4 2-4 4Z"/></symbol>
+  <symbol id="i-keep" viewBox="0 0 24 24"><path d="M5 21V8h3V5h3v3h2V5h3v3h3v13Z"/><path d="M10 21v-5h4v5"/></symbol>
+  <symbol id="i-university" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 10V3.5a1.5 1.5 0 0 1 3 0V10M14 10V5a1.5 1.5 0 0 1 3 0v7c0 5-3 9-7 9-3 0-5-2-6-4l-2-4a1.5 1.5 0 0 1 2.5-1.5L8 13"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-3 4 3 4H5"/></symbol>
+  <symbol id="i-pad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="14" r="1"/></symbol>
+  </svg>
+  <header class="tete">
+    <h1>Raccourcis AoE IV</h1>
+    <label><input type="checkbox" id="entrainement"> Entraînement</label>
+    <div class="vues" role="group" aria-label="Vue">
+      <button type="button" id="vue-main" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-hand"/></svg>Main posée</button>
+      <button type="button" id="vue-manette" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg>Manette</button>
+    </div>
+  </header>
+  <section class="scene">
+    <p class="haut"><span id="titre"></span><span class="jeu" id="etiquette"></span></p>
+    <div class="acte">
+      <span id="icone"></span>
+      <div><p class="jeu" id="action"></p><p id="question"></p></div>
+    </div>
+    <ol class="entrainement" id="sequence"></ol>
+    <div class="partie" id="suggestions"></div>
+    <p class="posture">Suggestion : <span id="suggestion"></span></p>
+    <p class="outils">
+      <button id="suivant" type="button">Suivant</button>
+      <button class="partie" id="plus-tard" type="button">Plus tard</button>
+      <button class="partie" id="ne-pas-utiliser" type="button">Ne pas utiliser</button>
+    </p>
+    <p id="message" role="status" aria-live="polite"></p>
+  </section>
+  <section class="mains">
+    <div id="clavier"></div>
+    <div id="manette"></div>
+  </section>
+  <ul id="posture"></ul>
+  <section class="recap">
+    <h2>Tes raccourcis <span id="score"></span></h2>
+    <h3>Partie optimisée</h3>
+    <ul id="optimisee"></ul>
+    <h3>Extras</h3>
+    <ul id="extras"></ul>
+  </section>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

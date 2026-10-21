@@ -22,31 +22,31 @@ quittent leur touche de référence.
 - V4. Mode grille uniquement dans la première version : les raccourcis de la
   grille du jeu sont fixes ; l'étape le dit et fait faire la séquence pour
   s'entraîner, le villageois étant considéré comme déjà sélectionné. Suivant
-  passe l'entraînement (grille et allers-retours) en faisant la séquence à la
+  passe l'entraînement (grille et enchaînements) en faisant la séquence à la
   place de l'utilisateur.
-- V5. Ignorer pour l'instant (Échap) n'est pas un refus et ne concerne que
+- V5. Plus tard (Échap) n'est pas un refus et ne concerne que
   les actions hors grille : l'action revient au prochain moment où la partie
   en a besoin, avec une suggestion recalculée à partir des raccourcis validés
-  entre-temps. Une action encore ignorée à la fin de l'âge apparaît « à
+  entre-temps. Une action encore en Plus tard à la fin de l'âge apparaît « à
   définir ».
   « Ne pas utiliser » n'assigne aucun raccourci : l'action et les
-  allers-retours qui en dépendent sont sautés, puis elle revient en extra au
-  rattrapage de fin de partie, avec une suggestion ; laissée de côté une
-  seconde fois, elle reste sans raccourci.
+  enchaînements qui en dépendent sont sautés, puis elle revient en extra au
+  rattrapage de fin de partie, avec une suggestion ; marquée Ne pas utiliser
+  une seconde fois, elle reste sans raccourci.
 - V6. Toutes les touches du clavier, plus Mouse 4 et Mouse 5, sont écoutées
   à chaque étape. La touche suggérée est acceptée, une autre devient le choix
   sauf conflit, et Retour arrière revient à l'étape précédente.
-- V7. Groupes de contrôle détectés automatiquement : modificateur + chiffre,
+- V7. Groupes de contrôle détectés automatiquement : touche maintenue + chiffre,
   à toute étape, met la sélection actuelle dans ce groupe. L'outil suit la
   sélection et les groupes, proposés en second choix. La caméra a toujours sa
-  propre touche, la touche de repos du pouce (Espace par défaut), en plus du
+  propre touche, la touche de référence du pouce (Espace par défaut), en plus du
   centrage par les groupes ; les allers-retours entre l'éclaireur et les
   ouvriers se font en entraînement. L'alerte prend la touche de la caméra en
   double appui (Espace x2), seule exception au conflit entre touche seule et
   double appui.
-- V8. Chaque raccourci est classé « partie optimisée » ou « extra » ; les deux
-  actions sur les villageois inactifs sont des extras. Chaque étape porte son
-  étiquette, et le récapitulatif a deux tableaux.
+- V8. Chaque raccourci est classé « partie optimisée » ou « extra » ; les
+  actions sur les unités inactives (villageois et militaires) sont des extras.
+  Chaque étape porte son étiquette, et le récapitulatif a deux tableaux.
 - V9. Interface visuelle : icônes, situation en 8 mots au plus, étoiles
   d'intuitivité, geste suggéré animé, et deux vues au choix de
   l'utilisateur, « main posée » (clavier dessiné) et « manette », commutables
@@ -57,7 +57,7 @@ quittent leur touche de référence.
   touche) et doubles appuis (deux appuis en moins de 0,4 seconde), acceptés
   par le menu du jeu d'après le porteur. La touche de création de groupe est
   celle utilisée pour le premier groupe. Une touche ne peut pas servir à la
-  fois seule et comme modificateur, ni seule et en double appui pour deux
+  fois seule et comme touche maintenue, ni seule et en double appui pour deux
   actions différentes. Un double appui, sur n'importe quelle touche, n'est
   suggéré qu'en dernier recours.
 - V11. Une famille d'actions (caméra ; sélectionner un élément ; sélectionner
@@ -86,7 +86,7 @@ quittent leur touche de référence.
 - V19. Les groupes de contrôle s'adaptent par bloc (armée, bâtiments) : au
   plus près du dernier groupe du bloc, sinon au numéro habituel.
   *(P1 v9)*
-- V20. Les logiques par concept et par domaine sont calculées toutes les deux ;
+- V20. Les logiques par verbe, par domaine et par rôle sont toutes calculées ;
   les étoiles les départagent et le premier choix de l'utilisateur fixe sa
   logique. La mécanique de la famille s'entend dans la logique choisie.
 - V21. Au premier raccourci économique, une touche maintenue réservée à
@@ -101,11 +101,10 @@ quittent leur touche de référence.
   chacune juste avant la création de son groupe : sélection sans souris,
   puis Ctrl + chiffre. L'infanterie va dans le groupe 1.
   *(P1 v11)*
-- V24. Une logique par verbe, analysée avec les autres : « prochain » sur le
-  bouton de repos du pouce droit (Mouse 4 par défaut), « tous sur la carte »
-  sur l'autre bouton, « tous à l'écran » sur Alt. Cette mécanique habituelle
-  est proposée d'abord au premier raccourci de chaque verbe, sans être
-  imposée.
+- V24. La logique par verbe a une mécanique habituelle : « prochain » sur la
+  touche de référence du pouce droit (Mouse 4 par défaut), « tous sur la
+  carte » sur l'autre bouton, « tous à l'écran » sur Alt. Elle est proposée
+  d'abord au premier raccourci de chaque verbe, sans être imposée.
   *(P1 v12)*
 - V25. Une logique par rôle, analysée avec les autres : A, Z, E, R (sous 1,
   2, 3, 4) portent l'infanterie, la distance, la cavalerie et le siège ;
@@ -113,16 +112,18 @@ quittent leur touche de référence.
   Espace porte la base.
 - V26. Les concepts qui ne sont pas des éléments (états comme « inactif »,
   ensembles comme « tous les bâtiments militaires », ordres comme
-  « annuler ») vont sur Échap + touche, ou sur Ctrl ou Maj + Espace. La
-  priorité reste de peu bouger les doigts : les touches F1 à F12 (libres
-  dans le jeu) ne servent qu'en cas de gros manque d'intuitivité, par
-  exemple F1 villageois inactifs, F2 militaires inactifs, F3 bâtiments
-  militaires, F4 religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour
-  « tous ».
+  « annuler ») suivent les mêmes logiques que les éléments ; « inactifs » a
+  sa touche, partagée par « prochain » et « tous », comme un élément. Échap +
+  touche et les touches F1 à F12 (libres dans le jeu) ne servent qu'en
+  dernier recours, en cas de gros manque d'intuitivité, par exemple F1
+  villageois inactifs, F2 militaires inactifs, F3 bâtiments militaires, F4
+  religieux, avec Mouse 4 pour « prochain » et Mouse 5 pour « tous ».
   *(P1 v13)*
 - V27. Un clic sur un raccourci de la liste le redemande tout de suite, sans
   perdre le reste de la partie ; Plus tard le laisse vide.
   *(P1 v14)*
+- V28. L'archer et le moine sont sur A dans la grille de leur bâtiment de
+  production. *(porteur, phase 2)*
 ## Rejeté
 ## Hypothèses en test
 ## Hors périmètre de la première version

@@ -602,8 +602,8 @@ function costOf(posture, value) {
 
 const keyed = (settled, id) => isShortcut(id) && !ACTIONS[id].grid && settled[id] && !groupDigit(settled[id]);
 
-// Deux logiques de familles, calculées toutes les deux (porteur) : par geste (caméra, un, tous) ou par domaine
-// (économie, militaire ; la caméra à part).
+// Logiques de familles, calculées toutes (porteur) : par geste (caméra, un, tous) ou par domaine (économie, militaire ;
+// la caméra à part). Les logiques par verbe (habitOf) et par rôle (ROLES) s'y ajoutent dans suggest.
 const LOGICS = { geste: (a) => a.verb, domaine: (a) => (a.verb === 'camera' ? 'camera' : a.domain) };
 const DOMAIN_NAMES = { eco: "de l'économie", mil: 'du militaire' };
 
