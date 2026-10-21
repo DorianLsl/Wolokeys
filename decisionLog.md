@@ -2,6 +2,14 @@
 
 La plus récente en haut.
 
+## 2026-10-21 — Wolokeys, licence MIT, déploiement Netlify
+Décidé par le porteur avant d'ouvrir le code : le projet s'appelle Wolokeys
+(clin d'œil discret à l'univers AoE) ; licence MIT ; recherche/ sort du dépôt
+et de son historique (captures de guides de tiers) ; main se déploie sur
+Netlify si les tests passent. Le code public ira dans un nouveau dépôt, avec
+des conventions de contribution à rédiger ; l'ancien reste privé, car la
+PR #1 y garde une copie de recherche/.
+
 ## 2026-10-21 — La v1 reprend le design du prototype
 Demande du porteur : la v1 suit l'interface du prototype P1 v14 (polices,
 palette, scène, cartes, outils, clavier cliquable, manette avec tiroir,
