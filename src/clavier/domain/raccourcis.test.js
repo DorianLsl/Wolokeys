@@ -53,6 +53,8 @@ test('mecanique : touche seule, double appui ou touche maintenue ; Echap puis un
 test('V10 : deux appuis sur la meme touche seule en moins de 0,4 seconde forment un double appui', () => {
   assert.ok(estDouble({ raccourci: 'Espace', temps: 1000 }, { raccourci: 'Espace', temps: 1399 }));
   assert.ok(!estDouble({ raccourci: 'Espace', temps: 1000 }, { raccourci: 'Espace', temps: 1400 }), '0,4 seconde pile');
+  assert.ok(!estDouble({ raccourci: 'Échap', temps: 1000 }, { raccourci: 'Échap', temps: 1100 }), 'deux Echap rapides : deux Plus tard');
+  assert.ok(estDouble({ raccourci: '5', temps: 1000 }, { raccourci: '5', temps: 1100 }), 'un groupe en double appui centre la camera');
   assert.ok(!estDouble({ raccourci: 'Espace', temps: 1000 }, { raccourci: 'G', temps: 1100 }), 'autre touche');
   assert.ok(!estDouble({ raccourci: 'Alt + G', temps: 1000 }, { raccourci: 'Alt + G', temps: 1100 }), 'combinaison');
   assert.ok(!estDouble(null, { raccourci: 'G', temps: 1100 }), 'premier appui');
