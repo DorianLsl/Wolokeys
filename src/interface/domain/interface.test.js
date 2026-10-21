@@ -39,6 +39,7 @@ test('V9 : sur la manette, le doigt qui quitte sa touche de reference annonce la
   assert.deepEqual(deplacements(h, touche('F', 'Mouse 4')), {});
   assert.deepEqual(deplacements(h, touche('G')), { index: 'G' });
   assert.deepEqual(deplacements(h, touche('F', 'Mouse 5')), { 'pouce droit': 'Mouse 5' });
+  assert.deepEqual(deplacements(h, touche('A', 'Maj')), { auriculaire: 'Maj + A' }, 'deux touches pour le meme doigt');
   assert.deepEqual(deplacements([], touche('Q')), {}, 'pendant la posture');
 });
 

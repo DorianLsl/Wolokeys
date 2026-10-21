@@ -31,12 +31,17 @@ export function touchesEntourees(historique, suggestion) {
   return [lu.maintenue, lu.touche].filter(Boolean);
 }
 
-// Manette : chaque doigt qui quitte sa touche de référence pour le geste, avec la touche visée.
+// Manette : chaque doigt qui quitte sa touche de référence pour le geste, avec la ou les touches visées.
 export function deplacements(historique, g) {
   if (etapePosture(historique) || !g) return {};
   const posture = postureDe(historique);
   const references = Object.values(posture);
-  return Object.fromEntries([g.maintenue, g.touche].filter((t) => t && !references.includes(t)).map((t) => [atteinte(posture, t).doigt, t]));
+  const vers = {};
+  for (const t of [g.maintenue, g.touche].filter((x) => x && !references.includes(x))) {
+    const { doigt } = atteinte(posture, t);
+    vers[doigt] = vers[doigt] ? `${vers[doigt]} + ${t}` : t;
+  }
+  return vers;
 }
 
 // Touches seules qu'une autre action tient déjà, ou chiffres d'un groupe qui ne contient pas la sélection de l'étape.
