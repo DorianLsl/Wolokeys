@@ -5,7 +5,8 @@ const MAINTENUES = { ctrlKey: 'Ctrl', shiftKey: 'Maj', altKey: 'Alt', metaKey: '
 const TYPES = { keydown: 'appui', keyup: 'relache', mousedown: 'bouton', mouseup: 'boutonRelache' };
 
 // Traduit les événements du navigateur pour le domaine, qui forme les raccourcis.
-export function ecouter({ surRaccourci, surRetour }) {
+// actif : la partie attend un appui ; sinon les touches restent au navigateur (Tab, raccourcis), sauf Retour arrière.
+export function ecouter({ surRaccourci, surRetour, actif }) {
   let etat = AUCUN_APPUI;
   const lire = (ev) => {
     const lu = lireAppui(etat, ev);
@@ -27,6 +28,7 @@ export function ecouter({ surRaccourci, surRetour }) {
         e.preventDefault();
         return;
       }
+      if (!actif()) return;
       const touche = toucheDuCode(e.code);
       // Une touche inconnue reste au navigateur : zoom, recherche, accessibilité.
       if (toucheDe(touche)) e.preventDefault();

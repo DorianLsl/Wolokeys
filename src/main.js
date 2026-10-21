@@ -92,7 +92,7 @@ scene.addEventListener('mouseover', (e) => {
 });
 scene.addEventListener('mouseleave', () => apercu([]));
 document.getElementById('entrainement').addEventListener('change', () => appliquer(basculerEntrainement(historique), false));
-const ecoute = ecouter({ surRaccourci: taper, surRetour: revenir });
+const ecoute = ecouter({ surRaccourci: taper, surRetour: revenir, actif: () => !!etapeEnCours(historique) });
 installerClavier(ecoute.cliquer);
 installerVues();
 afficher();
