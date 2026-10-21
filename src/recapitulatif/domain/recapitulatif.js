@@ -1,6 +1,6 @@
 import { ACTIONS, MOMENTS } from '../../partie/domain/donnees.js';
 import { etapeEnCours, reglages, estExtra, ageA } from '../../partie/domain/partie.js';
-import { criteres, criteresDuGroupe, etoiles } from '../../suggestions/domain/suggestions.js';
+import { criteres, criteresDuGroupe, etoiles, logiquesPossibles } from '../../suggestions/domain/suggestions.js';
 
 const AGES = ['I', 'II', 'III', 'IV'];
 // Les raccourcis à régler : la grille du jeu est fixe, elle n'y entre pas (V4).
@@ -9,8 +9,10 @@ const RACCOURCIS = Object.keys(ACTIONS).filter((id) => !ACTIONS[id].grille);
 // Deux tableaux, partie optimisée et extras (V8) ; chaque ligne dit son réglage et ses étoiles (V9), ou pourquoi elle n'en a pas.
 export function recapitulatif(historique) {
   const regles = reglages(historique);
+  // Les logiques encore possibles valent pour toute la partie : calculées une fois, pas une par ligne.
+  const logiques = logiquesPossibles(historique);
   const lignes = RACCOURCIS.map((action) => ({ action, nom: ACTIONS[action].nom, reglage: regles[action], etat: etatDe(historique, regles, action),
-    etoiles: etoilesDe(historique, action, regles[action]) }));
+    etoiles: etoilesDe(historique, action, regles[action], logiques) }));
   return {
     optimisee: lignes.filter((l) => !estExtra(historique, l.action)),
     extras: lignes.filter((l) => estExtra(historique, l.action)),
@@ -18,9 +20,9 @@ export function recapitulatif(historique) {
   };
 }
 
-function etoilesDe(historique, action, reglage) {
+function etoilesDe(historique, action, reglage, logiques) {
   if (!reglage) return null;
-  return etoiles(reglage.raccourci ? criteres(historique, action, reglage.raccourci) : criteresDuGroupe(historique, reglage.chiffre));
+  return etoiles(reglage.raccourci ? criteres(historique, action, reglage.raccourci, logiques) : criteresDuGroupe(historique, reglage.chiffre));
 }
 
 // V5 : une action encore en Plus tard à la fin de son âge est à définir ; une action non utilisée revient à la fin.
