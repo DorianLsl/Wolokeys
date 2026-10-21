@@ -29,6 +29,7 @@ function appliquer(resultat, accepteUnAppui) {
   message = resultat.erreur || resultat.note || '';
   estNote = !resultat.erreur && !!resultat.note;
   premierAccepte = accepteUnAppui && !!resultat.historique;
+  arme = !!resultat.arme;
   appuis = resultat.appuis || [];
   if (resultat.historique) {
     historique = resultat.historique;
@@ -57,8 +58,7 @@ function afficher() {
 // Un appui au clavier, à la souris ou sur le clavier dessiné.
 function taper(raccourci) {
   const a = armement(historique, arme, raccourci);
-  arme = a.arme;
-  if (!a.raccourci) return appliquer({ appuis, note: arme ? ascii(`${touchePourCreer(historique)} : choisis un chiffre.`) : '' }, false);
+  if (!a.raccourci) return appliquer({ appuis, arme: a.arme, note: a.arme ? ascii(`${touchePourCreer(historique)} : choisis un chiffre.`) : '' }, false);
   if (estEntrainement(historique)) return appliquer(appuyer(historique, appuis, a.raccourci, premierAccepte), false);
   const resultat = choisir(historique, a.raccourci, premierAccepte);
   const double = resultat.historique && !resultat.note && / x2$/.test(a.raccourci);
