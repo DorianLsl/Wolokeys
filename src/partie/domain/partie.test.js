@@ -94,6 +94,8 @@ test('V5, V8 : Ne pas utiliser saute l action et ses enchainements ; elle revien
   assert.equal(raccourcisRegles(nePasUtiliser(fin).historique).selectTc, undefined);
   assert.equal(raccourcisRegles(premierLibre(fin)).selectTc !== undefined, true);
   assert.equal(etapeEnCours(premierLibre(fin)), null);
+  const echap = choisir(fin, 'Échap').historique;
+  assert.deepEqual(echap[echap.length - 1].nePasUtiliser, true, 'au rattrapage, Echap vaut Ne pas utiliser');
 });
 
 test('V8 : les villageois inactifs sont des extras, le reste fait la partie optimisee', () => {

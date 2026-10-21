@@ -126,7 +126,8 @@ export function choisir(historique, raccourci, premierAccepte = false) {
   const etape = etapeEnCours(base);
   if (!etape) return { erreur: 'Partie terminee.' };
   if (etape.type === 'posture') return choisirTouche(base, raccourci);
-  if (raccourci === 'Échap') return plusTard(base);
+  // Au rattrapage, il n'y a plus de moment plus tard : Échap laisse l'action sans raccourci (V5).
+  if (raccourci === 'Échap') return MOMENTS[etape.moment].rattrapage ? nePasUtiliser(base) : plusTard(base);
   const lu = lireRaccourci(raccourci);
   if (CHIFFRES.includes(lu.touche) && !lu.double && lu.maintenue) return creer(base, lu.touche, lu.maintenue);
   if (etape.type !== 'action') return { erreur: 'Entrainement : suis la sequence.' };
