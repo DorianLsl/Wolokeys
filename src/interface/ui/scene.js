@@ -27,7 +27,9 @@ function etiquette(historique, etape) {
 }
 
 function pastillesHtml(recap) {
-  const lignes = [...recap.optimisee, ...recap.extras];
+  // Dans l'ordre de la partie, extras compris, comme dans le prototype.
+  const ordre = Object.keys(ACTIONS);
+  const lignes = [...recap.optimisee, ...recap.extras].sort((p, q) => ordre.indexOf(p.action) - ordre.indexOf(q.action));
   const regles = lignes.filter((l) => l.reglage).length;
   return `<span class="pastilles" title="${regles} raccourcis sur ${lignes.length}">${lignes.map((l) => `<i${l.reglage ? ' class="regle"' : ''}></i>`).join('')}</span>`;
 }
