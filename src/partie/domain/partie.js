@@ -171,6 +171,10 @@ function rappeler(historique, etape, chiffre) {
   return { erreur: ascii(dedans ? `Groupe ${chiffre} = ${dedans}.` : `Groupe ${chiffre} vide : ${touchePourCreer(historique)} + ${chiffre} avant.`) };
 }
 
+// Les heures de la partie où l'action a été remise à plus tard (V5).
+export const plusTardA = (historique, action) => reponses(historique)
+  .filter((e) => e.action === action && !e.raccourci && !e.chiffre && !e.nePasUtiliser && !e.fait).map((e) => MOMENTS[e.moment].heure);
+
 export function plusTard(historique) {
   return reponseVide(historique, {});
 }

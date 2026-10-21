@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA, redemander } from './partie.js';
+import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA, redemander, plusTardA } from './partie.js';
 import { groupePropose, groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, MOMENTS } from './donnees.js';
 
@@ -246,4 +246,12 @@ test('V9 : chaque situation fait 8 mots au plus', () => {
   for (const { situation } of MOMENTS) {
     assert.ok(situation.split(' ').filter((m) => /[\p{L}\p{N}]/u.test(m)).length <= 8, `trop long : ${situation}`);
   }
+});
+
+test('V5 : les heures ou une action a ete remise a plus tard', () => {
+  const une = plusTard(poser()).historique;
+  assert.deepEqual(plusTardA(une, 'selectTc'), ['0:00']);
+  const deux = plusTard(jusqua(une, 'selectTc')).historique;
+  assert.deepEqual(plusTardA(deux, 'selectTc'), ['0:00', MOMENTS[etapeEnCours(jusqua(une, 'selectTc')).moment].heure]);
+  assert.deepEqual(plusTardA(nePasUtiliser(poser()).historique, 'selectTc'), [], 'Ne pas utiliser n est pas Plus tard');
 });

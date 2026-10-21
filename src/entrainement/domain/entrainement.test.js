@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { sequenceDe, appuyer, passer, estEntrainement } from './entrainement.js';
-import { choisir, etapeEnCours, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, raccourcisRegles } from '../../partie/domain/partie.js';
+import { choisir, etapeEnCours, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, raccourcisRegles, plusTardA } from '../../partie/domain/partie.js';
 import { groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, ENCHAINEMENTS } from '../../partie/domain/donnees.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
@@ -107,4 +107,9 @@ test('V3, V10 : Echap puis la touche se jouent en deux appuis ; un double appui 
   const parGroupe = jusqua(choisir(choisir(avecEntrainement(), 'Ctrl + 5').historique, '5').historique, 'goBase');
   assert.deepEqual(sequenceDe(parGroupe), ['5', '5 x2']);
   assert.ok(appuyer(jusqua(avecEntrainement(), 'house'), ['A'], 'A').historique, 'la grille A puis A, lente, reste juste');
+});
+
+test('V4, V5 : un entrainement fait n est pas remis a plus tard', () => {
+  const grilleFaite = passer(jusqua(avecEntrainement(), 'villager')).historique;
+  assert.deepEqual(plusTardA(grilleFaite, 'villager'), []);
 });
