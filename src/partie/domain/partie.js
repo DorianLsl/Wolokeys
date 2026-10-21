@@ -42,7 +42,7 @@ export function raccourcisRegles(historique) {
 }
 
 // Pendant l'étape d'une action rappelable, ou d'un entraînement (V4), sa sélection est déjà faite, pour créer le groupe.
-function selectionActuelle(historique) {
+export function selectionActuelle(historique) {
   const etape = etapeEnCours(historique);
   if (etape && etape.type === 'posture') return null;
   const pendant = etape && (etape.type === 'enchainement' ? ENCHAINEMENTS[etape.enchainement].selection
