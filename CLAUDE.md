@@ -1,4 +1,4 @@
-# aoe-keybinds
+# Wolokeys
 
 ## Méthode de travail (sans attendre qu'on le demande) — détail : METHODE.md
 Phase en cours : **phase 2**.

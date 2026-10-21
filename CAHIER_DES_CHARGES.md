@@ -1,4 +1,4 @@
-# Cahier des charges aoe-keybinds
+# Cahier des charges Wolokeys
 
 > Document vivant. Une exigence n'entre dans « Validé » qu'après un test réel
 > sur un prototype et la confirmation du porteur.

@@ -1,4 +1,4 @@
-# Spec aoe-keybinds, version 1
+# Spec Wolokeys, version 1
 
 Source : `CAHIER_DES_CHARGES.md` (V1 à V28) ; vocabulaire : `CONTEXT.md`.
 Point de départ du code : le module logique de `prototypes/p1-pas-a-pas.html`

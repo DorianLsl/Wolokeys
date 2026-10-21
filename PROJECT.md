@@ -1,4 +1,4 @@
-# aoe-keybinds — où on en est
+# Wolokeys — où on en est
 
 ## Produit (mots du porteur, 2026-10-14)
 Aider un débutant Age of Empires IV à paramétrer ses raccourcis avant de

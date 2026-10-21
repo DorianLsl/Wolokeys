@@ -1,4 +1,4 @@
-# aoe-keybinds
+# Wolokeys
 
 Outil qui aide un débutant d'Age of Empires IV à régler ses raccourcis avant
 de jouer, en simulant une partie où chaque action arrive quand le joueur en a
