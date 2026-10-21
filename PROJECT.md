@@ -261,10 +261,9 @@ validée : « c'est tout bon ») et ses corrections ; 97 tests verts.
 Lien privé de la v1 : https://claude.ai/artifact/Bkm2aXzCHoWGQfaA2Yu9dF (le
 prototype garde le sien). Pour republier : la page sans son squelette HTML,
 plus les fichiers de `src/` hors tests, au même chemin dans le scratchpad.
-Prochaine étape : le porteur teste la v1. À vérifier en vrai : boutons
-latéraux dans le cadre de l'artefact, Ctrl + chiffre (secours : Ctrl seul puis
-le chiffre), délai du double appui sur un clavier AZERTY. Ensuite, d'après ses
-réponses : import et export du profil du jeu, QWERTY.
+Test de la v1 validé par le porteur (2026-10-21). Prochaine étape, prévue
+après cette validation : import et export du profil du jeu, QWERTY ; les
+changements du cahier sont proposés au porteur avant tout ticket.
 Rappel du porteur (2026-10-21) : économiser les tokens même en mode ultracode,
 pas d'agents en cascade sans sa demande.
 
