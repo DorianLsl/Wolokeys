@@ -233,6 +233,11 @@ test('V27 : un clic sur un raccourci le redemande tout de suite, sans perdre le 
   assert.deepEqual(reglagesSauf(vide, 'selectTc'), reglagesSauf(surInactif, 'selectTc'));
 });
 
+test('V27 : redemande apres la fin, Echap le remet a plus tard, sans le marquer Ne pas utiliser', () => {
+  const echap = choisir(redemander(jouer(poser()).h, 'scout').historique, 'Échap').historique;
+  assert.deepEqual([echap[echap.length - 1].nePasUtiliser, reglages(echap).scout, etapeEnCours(echap)], [undefined, undefined, null]);
+});
+
 test('V27 : on ne redemande qu un raccourci regle, apres la posture', () => {
   assert.equal(redemander(poser(), 'monk').erreur, 'Rien a redemander.');
   assert.equal(redemander([], 'selectTc').erreur, 'Avant la partie : une touche par doigt.');

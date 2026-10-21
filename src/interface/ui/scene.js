@@ -74,7 +74,7 @@ function corpsHtml(historique, etape, liste, choisie, appuis) {
       + `<div class="outils">${boutonSuivant(true)}${revenir}</div>`;
   }
   // Au rattrapage, il n'y a plus de moment plus tard : Ne pas utiliser seul (V5).
-  const rattrapage = MOMENTS[etape.moment].rattrapage;
+  const rattrapage = MOMENTS[etape.moment].rattrapage && !etape.redemande;
   const plusTard = rattrapage ? '' : `<button type="button" class="fantome" data-faire="plus-tard" title="Revient au prochain moment utile (Échap)">`
     + `${icone('hourglass')}Plus tard<kbd>Échap</kbd></button>`;
   const nePasUtiliser = `<button type="button" class="fantome" data-faire="ne-pas-utiliser" title="${rattrapage ? 'Aucun raccourci pour cette action'
