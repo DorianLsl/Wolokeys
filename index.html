@@ -63,7 +63,7 @@
     .etiquette, .selection, .tard { display: inline-flex; align-items: center; gap: 4px; }
     .tard { color: var(--alerte); }
     .selection { border: 1px solid var(--trait); border-radius: 999px; padding: 1px 8px; }
-    .pastilles { margin-left: auto; display: flex; gap: 3px; flex-wrap: wrap; }
+    .pastilles { margin-left: auto; display: flex; gap: 3px; }
     .pastilles i { width: .55rem; height: .55rem; border-radius: 50%; border: 1.5px solid var(--discret); }
     .pastilles i.regle { background: var(--ok); border-color: var(--ok); }
     .acte { display: flex; align-items: center; gap: 14px; }
@@ -76,7 +76,7 @@
     .suggestion { display: inline-grid; gap: 3px; justify-items: start; text-align: left; background: var(--carte); border: 2px solid var(--trait); border-radius: 10px; padding: 6px 10px; }
     .suggestion.groupe { border-color: var(--groupe); border-style: dashed; }
     .suggestion:hover { background: var(--touche); }
-    .suggestion .touches { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    .suggestion .touches { display: inline-flex; align-items: center; gap: 4px; }
     .logique { font-size: .8rem; color: var(--discret); display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
     .logique kbd { font-size: .72rem; padding: 0 4px; }
     .suggestion.grande { padding: 10px 16px; border-color: var(--geste); border-style: solid; box-shadow: inset 0 0 0 1px var(--geste); }
@@ -136,10 +136,11 @@
       display: grid; place-content: center; justify-items: center; line-height: 1.05; }
     .bouton small { font-size: .6rem; color: var(--discret); }
     .bouton b { font-size: .95rem; }
+    .bouton .icones { color: inherit; }
     .bouton .icones .ic { width: .85rem; height: .85rem; }
     .bouton.demande { border-color: var(--geste); border-style: dashed; }
     .bouton.maintenue { box-shadow: 0 0 0 3px var(--fond), 0 0 0 6px var(--groupe); }
-    .mouvement { font-size: .8rem; font-weight: 700; color: var(--geste); white-space: nowrap; display: inline-flex; align-items: center; gap: 2px; }
+    .mouvement { font-size: .8rem; font-weight: 700; color: var(--geste); white-space: nowrap; }
     body:not([data-vue="manette"]) .zone-manette { display: none; }
     body[data-vue="manette"] .defile-clavier:not(.ouvert) { display: none; }
 
