@@ -73,15 +73,15 @@ function logiqueDe({ historique, action, regles, logiques }, c) {
   const memeGeste = c.criteres.famille && modelesDe(regles, logiques, action, c.mecanique).find((t) => t && mecaniqueDe(regles[t]) === c.mecanique);
   if (memeGeste) return { texte: `Même geste que ${ACTIONS[memeGeste].court}`, action: memeGeste };
   if (c.criteres.grille) return sans(`Même place que dans la grille : ${a.place}`);
-  return sans(mouvement(postureDe(historique), c));
+  return sans(mouvement(postureDe(historique), c.raccourci));
 }
 
 // Le doigt qui bouge le plus dit l'effort.
-function mouvement(posture, c) {
-  if (c.effort === 0) return 'Aucun doigt ne bouge';
-  const lu = lireRaccourci(c.raccourci);
+export function mouvement(posture, raccourci) {
+  if (effortDe(posture, raccourci) === 0) return 'Aucun doigt ne bouge';
+  const lu = lireRaccourci(raccourci);
   const { doigt } = [lu.maintenue, lu.touche].filter(Boolean).map((t) => atteinte(posture, t)).reduce((p, q) => (q.effort > p.effort ? q : p));
-  return `${doigt[0].toUpperCase()}${doigt.slice(1)} ${c.effort <= 1.5 ? "bouge d'une touche" : "s'étire"}`;
+  return `${doigt[0].toUpperCase()}${doigt.slice(1)} ${effortDe(posture, raccourci) <= 1.5 ? "bouge d'une touche" : "s'étire"}`;
 }
 
 // V19 : son groupe, à côté du dernier groupe de son bloc, ou au numéro habituel.
