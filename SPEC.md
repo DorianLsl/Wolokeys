@@ -48,7 +48,7 @@ que le `domain/` des tranches dont elle dépend.
 | `suggestions` | Candidats, étoiles, familles, logiques, dernier recours, pré-sélection | V9, V11, V12, V16, V20 à V22, V24 à V26 |
 | `entrainement` | Séquences de la grille et enchaînements | V4, V7, V14, V28 |
 | `recapitulatif` | Deux tableaux, étoiles et score ; affichés par `interface` | V8, V9, V27 |
-| `interface` | Vues main posée et manette, grande carte, logique visible, récapitulatif affiché | V9, V18 |
+| `interface` | Toute la page, au design du prototype P1 v14 : scène, grande carte, logique visible, clavier dessiné cliquable, manette, récapitulatif | V9, V18 |
 
 ## Fonctions publiques du domaine
 Chacune prend l'historique et rend un nouvel historique, ou une erreur :

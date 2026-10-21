@@ -1,4 +1,4 @@
-import { toucheDe, lireRaccourci, ascii } from './touches.js';
+import { toucheDe, lireRaccourci, ascii, CHIFFRES } from './touches.js';
 
 export const MAINTENABLES = ['Alt', 'Maj', 'Ctrl', 'Mouse 4', 'Mouse 5'];
 // Ctrl et Maj gardent leur sens sur la grille du jeu (groupes, file d'ordres) : seules ces trois-là s'y combinent (V3).
@@ -44,5 +44,7 @@ const DOUBLE_APPUI_MS = 400;
 export function estDouble(premier, second) {
   if (!premier || premier.raccourci !== second.raccourci) return false;
   const lu = lireRaccourci(second.raccourci);
-  return !lu.maintenue && !lu.double && second.temps - premier.temps < DOUBLE_APPUI_MS;
+  // Une touche réservée seule (Échap, Ctrl...) ne forme pas de double appui, sauf les chiffres des groupes (V7).
+  const reservee = toucheDe(lu.touche).reservee && !CHIFFRES.includes(lu.touche);
+  return !lu.maintenue && !lu.double && !reservee && second.temps - premier.temps < DOUBLE_APPUI_MS;
 }

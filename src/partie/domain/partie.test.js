@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA, redemander } from './partie.js';
+import { etapeEnCours, choisir, plusTard, nePasUtiliser, raccourcisRegles, reglages, estExtra, ageA, redemander, plusTardA } from './partie.js';
 import { groupePropose, groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, MOMENTS } from './donnees.js';
 
@@ -94,6 +94,8 @@ test('V5, V8 : Ne pas utiliser saute l action et ses enchainements ; elle revien
   assert.equal(raccourcisRegles(nePasUtiliser(fin).historique).selectTc, undefined);
   assert.equal(raccourcisRegles(premierLibre(fin)).selectTc !== undefined, true);
   assert.equal(etapeEnCours(premierLibre(fin)), null);
+  const echap = choisir(fin, 'Échap').historique;
+  assert.deepEqual(echap[echap.length - 1].nePasUtiliser, true, 'au rattrapage, Echap vaut Ne pas utiliser');
 });
 
 test('V8 : les villageois inactifs sont des extras, le reste fait la partie optimisee', () => {
@@ -231,6 +233,11 @@ test('V27 : un clic sur un raccourci le redemande tout de suite, sans perdre le 
   assert.deepEqual(reglagesSauf(vide, 'selectTc'), reglagesSauf(surInactif, 'selectTc'));
 });
 
+test('V27 : redemande apres la fin, Echap le remet a plus tard, sans le marquer Ne pas utiliser', () => {
+  const echap = choisir(redemander(jouer(poser()).h, 'scout').historique, 'Échap').historique;
+  assert.deepEqual([echap[echap.length - 1].nePasUtiliser, reglages(echap).scout, etapeEnCours(echap)], [undefined, undefined, null]);
+});
+
 test('V27 : on ne redemande qu un raccourci regle, apres la posture', () => {
   assert.equal(redemander(poser(), 'monk').erreur, 'Rien a redemander.');
   assert.equal(redemander([], 'selectTc').erreur, 'Avant la partie : une touche par doigt.');
@@ -246,4 +253,12 @@ test('V9 : chaque situation fait 8 mots au plus', () => {
   for (const { situation } of MOMENTS) {
     assert.ok(situation.split(' ').filter((m) => /[\p{L}\p{N}]/u.test(m)).length <= 8, `trop long : ${situation}`);
   }
+});
+
+test('V5 : les heures ou une action a ete remise a plus tard', () => {
+  const une = plusTard(poser()).historique;
+  assert.deepEqual(plusTardA(une, 'selectTc'), ['0:00']);
+  const deux = plusTard(jusqua(une, 'selectTc')).historique;
+  assert.deepEqual(plusTardA(deux, 'selectTc'), ['0:00', MOMENTS[etapeEnCours(jusqua(une, 'selectTc')).moment].heure]);
+  assert.deepEqual(plusTardA(nePasUtiliser(poser()).historique, 'selectTc'), [], 'Ne pas utiliser n est pas Plus tard');
 });

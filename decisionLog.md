@@ -2,6 +2,15 @@
 
 La plus récente en haut.
 
+## 2026-10-21 — La v1 reprend le design du prototype
+Demande du porteur : la v1 suit l'interface du prototype P1 v14 (polices,
+palette, scène, cartes, outils, clavier cliquable, manette avec tiroir,
+légende, récapitulatif, fin avec Recommencer). Toute la page s'affiche dans la
+tranche interface ; partie, posture et entraînement n'ont plus d'affichage
+propre. Repris aussi : Ctrl seul puis un chiffre pour créer un groupe, Échap
+au rattrapage vaut Ne pas utiliser. Laissés de côté : la pastille « Fictif »
+et le titre du prototype.
+
 ## 2026-10-20 — V8 et V26 reformulées, prochain militaire inactif
 Validé par le porteur : V26 décrit le comportement gardé (concepts suivant
 les mêmes logiques que les éléments, Échap + touche et touches F en dernier

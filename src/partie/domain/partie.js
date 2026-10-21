@@ -42,7 +42,7 @@ export function raccourcisRegles(historique) {
 }
 
 // Pendant l'étape d'une action rappelable, ou d'un entraînement (V4), sa sélection est déjà faite, pour créer le groupe.
-function selectionActuelle(historique) {
+export function selectionActuelle(historique) {
   const etape = etapeEnCours(historique);
   if (etape && etape.type === 'posture') return null;
   const pendant = etape && (etape.type === 'enchainement' ? ENCHAINEMENTS[etape.enchainement].selection
@@ -126,7 +126,8 @@ export function choisir(historique, raccourci, premierAccepte = false) {
   const etape = etapeEnCours(base);
   if (!etape) return { erreur: 'Partie terminee.' };
   if (etape.type === 'posture') return choisirTouche(base, raccourci);
-  if (raccourci === 'Échap') return plusTard(base);
+  // Au rattrapage, il n'y a plus de moment plus tard : Échap laisse l'action sans raccourci (V5), sauf un raccourci redemandé.
+  if (raccourci === 'Échap') return MOMENTS[etape.moment].rattrapage && !etape.redemande ? nePasUtiliser(base) : plusTard(base);
   const lu = lireRaccourci(raccourci);
   if (CHIFFRES.includes(lu.touche) && !lu.double && lu.maintenue) return creer(base, lu.touche, lu.maintenue);
   if (etape.type !== 'action') return { erreur: 'Entrainement : suis la sequence.' };
@@ -170,6 +171,10 @@ function rappeler(historique, etape, chiffre) {
   // Le groupe proposé reste affiché à l'étape : le refus dit seulement ce qui ne va pas.
   return { erreur: ascii(dedans ? `Groupe ${chiffre} = ${dedans}.` : `Groupe ${chiffre} vide : ${touchePourCreer(historique)} + ${chiffre} avant.`) };
 }
+
+// Les heures de la partie où l'action a été remise à plus tard (V5).
+export const plusTardA = (historique, action) => reponses(historique)
+  .filter((e) => e.action === action && !e.raccourci && !e.chiffre && !e.nePasUtiliser && !e.fait).map((e) => MOMENTS[e.moment].heure);
 
 export function plusTard(historique) {
   return reponseVide(historique, {});
