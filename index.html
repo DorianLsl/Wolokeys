@@ -50,7 +50,8 @@
     .x2 { font-size: .8rem; }
 
     .tete { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .interrupteur { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .commandes { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .interrupteur { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
     .interrupteur input { width: 1.1rem; height: 1.1rem; accent-color: var(--geste); margin: 0; }
     .vues { display: flex; border: 1px solid var(--trait); border-radius: 999px; overflow: hidden; }
     .vues button { background: none; border: 0; padding: 6px 12px; display: flex; gap: 6px; align-items: center; }
@@ -209,10 +210,12 @@
   <main class="cadre">
     <header class="tete">
       <h1>Raccourcis AoE IV</h1>
+      <div class="commandes">
       <label class="interrupteur" title="Ajoute la grille du jeu et les entraînements"><input type="checkbox" id="entrainement">Entraînement</label>
       <div class="vues" role="group" aria-label="Vue">
         <button type="button" id="vue-main" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-hand"/></svg>Main posée</button>
         <button type="button" id="vue-manette" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg>Manette</button>
+      </div>
       </div>
     </header>
     <section class="scene" id="scene" aria-live="polite" tabindex="-1"></section>
