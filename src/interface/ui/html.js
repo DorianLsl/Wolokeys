@@ -1,14 +1,11 @@
-// Icône de chaque action et enchaînement (V9) ; les symboles sont dans index.html.
+// Icône de chaque action et enchaînement (V9), quand son symbole ne porte pas son nom ; les symboles sont dans index.html.
 const ICONES = {
-  selectTc: 'tc', scout: 'scout', camera: 'camera', alert: 'bell', idle: 'idle', idleAll: 'idleAll', allTc: 'tcs',
-  allBarracks: 'barracks', allRanges: 'range', allStables: 'stable', allWorkshops: 'workshop', monasteries: 'monastery',
-  militaryBuildings: 'rally', cancelUnit: 'cancel', idleMilNext: 'idleMil', idleMil: 'idleMil', monk: 'monk',
-  infantryScreen: 'army', rangedScreen: 'range', cavalryScreen: 'stable', siegeScreen: 'siege', infantry: 'army', ranged: 'range', cavalry: 'stable', siege: 'siege',
-  villager: 'villager', house: 'house', mining: 'mining', lumber: 'lumber', mill: 'mill', farm: 'farm', barracks: 'barracks', range: 'range',
-  stable: 'stable', workshop: 'workshop', monastery: 'monastery', keep: 'keep', university: 'university',
-  landmark2: 'landmark', landmark3: 'landmark', landmark4: 'landmark',
-  goBase: 'tc', goScout: 'scout', tcLoop: 'villager', spearmen: 'barracks', archers: 'range', rallyPoint: 'rally', goArmy: 'army',
-  menAtArms: 'barracks', horsemen: 'stable', tcsLoop: 'tcs', springalds: 'workshop', goAlert: 'bell', monks: 'monastery', attack: 'army',
+  selectTc: 'tc', alert: 'bell', allTc: 'tcs', allBarracks: 'barracks', allRanges: 'range', allStables: 'stable', allWorkshops: 'workshop',
+  monasteries: 'monastery', militaryBuildings: 'rally', cancelUnit: 'cancel', idleMilNext: 'idleMil', infantryScreen: 'army',
+  rangedScreen: 'range', cavalryScreen: 'stable', siegeScreen: 'siege', infantry: 'army', ranged: 'range', cavalry: 'stable',
+  landmark2: 'landmark', landmark3: 'landmark', landmark4: 'landmark', goBase: 'tc', goScout: 'scout', tcLoop: 'villager',
+  spearmen: 'barracks', archers: 'range', rallyPoint: 'rally', goArmy: 'army', menAtArms: 'barracks', horsemen: 'stable', tcsLoop: 'tcs',
+  springalds: 'workshop', goAlert: 'bell', monks: 'monastery', attack: 'army',
 };
 
 // id : une action, un enchaînement, ou directement un symbole (hand, flag, landmark).
