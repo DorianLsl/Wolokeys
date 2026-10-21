@@ -78,10 +78,10 @@ function logiqueDe({ historique, action, regles, logiques }, c) {
 
 // Le doigt qui bouge le plus dit l'effort.
 export function mouvement(posture, raccourci) {
-  if (effortDe(posture, raccourci) === 0) return 'Aucun doigt ne bouge';
   const lu = lireRaccourci(raccourci);
-  const { doigt } = [lu.maintenue, lu.touche].filter(Boolean).map((t) => atteinte(posture, t)).reduce((p, q) => (q.effort > p.effort ? q : p));
-  return `${doigt[0].toUpperCase()}${doigt.slice(1)} ${effortDe(posture, raccourci) <= 1.5 ? "bouge d'une touche" : "s'étire"}`;
+  const { doigt, effort } = [lu.maintenue, lu.touche].filter(Boolean).map((t) => atteinte(posture, t)).reduce((p, q) => (q.effort > p.effort ? q : p));
+  if (effort === 0) return 'Aucun doigt ne bouge';
+  return `${doigt[0].toUpperCase()}${doigt.slice(1)} ${effort <= 1.5 ? "bouge d'une touche" : "s'étire"}`;
 }
 
 // V19 : son groupe, à côté du dernier groupe de son bloc, ou au numéro habituel.

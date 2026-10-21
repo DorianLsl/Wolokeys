@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { suggestions, criteres, etoiles, gardeDernierRecours, accepter, logiquesPossibles } from './suggestions.js';
+import { suggestions, criteres, etoiles, gardeDernierRecours, accepter, logiquesPossibles, mouvement } from './suggestions.js';
+import { postureDe } from '../../posture/domain/posture.js';
 import { choisir, etapeEnCours, raccourcisRegles, reglages } from '../../partie/domain/partie.js';
 
 const poser = (touches = ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4']) => touches.reduce((h, t) => choisir(h, t).historique, []);
@@ -206,4 +207,11 @@ test('V26 : prochain et tous les militaires inactifs partagent une touche', () =
   assert.equal(etapeEnCours(surTous).action, 'idleMil');
   assert.equal(meilleure.raccourci.split(' + ').pop(), prochain.split(' + ').pop(), `${prochain} puis ${meilleure.raccourci}`);
   assert.deepEqual(meilleure.logique, { texte: 'Même touche que Militaire inactif', action: 'idleMilNext' });
+});
+
+test('V18 : l effort se dit pour le doigt qui bouge le plus, pas pour la somme des doigts', () => {
+  const posture = postureDe(poser());
+  assert.equal(mouvement(posture, 'Mouse 4 + F'), 'Aucun doigt ne bouge');
+  assert.equal(mouvement(posture, 'Mouse 5 + G'), "Pouce droit bouge d'une touche", 'deux doigts bougent chacun d une touche');
+  assert.equal(mouvement(posture, 'Alt + F'), "Pouce s'étire");
 });
