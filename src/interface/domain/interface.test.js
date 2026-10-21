@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { geste, touchesEntourees, deplacements, conflits, armement, touchesTenues } from './interface.js';
+import { geste, touchesEntourees, deplacements, conflits, armement, touchesTenues, touchesDe } from './interface.js';
 import { choisir, etapeEnCours, basculerEntrainement } from '../../partie/domain/partie.js';
 import { estEntrainement, passer } from '../../entrainement/domain/entrainement.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
@@ -73,6 +73,13 @@ test('P1 v5 : les touches maintenues en usage, raccourcis regles et creation des
   const h = choisir(choisir(poser(), 'Mouse 4 + F').historique, 'Ctrl + 5').historique;
   assert.deepEqual(touchesTenues(h).sort(), ['Ctrl', 'Mouse 4']);
   assert.deepEqual(touchesTenues(poser()), []);
+});
+
+test('V12 : les touches d une suggestion, un groupe a creer avec sa touche de creation', () => {
+  const [premiere, , , groupe] = suggestions(poser());
+  assert.deepEqual([touchesDe(premiere), touchesDe(groupe), touchesDe(undefined)], [['Mouse 4', 'F'], ['Ctrl', '5'], []]);
+  const groupe5 = choisir(poser(), 'Ctrl + 5').historique;
+  assert.deepEqual(touchesDe(suggestions(groupe5)[3]), ['5']);
 });
 
 function jouee(h) {

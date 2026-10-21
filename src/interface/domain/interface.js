@@ -21,6 +21,13 @@ function raccourciMontre(historique, suggestion, appuis) {
 
 const raccourciDe = (s) => s.raccourci || (s.groupe.creer ? `${s.groupe.maintenue} + ${s.groupe.chiffre}` : s.groupe.chiffre);
 
+// Les touches d'une suggestion : sa touche maintenue et sa touche, ou la création puis le chiffre d'un groupe.
+export function touchesDe(suggestion) {
+  if (!suggestion) return [];
+  const lu = lireRaccourci(raccourciDe(suggestion));
+  return [lu.maintenue, lu.touche].filter(Boolean);
+}
+
 // V18 : les touches de l'action qui inspire la suggestion, ou le chiffre de son groupe.
 export function touchesEntourees(historique, suggestion) {
   const action = suggestion && suggestion.logique.action;
