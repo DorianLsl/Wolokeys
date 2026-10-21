@@ -142,6 +142,7 @@ test('V21 : la touche reservee a l economie est proposee sans etre imposee, puis
   const militaireDabord = jusqua(choisir(jusqua(parGroupe(poser()), 'scout'), 'Mouse 4 + F').historique, 'idle');
   const economie = raccourcis(militaireDabord).find((s) => s.logiques.includes('domaine'));
   assert.ok(economie && economie.raccourci.startsWith('Mouse 5 + ') && raccourcis(militaireDabord)[0] !== economie, noms(militaireDabord));
+  assert.equal(economie.logique.texte, "Touche de l'économie : Mouse 5");
   assert.ok(!raccourcis(jusqua(suivant(militaireDabord), 'idleAll')).some((s) => s.logiques.includes('domaine')));
 });
 
@@ -150,6 +151,7 @@ test('V25 : A, Z, E, R portent les roles sous 1, 2, 3, 4 ; Espace porte la base'
   assert.equal(raccourcis(azer)[0].raccourci, 'Mouse 4 + Espace');
   const surEcran = jusqua(azer, 'infantryScreen');
   assert.deepEqual([raccourcis(surEcran)[0].raccourci, raccourcis(surEcran)[0].logiques], ['Alt + A', ['verbe', 'role']]);
+  assert.equal(raccourcis(surEcran)[0].logique.texte, 'Rôle infanterie sur A, habitude Alt');
   assert.equal(criteres(surEcran, 'militaryBuildings', 'Mouse 5 + Z').element, false, 'Z reservee a la distance');
 });
 
@@ -184,6 +186,12 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
   assert.deepEqual(logiques(choisir(poser(), 'Ctrl + 5').historique)[3], ['groupe 5', 'Ton groupe 5', null]);
   assert.deepEqual(logiques(jusqua(poser(), 'infantry')), [['groupe 1', "Numéro habituel de l'armée", null]]);
+  assert.deepEqual(logiques(jusqua(poser(), 'camera')), [
+    ['Espace', 'Aucun doigt ne bouge', null],
+    ['Mouse 5 + F', "Pouce droit bouge d'une touche", null],
+    ['Alt + F', "Pouce s'étire", null],
+  ]);
+  assert.deepEqual(logiques(jusqua(poser(), 'allRanges'))[3], ['Alt + Q', 'Même place que dans la grille : Q', null]);
 });
 
 test('V9 : le groupe propose a ses criteres, seuls les doigts comptent', () => {
