@@ -255,18 +255,15 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
    double appui (0,4 s), enregistrement des combinaisons dans le menu du jeu.
 
 ## Point de reprise exact
-Phase 2, 2026-10-20. #2 à #8 poussés. #9 revu (un défaut corrigé : un autre
-clic pendant une redemande effaçait le premier raccourci) et #10 fait (logique
-de chaque suggestion, icônes, vues main posée et manette, grande carte,
-touches entourées, geste animé), vérifiés dans un navigateur sans écran ; pas
-encore poussés. Tous les tickets #2 à #10 sont faits : reste la v1 à faire
-tester au porteur. Depuis : V8 et V26 reformulées, « Prochain militaire
-inactif » ajouté (25 raccourcis ; le moine passe sur Mouse 4 + Espace),
-homme d'armes sur Z.
-Repris ensuite du prototype, à la demande du porteur : couleur des conflits sur
-le clavier, critères des étoiles sous la grande carte, icônes, étoiles et
-score du récapitulatif, « de l'armée / des bâtiments » après « Numéro
-habituel ».
+Phase 2, 2026-10-21. Tickets #2 à #10 faits ; branche fusionnée dans `main`
+après une revue sur quatre axes avec vérification adverse (8 constats
+corrigés, dont la caméra redemandée qui ne pouvait plus reprendre Espace).
+Depuis #10 : V8 et V26 reformulées, « Prochain militaire inactif » ajouté
+(25 raccourcis ; le moine passe sur Mouse 4 + Espace), homme d'armes sur Z ;
+repris du prototype : couleur des conflits, critères des étoiles, icônes,
+étoiles et score du récapitulatif, bloc après « Numéro habituel ».
+Prochaine étape : le porteur teste la v1. Ensuite, d'après ses réponses :
+import et export du profil du jeu, QWERTY.
 
 ## Réponses du porteur (questions des revues, phase 2)
 - 1 à 5 : oui, le comportement du prototype est gardé (concepts, 4
