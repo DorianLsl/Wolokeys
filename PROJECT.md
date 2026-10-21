@@ -262,7 +262,10 @@ Depuis #10 : V8 et V26 reformulées, « Prochain militaire inactif » ajouté
 (25 raccourcis ; le moine passe sur Mouse 4 + Espace), homme d'armes sur Z ;
 repris du prototype : couleur des conflits, critères des étoiles, icônes,
 étoiles et score du récapitulatif, bloc après « Numéro habituel ».
-Prochaine étape : le porteur teste la v1. Ensuite, d'après ses réponses :
+Prochaine étape : le porteur teste la v1, publiée sur son propre lien privé :
+https://claude.ai/artifact/Bkm2aXzCHoWGQfaA2Yu9dF (le prototype garde le sien).
+Pour republier : la page sans son squelette HTML, plus les fichiers de `src/`
+hors tests. Ensuite, d'après ses réponses :
 import et export du profil du jeu, QWERTY.
 
 ## Réponses du porteur (questions des revues, phase 2)
