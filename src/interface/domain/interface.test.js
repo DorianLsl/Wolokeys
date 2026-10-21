@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { geste, touchesEntourees, deplacements, conflits } from './interface.js';
 import { choisir, etapeEnCours, basculerEntrainement } from '../../partie/domain/partie.js';
+import { estEntrainement, passer } from '../../entrainement/domain/entrainement.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
 
 const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'].reduce((h, t) => choisir(h, t).historique, []);
@@ -49,6 +50,12 @@ test('P1 v2 : les touches qu une autre action tient deja, ou un groupe d une aut
   assert.deepEqual(conflits(jusqua(choisir(h, 'Mouse 4 + F').historique, 'scout')), ['Mouse 4']);
   const surCasernes = conflits(jusqua(accepter(h, suggestions(h)[3]).historique, 'allBarracks'));
   assert.ok(surCasernes.includes('5') && !surCasernes.includes('6'), surCasernes.join());
+});
+
+test('P1 v2 : pendant un entrainement aussi, les touches deja prises sont en conflit', () => {
+  let h = basculerEntrainement(poser()).historique;
+  while (etapeEnCours(h).enchainement !== 'goScout') h = estEntrainement(h) ? passer(h).historique : suivant(h);
+  assert.ok(conflits(h).includes('Espace') && conflits(h).includes('Mouse 4'), conflits(h).join());
 });
 
 function jouee(h) {

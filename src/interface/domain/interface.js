@@ -44,11 +44,11 @@ export function deplacements(historique, g) {
   return vers;
 }
 
-// Touches seules qu'une autre action tient déjà, ou chiffres d'un groupe qui ne contient pas la sélection de l'étape.
+// Touches seules qu'une autre action tient déjà, entraînements compris, ou chiffres d'un groupe qui ne contient pas la sélection de l'étape.
 export function conflits(historique) {
   const etape = etapeEnCours(historique);
-  if (!etape || etape.type !== 'action') return [];
-  const a = ACTIONS[etape.action];
+  if (!etape || etape.type === 'posture') return [];
+  const a = ACTIONS[etape.action] || {};
   const groupes = groupesDe(historique);
   const autreGroupe = (c) => a.rappelable && !!groupes[c] && groupes[c] !== a.selection;
   return TOUCHES.filter((t) => (CHIFFRES.includes(t.id) ? autreGroupe(t.id) : !t.grille && !t.reservee && conflit(historique, etape.action, t.id)))
