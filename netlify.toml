@@ -1,0 +1,4 @@
+# Site statique, publie tel quel ; Netlify n'est mis a jour que si les tests passent.
+[build]
+  publish = "."
+  command = "npm test"
