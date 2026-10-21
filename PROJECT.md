@@ -142,7 +142,7 @@ suggestion visible, groupes adaptatifs par bloc (armée, bâtiments).
 7. Oui : entraînements boucle de production et attaque.
 8. Dès qu'on peut produire une unité, Maj + touche = file de 5. Bâtiments
    des villageois : image du porteur en QWERTY
-   (`recherche/grille-batiments-qwerty.jpg`), à traduire en AZERTY.
+   (hors dépôt), à traduire en AZERTY.
 
 ## Grille du porteur en AZERTY (menu d'âge, puis bâtiment)
 - Âge I (A) : A maison, Z moulin, E camp de bûcherons, R camp de mineurs ;

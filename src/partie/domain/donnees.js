@@ -65,7 +65,7 @@ export const ENCHAINEMENTS = {
   attack: { nom: 'Attaque, siège derrière', selection: 'siège', besoins: ['infantry', 'ranged', 'cavalry', 'siege'] },
 };
 
-// Minutages d'après recherche/partie-anglais-platine.md, en partie estimés ; age = début d'un âge.
+// Minutages d'après une partie d'un joueur anglais platine, en partie estimés ; age = début d'un âge.
 export const MOMENTS = [
   { heure: '0:00', age: 'I', action: 'selectTc', situation: 'Ton centre-ville produit sans arrêt.' },
   { heure: '0:00', action: 'villager', situation: 'Maj : une file de 5 villageois.' },

@@ -353,7 +353,7 @@ const ACTIONS = {
   landmark4: { name: "Monument de l'âge IV", icon: 'landmark', context: 'vil', grid: ['T'], selects: 'villageois' },
   university: { name: 'Construire une université', icon: 'university', context: 'vil', grid: ['R', 'A'], selects: 'villageois' },
 };
-// Numéros des groupes d'après les guides des joueurs reconnus (recherche/guides-raccourcis.md), mêmes touches physiques en AZERTY :
+// Numéros des groupes d'après les guides des joueurs reconnus, mêmes touches physiques en AZERTY :
 // l'armée par rôle sur les plus proches, puis le siège, les centres-villes et la production.
 const GROUP_SLOTS = { 'mêlée': '1', distance: '2', cavalerie: '3', 'siège': '4', 'centre-ville': '5', casernes: '6', 'champs de tir': '7', 'écuries': '8', ateliers: '9', 'monastères': '0' };
 // Deux blocs de groupes : dès que l'utilisateur place un groupe d'un bloc, les suivants du bloc vont au plus près (porteur).
@@ -377,7 +377,7 @@ const DRILLS = {
   attack: { name: 'Attaque, siège derrière', icon: 'army', needs: ['melee', 'ranged', 'cavalry', 'siege'], stay: true, after: 'siège' },
 };
 // Une action revient à chacun de ses moments tant qu'elle n'est pas réglée ; un entraînement demande d'abord les touches qui lui manquent.
-// Minutages d'après recherche/partie-anglais-platine.md, en partie estimés ; age = début d'un âge.
+// Minutages d'après une partie d'un joueur anglais platine, en partie estimés ; age = début d'un âge.
 const MOMENTS = [
   ...POSTURE_FINGERS.map((f) => ({ at: 'Avant la partie', action: f, situation: f === 'pouce droit'
     ? 'Main sur la souris : quel bouton latéral ?' : `Main gauche posée : où repose ton ${f} ?` })),
