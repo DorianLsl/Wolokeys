@@ -16,10 +16,10 @@ function raccourciMontre(historique, suggestion, appuis) {
   if (etapePosture(historique)) return toucheSuggeree(historique);
   const sequence = sequenceDe(historique);
   if (sequence) return sequence[appuis.length];
-  if (!suggestion) return null;
-  const g = suggestion.groupe;
-  return suggestion.raccourci || (g.creer ? `${g.maintenue} + ${g.chiffre}` : g.chiffre);
+  return suggestion ? raccourciDe(suggestion) : null;
 }
+
+const raccourciDe = (s) => s.raccourci || (s.groupe.creer ? `${s.groupe.maintenue} + ${s.groupe.chiffre}` : s.groupe.chiffre);
 
 // V18 : les touches de l'action qui inspire la suggestion, ou le chiffre de son groupe.
 export function touchesEntourees(historique, suggestion) {
