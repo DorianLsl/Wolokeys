@@ -43,4 +43,7 @@ export function ecouter({ surRaccourci, surRetour }) {
     });
   }
   window.addEventListener('blur', () => lire({ type: 'perte' }));
+  // Un clic sur le clavier dessiné vaut un appui puis un relâchement : touches tenues et double appui comptent comme au clavier.
+  const cliquer = (touche, e) => ['keydown', 'keyup'].forEach((type) => lire(evenementDe({ type, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, altKey: e.altKey }, touche)));
+  return { cliquer };
 }

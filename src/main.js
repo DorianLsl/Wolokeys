@@ -1,5 +1,5 @@
 import { ecouter } from './clavier/adapters/ecoute.js';
-import { raccourciDe, ascii } from './clavier/domain/touches.js';
+import { ascii } from './clavier/domain/touches.js';
 import { etapePosture, toucheSuggeree } from './posture/domain/posture.js';
 import { retour } from './partie/domain/historique.js';
 import { etapeEnCours, choisir, plusTard, nePasUtiliser, basculerEntrainement, entrainementActif, redemander } from './partie/domain/partie.js';
@@ -92,7 +92,7 @@ scene.addEventListener('mouseover', (e) => {
 });
 scene.addEventListener('mouseleave', () => apercu([]));
 document.getElementById('entrainement').addEventListener('change', () => appliquer(basculerEntrainement(historique), false));
-installerClavier((touche, e) => taper(raccourciDe(touche, [e.ctrlKey && 'Ctrl', e.shiftKey && 'Maj', e.altKey && 'Alt'].filter(Boolean))));
-ecouter({ surRaccourci: taper, surRetour: revenir });
+const ecoute = ecouter({ surRaccourci: taper, surRetour: revenir });
+installerClavier(ecoute.cliquer);
 installerVues();
 afficher();
