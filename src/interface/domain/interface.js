@@ -2,7 +2,7 @@ import { TOUCHES, CHIFFRES, lireRaccourci } from '../../clavier/domain/touches.j
 import { etapePosture, toucheSuggeree, postureDe } from '../../posture/domain/posture.js';
 import { ACTIONS } from '../../partie/domain/donnees.js';
 import { etapeEnCours, reglages, conflit } from '../../partie/domain/partie.js';
-import { groupesDe } from '../../groupes/domain/groupes.js';
+import { groupesDe, touchePourCreer } from '../../groupes/domain/groupes.js';
 import { sequenceDe } from '../../entrainement/domain/entrainement.js';
 import { atteinte } from '../../suggestions/domain/effort.js';
 
@@ -53,4 +53,12 @@ export function conflits(historique) {
   const autreGroupe = (c) => a.rappelable && !!groupes[c] && groupes[c] !== a.selection;
   return TOUCHES.filter((t) => (CHIFFRES.includes(t.id) ? autreGroupe(t.id) : !t.grille && !t.reservee && conflit(historique, etape.action, t.id)))
     .map((t) => t.id);
+}
+
+// V7 : la touche de création seule arme les groupes et le chiffre suivant crée le groupe, au cas où le navigateur garde Ctrl + chiffre.
+export function armement(historique, arme, raccourci) {
+  const creation = touchePourCreer(historique);
+  if (raccourci === creation && !etapePosture(historique)) return { arme: !arme, raccourci: null };
+  if (arme && CHIFFRES.includes(raccourci)) return { arme: false, raccourci: `${creation} + ${raccourci}` };
+  return { arme: false, raccourci };
 }

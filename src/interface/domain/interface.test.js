@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { geste, touchesEntourees, deplacements, conflits } from './interface.js';
+import { geste, touchesEntourees, deplacements, conflits, armement } from './interface.js';
 import { choisir, etapeEnCours, basculerEntrainement } from '../../partie/domain/partie.js';
 import { estEntrainement, passer } from '../../entrainement/domain/entrainement.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
@@ -56,6 +56,17 @@ test('P1 v2 : pendant un entrainement aussi, les touches deja prises sont en con
   let h = basculerEntrainement(poser()).historique;
   while (etapeEnCours(h).enchainement !== 'goScout') h = estEntrainement(h) ? passer(h).historique : suivant(h);
   assert.ok(conflits(h).includes('Espace') && conflits(h).includes('Mouse 4'), conflits(h).join());
+});
+
+test('V7 : la touche de creation seule arme les groupes, le chiffre suivant cree le groupe', () => {
+  const h = poser();
+  assert.deepEqual(armement(h, false, 'Ctrl'), { arme: true, raccourci: null });
+  assert.deepEqual(armement(h, true, '5'), { arme: false, raccourci: 'Ctrl + 5' });
+  assert.deepEqual(armement(h, true, 'Ctrl'), { arme: false, raccourci: null }, 'un second appui desarme');
+  assert.deepEqual(armement(h, true, 'G'), { arme: false, raccourci: 'G' });
+  assert.deepEqual(armement([], false, 'Ctrl'), { arme: false, raccourci: 'Ctrl' }, 'pas pendant la posture');
+  const parMouse4 = choisir(h, 'Mouse 4 + 5').historique;
+  assert.deepEqual(armement(parMouse4, false, 'Mouse 4'), { arme: true, raccourci: null });
 });
 
 function jouee(h) {
