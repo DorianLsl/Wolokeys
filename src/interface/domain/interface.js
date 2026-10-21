@@ -1,8 +1,8 @@
 import { TOUCHES, CHIFFRES, lireRaccourci } from '../../clavier/domain/touches.js';
 import { etapePosture, toucheSuggeree, postureDe } from '../../posture/domain/posture.js';
 import { ACTIONS } from '../../partie/domain/donnees.js';
-import { etapeEnCours, reglages, conflit } from '../../partie/domain/partie.js';
-import { groupesDe, touchePourCreer } from '../../groupes/domain/groupes.js';
+import { etapeEnCours, reglages, conflit, raccourcisRegles } from '../../partie/domain/partie.js';
+import { groupesDe, touchePourCreer, toucheDeCreation } from '../../groupes/domain/groupes.js';
 import { sequenceDe } from '../../entrainement/domain/entrainement.js';
 import { atteinte } from '../../suggestions/domain/effort.js';
 
@@ -61,4 +61,10 @@ export function armement(historique, arme, raccourci) {
   if (raccourci === creation && !etapePosture(historique)) return { arme: !arme, raccourci: null };
   if (arme && CHIFFRES.includes(raccourci)) return { arme: false, raccourci: `${creation} + ${raccourci}` };
   return { arme: false, raccourci };
+}
+
+// Les touches maintenues en usage : celles des raccourcis réglés et la touche de création des groupes ; Échap se relâche avant la touche (V3).
+export function touchesTenues(historique) {
+  const maintenues = Object.values(raccourcisRegles(historique)).map((r) => lireRaccourci(r).maintenue);
+  return [...new Set([toucheDeCreation(historique), ...maintenues])].filter((t) => t && t !== 'Échap');
 }

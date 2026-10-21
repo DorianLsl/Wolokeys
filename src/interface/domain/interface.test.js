@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { geste, touchesEntourees, deplacements, conflits, armement } from './interface.js';
+import { geste, touchesEntourees, deplacements, conflits, armement, touchesTenues } from './interface.js';
 import { choisir, etapeEnCours, basculerEntrainement } from '../../partie/domain/partie.js';
 import { estEntrainement, passer } from '../../entrainement/domain/entrainement.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
@@ -67,6 +67,12 @@ test('V7 : la touche de creation seule arme les groupes, le chiffre suivant cree
   assert.deepEqual(armement([], false, 'Ctrl'), { arme: false, raccourci: 'Ctrl' }, 'pas pendant la posture');
   const parMouse4 = choisir(h, 'Mouse 4 + 5').historique;
   assert.deepEqual(armement(parMouse4, false, 'Mouse 4'), { arme: true, raccourci: null });
+});
+
+test('P1 v5 : les touches maintenues en usage, raccourcis regles et creation des groupes', () => {
+  const h = choisir(choisir(poser(), 'Mouse 4 + F').historique, 'Ctrl + 5').historique;
+  assert.deepEqual(touchesTenues(h).sort(), ['Ctrl', 'Mouse 4']);
+  assert.deepEqual(touchesTenues(poser()), []);
 });
 
 function jouee(h) {
