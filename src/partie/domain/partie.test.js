@@ -7,7 +7,7 @@ import { ACTIONS, MOMENTS } from './donnees.js';
 const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'].reduce((h, t) => choisir(h, t).historique, []);
 // Raccourcis libres essayés dans l'ordre : le premier accepté est choisi.
 const LIBRES = ['G', 'B', 'Tab', '<', 'Espace', ...Array.from({ length: 12 }, (_, i) => `F${i + 1}`),
-  ...['G', 'B', 'A', 'Z', 'E', 'R', 'Q', 'S', 'D', 'F'].flatMap((t) => [`Alt + ${t}`, `Mouse 5 + ${t}`])];
+  ...['G', 'B', 'A', 'Z', 'E', 'R', 'Q', 'S', 'D', 'F'].flatMap((t) => [`Alt + ${t}`, `Ctrl + ${t}`])];
 const premierLibre = (h) => LIBRES.map((r) => choisir(h, r)).find((r) => r.historique).historique;
 const jouer = (h, coup = premierLibre) => {
   const demandes = [];
@@ -40,8 +40,8 @@ test('V10 : un raccourci deja pris, ou qui gene en jeu, est refuse avec l action
   assert.equal(choisir(h, 'G').erreur, 'G deja pris : Centre-ville.');
   const carre = choisir(poser(), '²').historique;
   assert.equal(choisir(carre, '² x2').erreur, 'carre x2 deja pris : Centre-ville.');
-  const tenue = choisir(poser(), 'Mouse 5 + B').historique;
-  assert.equal(choisir(tenue, 'Mouse 5').erreur, 'Mouse 5 deja pris : Centre-ville.');
+  const tenue = choisir(poser(), 'Alt + B').historique;
+  assert.equal(choisir(tenue, 'Alt').erreur, 'Alt deja pris : Centre-ville.');
   assert.equal(choisir(h, 'A').erreur, 'A deja pris : grille.');
   assert.equal(choisir(h, 'Inser').erreur, 'Touche inconnue.');
 });
@@ -181,9 +181,9 @@ test('V7 : une action perdue par un groupe remplace revient meme si plus aucun m
 });
 
 test('V10 : la touche de creation des groupes ne sert pas seule a un raccourci', () => {
-  const groupesSurMouse5 = choisir(choisir(poser(), 'Mouse 5 + 5').historique, '5').historique;
-  assert.equal(choisir(groupesSurMouse5, 'Mouse 5').erreur, 'Mouse 5 deja pris : groupes.');
-  assert.ok(choisir(groupesSurMouse5, 'Mouse 5 + G').historique);
+  const groupesSurAlt = choisir(choisir(poser(), 'Alt + 5').historique, '5').historique;
+  assert.equal(choisir(groupesSurAlt, 'Alt').erreur, 'Alt deja pris : groupes.');
+  assert.ok(choisir(groupesSurAlt, 'Alt + G').historique);
 });
 
 test('V15 : la partie entiere par les groupes proposes range l armee en 1 a 4 et les batiments en 5 a 0', () => {
@@ -202,8 +202,8 @@ test('V15 : la partie entiere par les groupes proposes range l armee en 1 a 4 et
 test('les refus sont en ASCII simple, en 8 mots au plus', () => {
   const groupe5 = choisir(choisir(poser(), 'Ctrl + 5').historique, '5').historique;
   const surEcuries = jusqua(groupe5, 'allBarracks');
-  const surChampsDeTir = jusqua(choisir(choisir(poser(), 'Mouse 5 + 5').historique, '5').historique, 'allRanges');
-  const champsDeTirEn7 = choisir(choisir(surChampsDeTir, 'Mouse 5 + 7').historique, '7').historique;
+  const surChampsDeTir = jusqua(choisir(choisir(poser(), 'Alt + 5').historique, '5').historique, 'allRanges');
+  const champsDeTirEn7 = choisir(choisir(surChampsDeTir, 'Alt + 7').historique, '7').historique;
   const refus = [
     choisir(surEcuries, '5').erreur, choisir(jusqua(groupe5, 'allRanges'), '9').erreur,
     choisir(jusqua(champsDeTirEn7, 'allStables'), '7').erreur, choisir(jusqua(champsDeTirEn7, 'allStables'), '9').erreur,
@@ -221,8 +221,8 @@ test('V27 : un clic sur un raccourci le redemande tout de suite, sans perdre le 
   const redemande = redemander(fin, 'scout').historique;
   assert.deepEqual([etapeEnCours(redemande).action, etapeEnCours(redemande).redemande], ['scout', true]);
   assert.equal(reglages(redemande).scout, undefined);
-  const change = choisir(redemande, 'Mouse 4 + G').historique;
-  assert.deepEqual([reglages(change).scout, etapeEnCours(change)], [{ raccourci: 'Mouse 4 + G' }, null]);
+  const change = choisir(redemande, 'Maj + G').historique;
+  assert.deepEqual([reglages(change).scout, etapeEnCours(change)], [{ raccourci: 'Maj + G' }, null]);
   assert.deepEqual(reglagesSauf(change, 'scout'), reglagesSauf(fin, 'scout'));
   const surInactif = jusqua(poser(), 'idle');
   const enCours = redemander(surInactif, 'selectTc').historique;

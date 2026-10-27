@@ -12,13 +12,14 @@ test('V7 : touche maintenue + chiffre met la selection actuelle dans ce groupe, 
 });
 
 test('V10 : la touche de creation est celle du premier groupe ; elle ne sert pas seule a un raccourci', () => {
-  const h = creer([], '1', 'infanterie', 'Mouse 4').historique;
-  assert.equal(toucheDeCreation(h), 'Mouse 4');
-  assert.equal(creer(h, '2', 'distance', 'Ctrl').erreur, 'Groupes : Mouse 4 + chiffre.');
-  assert.equal(creer([], '1', 'infanterie', 'Mouse 4', ['Mouse 4']).erreur, 'Mouse 4 seul deja pris.');
-  assert.equal(creer([], '1', 'infanterie', 'Mouse 4', ['Mouse 4 x2']).erreur, 'Mouse 4 seul deja pris.');
-  assert.ok(creer([], '1', 'infanterie', 'Mouse 4', ['Mouse 4 + G']).historique, 'deja maintenue ailleurs : permis');
+  const h = creer([], '1', 'infanterie', 'Alt').historique;
+  assert.equal(toucheDeCreation(h), 'Alt');
+  assert.equal(creer(h, '2', 'distance', 'Ctrl').erreur, 'Groupes : Alt + chiffre.');
+  assert.equal(creer([], '1', 'infanterie', 'Alt', ['Alt']).erreur, 'Alt seul deja pris.');
+  assert.equal(creer([], '1', 'infanterie', 'Alt', ['Alt x2']).erreur, 'Alt seul deja pris.');
+  assert.ok(creer([], '1', 'infanterie', 'Alt', ['Alt + G']).historique, 'deja maintenue ailleurs : permis');
   assert.equal(creer([], '1', 'infanterie', 'Win').erreur, 'Win + 1 : combinaison impossible.');
+  assert.equal(creer([], '1', 'infanterie', 'Mouse 4').erreur, 'Mouse 4 + 1 : combinaison impossible.', 'le jeu refuse de tenir un bouton lateral');
   assert.equal(toucheDeCreation([]), null);
 });
 

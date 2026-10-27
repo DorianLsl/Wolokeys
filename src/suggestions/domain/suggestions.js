@@ -1,5 +1,5 @@
 import { TOUCHES, lireRaccourci } from '../../clavier/domain/touches.js';
-import { MAINTENABLES, MAINTENABLES_GRILLE, mecaniqueDe } from '../../clavier/domain/raccourcis.js';
+import { MAINTENABLES, mecaniqueDe } from '../../clavier/domain/raccourcis.js';
 import { postureDe } from '../../posture/domain/posture.js';
 import { groupePropose, voisinDe, estArmee } from '../../groupes/domain/groupes.js';
 import { ACTIONS } from '../../partie/domain/donnees.js';
@@ -13,6 +13,10 @@ const DOIGTS = ['index', 'majeur', 'annulaire', 'auriculaire', 'pouce', 'pouce d
 const ROLES = { infanterie: 'A', distance: 'Z', cavalerie: 'E', 'siège': 'R' };
 const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran': "tous à l'écran" };
 const DOMAINES = { 'économie': "de l'économie", militaire: 'du militaire' };
+// Comme les touches par défaut du jeu : prochain seule (Échap + touche sur la grille), tous Ctrl, à l'écran Alt (V24).
+const HABITUDES = { prochain: 'seule', tous: 'Ctrl', 'écran': 'Alt' };
+// Le militaire prend Alt, seule touche maintenue qui se combine avec la grille (V16, V21).
+const TOUCHES_DES_DOMAINES = { militaire: 'Alt', 'économie': 'Ctrl' };
 
 // Toutes calculées (V20), chacune avec ses familles (V11) et sa proposition, faite sans être imposée.
 const LOGIQUES = {
@@ -93,11 +97,9 @@ function logiqueDuGroupe(historique, selection, groupe) {
   return { texte: `À côté de ton groupe ${voisin}`, action: Object.keys(regles).find((x) => regles[x].chiffre === voisin) || null };
 }
 
-// V24 : prochain sur la touche de référence du pouce droit, tous sur la carte sur l'autre bouton, tous à l'écran sur Alt.
-function mecaniqueHabituelle({ historique, action, regles, logiques }, tries) {
-  const pouceDroit = postureDe(historique)['pouce droit'];
+function mecaniqueHabituelle({ action, regles, logiques }, tries) {
   const verbe = ACTIONS[action].verbe;
-  const habitude = { prochain: pouceDroit, tous: pouceDroit === 'Mouse 4' ? 'Mouse 5' : 'Mouse 4', 'écran': 'Alt' }[verbe];
+  const habitude = HABITUDES[verbe];
   const premierDuVerbe = habitude && logiques.includes('verbe') && !modeleDe(regles, 'verbe', verbe) && !prisesAilleurs(regles, 'verbe', verbe).includes(habitude);
   return premierDuVerbe ? tries.find((c) => c.mecanique === habitude) : undefined;
 }
@@ -108,11 +110,12 @@ function toucheDuRole({ action, regles }, tries) {
   return libre ? tries.find((c) => touche(c.raccourci) === ROLES[role]) : undefined;
 }
 
-// V16, V21 : une touche maintenue qui se combine avec la grille, libre dans les autres domaines.
+// V16, V21 : la touche maintenue du domaine, si un autre domaine ne l'a pas prise.
 function toucheReserveeAuDomaine({ action, regles, logiques }, tries) {
   const domaine = ACTIONS[action].domaine;
   const premier = domaine && logiques.includes('domaine') && !Object.keys(regles).some((id) => ACTIONS[id].domaine === domaine);
-  return premier ? tries.find((c) => MAINTENABLES_GRILLE.includes(c.mecanique) && !prisesAilleurs(regles, 'domaine', domaine).includes(c.mecanique)) : undefined;
+  const reservee = TOUCHES_DES_DOMAINES[domaine];
+  return premier && !prisesAilleurs(regles, 'domaine', domaine).includes(reservee) ? tries.find((c) => c.mecanique === reservee) : undefined;
 }
 
 function suggestionDeGroupe(historique, selection) {
@@ -140,7 +143,8 @@ function notees({ historique, action, regles, logiques }) {
 const triees = (candidats) => [...candidats].sort((p, q) => q.etoiles - p.etoiles || p.effort - q.effort
   || MECANIQUES.indexOf(p.mecanique) - MECANIQUES.indexOf(q.mecanique) || DOIGTS.indexOf(p.doigtTouche) - DOIGTS.indexOf(q.doigtTouche));
 
-// La touche de référence du pouce reste à la caméra (V7) ; une touche maintenable ne se suggère pas seule (V11).
+// La touche de référence du pouce reste à la caméra (V7) ; une touche maintenable ne se suggère pas seule (V11) ;
+// Échap + touche de la grille est un dernier recours, sauf pour « prochain » (V24, V26).
 function candidats(historique, action) {
   const posture = postureDe(historique);
   const ordinaires = TOUCHES.filter((t) => !t.reservee && !MAINTENABLES.includes(t.id));
@@ -150,7 +154,7 @@ function candidats(historique, action) {
   return [...seules, ...combinaisons, ...apresEchap]
     .filter((r) => choisir(historique, r).historique)
     .map((r) => ({ raccourci: r, mecanique: mecaniqueDe(r), doigtTouche: atteinte(posture, touche(r)).doigt, effort: effortDe(posture, r),
-      dernierRecours: lireRaccourci(r).maintenue === 'Échap' || /^F\d+$/.test(touche(r)) }))
+      dernierRecours: (lireRaccourci(r).maintenue === 'Échap' && ACTIONS[action].verbe !== 'prochain') || /^F\d+$/.test(touche(r)) }))
     .filter((c) => c.effort < Infinity);
 }
 

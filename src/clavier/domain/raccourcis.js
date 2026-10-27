@@ -1,8 +1,9 @@
 import { toucheDe, lireRaccourci, ascii, CHIFFRES } from './touches.js';
 
-export const MAINTENABLES = ['Alt', 'Maj', 'Ctrl', 'Mouse 4', 'Mouse 5'];
-// Ctrl et Maj gardent leur sens sur la grille du jeu (groupes, file d'ordres) : seules ces trois-là s'y combinent (V3).
-export const MAINTENABLES_GRILLE = ['Alt', 'Mouse 4', 'Mouse 5'];
+// Le menu du jeu refuse de tenir un bouton latéral (V10).
+export const MAINTENABLES = ['Alt', 'Maj', 'Ctrl'];
+// Ctrl et Maj gardent leur sens sur la grille du jeu (groupes, file d'ordres) : seul Alt s'y combine (V3).
+export const MAINTENABLES_GRILLE = ['Alt'];
 
 // Refus d'un raccourci pris isolément (V3, V10), avant de le comparer aux raccourcis déjà réglés.
 export function refusRaccourci(raccourci) {
@@ -15,8 +16,9 @@ export function refusRaccourci(raccourci) {
 
 function refusAvecMaintenue(raccourci, lu, touche) {
   if (lu.maintenue === 'Échap') return touche.grille && !lu.double ? null : 'Echap : seulement avant la grille.';
+  if (touche.souris || toucheDe(lu.maintenue).souris) return 'Bouton lateral : seulement seul.';
   if (lu.double || !MAINTENABLES.includes(lu.maintenue) || MAINTENABLES.includes(lu.touche) || touche.reservee) return `${raccourci} : combinaison impossible.`;
-  return touche.grille && !MAINTENABLES_GRILLE.includes(lu.maintenue) ? 'Grille : avec Alt, Mouse 4 ou 5.' : null;
+  return touche.grille && !MAINTENABLES_GRILLE.includes(lu.maintenue) ? 'Grille : seulement avec Alt.' : null;
 }
 
 function refusSansMaintenue(raccourci, lu, touche) {

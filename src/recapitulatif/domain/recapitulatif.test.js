@@ -4,7 +4,7 @@ import { recapitulatif } from './recapitulatif.js';
 import { choisir, etapeEnCours, plusTard, nePasUtiliser } from '../../partie/domain/partie.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
 
-const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'].reduce((h, t) => choisir(h, t).historique, []);
+const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 5'].reduce((h, t) => choisir(h, t).historique, []);
 const suivant = (h) => accepter(h, suggestions(h)[0]).historique;
 const jusqua = (h, action) => {
   while (etapeEnCours(h).action !== action) h = suivant(h);
@@ -21,7 +21,7 @@ test('V8 : le recapitulatif a deux tableaux, partie optimisee et extras', () => 
   assert.deepEqual(r.extras.map((l) => l.action), ['idle', 'idleAll', 'idleMilNext', 'idleMil']);
   assert.equal(r.optimisee.length, 21);
   assert.ok(recapitulatif(nePasUtiliser(poser()).historique).extras.some((l) => l.action === 'selectTc'), 'non utilisee : en extra');
-  assert.deepEqual(ligne(jouer(poser()), 'selectTc').reglage, { raccourci: 'Mouse 4 + F' });
+  assert.deepEqual(ligne(jouer(poser()), 'selectTc').reglage, { raccourci: 'Mouse 5' });
 });
 
 test('V5 : une action en Plus tard apparait a definir une fois son age fini', () => {
@@ -39,7 +39,7 @@ test('V5 : une action en Plus tard apparait a definir une fois son age fini', ()
 
 test('V9 : chaque raccourci regle a ses etoiles, et le score les additionne sur 4 par raccourci', () => {
   const fin = jouer(poser());
-  assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [4, 3, null]);
+  assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [3, 3, null]);
   const r = recapitulatif(fin);
   const lignes = [...r.optimisee, ...r.extras];
   assert.deepEqual(r.score, { obtenu: lignes.reduce((total, l) => total + l.etoiles, 0), max: 100 });

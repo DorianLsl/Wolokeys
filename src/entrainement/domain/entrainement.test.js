@@ -6,7 +6,7 @@ import { groupesDe } from '../../groupes/domain/groupes.js';
 import { ACTIONS, ENCHAINEMENTS } from '../../partie/domain/donnees.js';
 import { suggestions, accepter } from '../../suggestions/domain/suggestions.js';
 
-const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 4'].reduce((h, t) => choisir(h, t).historique, []);
+const poser = () => ['Q', 'S', 'D', 'F', 'Espace', 'Mouse 5'].reduce((h, t) => choisir(h, t).historique, []);
 const avecEntrainement = () => basculerEntrainement(poser()).historique;
 // Comme Suivant : la séquence faite à la place de l'utilisateur, sinon la suggestion pré-sélectionnée.
 const suivant = (h) => (estEntrainement(h) ? passer(h) : accepter(h, suggestions(h)[0])).historique;
@@ -47,7 +47,7 @@ test('V4 : la grille se joue telle quelle ; une erreur fait recommencer ; Suivan
 
 test('V7 : un aller-retour selectionne puis centre la camera ; par un groupe, deux appuis suffisent', () => {
   const parRaccourcis = jusqua(avecEntrainement(), 'goBase');
-  assert.deepEqual(sequenceDe(parRaccourcis), ['Mouse 4 + F', 'Espace']);
+  assert.deepEqual(sequenceDe(parRaccourcis), ['Mouse 5', 'Espace']);
   const carre = jusqua(choisir(jusqua(choisir(avecEntrainement(), '² x2').historique, 'camera'), 'B').historique, 'goBase');
   assert.deepEqual(sequenceDe(carre), ['²', '² x2', 'B']);
   const parGroupe = jusqua(choisir(choisir(avecEntrainement(), 'Ctrl + 5').historique, '5').historique, 'goBase');

@@ -24,7 +24,7 @@ test('V10 : une touche du clavier tenue forme une combinaison ; seule, elle comp
   assert.deepEqual(lire([appui('G')]), ['G']);
 });
 
-test('V10 : un bouton lateral tenu forme une combinaison ; seul, il compte au relachement', () => {
+test('un bouton lateral tenu avec une touche se lit en combinaison, que le domaine refuse (V10) ; seul, il compte au relachement', () => {
   assert.deepEqual(lire([bouton('Mouse 4'), appui('G'), boutonRelache('Mouse 4')]), ['Mouse 4 + G']);
   assert.deepEqual(lire([bouton('Mouse 4'), boutonRelache('Mouse 4')]), ['Mouse 4']);
   assert.deepEqual(lire([bouton('Mouse 4'), bouton('Mouse 5'), boutonRelache('Mouse 5'), boutonRelache('Mouse 4')]), ['Mouse 4 + Mouse 5']);
