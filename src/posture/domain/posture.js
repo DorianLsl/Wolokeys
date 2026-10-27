@@ -1,7 +1,7 @@
 import { TOUCHES, POSITIONS, toucheDe, lireRaccourci, ascii } from '../../clavier/domain/touches.js';
 
 // L'ordre suit la main de gauche à droite, pour que la suggestion d'un doigt parte de la touche du précédent (V2).
-const DOIGTS = { auriculaire: 'Q', annulaire: 'S', majeur: 'D', index: 'F', pouce: 'Espace', 'pouce droit': 'Mouse 4' };
+const DOIGTS = { auriculaire: 'Q', annulaire: 'S', majeur: 'D', index: 'F', pouce: 'Espace', 'pouce droit': 'Mouse 5' };
 const ORDRE = Object.keys(DOIGTS);
 
 export function postureDe(historique) {

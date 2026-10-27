@@ -4,15 +4,15 @@ import { etapePosture, toucheSuggeree, choisirTouche, postureDe } from './postur
 
 const poser = (touches) => touches.reduce((h, t) => choisirTouche(h, t).historique, []);
 
-test('V2 : la posture suggeree est Q S D F Espace et Mouse 4', () => {
+test('V2 : la posture suggeree est Q S D F Espace et Mouse 5, le bouton avant ou repose le pouce', () => {
   let h = [];
   const suggerees = [];
   while (etapePosture(h)) {
     suggerees.push(`${etapePosture(h)}=${toucheSuggeree(h)}`);
     h = choisirTouche(h, toucheSuggeree(h)).historique;
   }
-  assert.deepEqual(suggerees, ['auriculaire=Q', 'annulaire=S', 'majeur=D', 'index=F', 'pouce=Espace', 'pouce droit=Mouse 4']);
-  assert.deepEqual(postureDe(h), { auriculaire: 'Q', annulaire: 'S', majeur: 'D', index: 'F', pouce: 'Espace', 'pouce droit': 'Mouse 4' });
+  assert.deepEqual(suggerees, ['auriculaire=Q', 'annulaire=S', 'majeur=D', 'index=F', 'pouce=Espace', 'pouce droit=Mouse 5']);
+  assert.deepEqual(postureDe(h), { auriculaire: 'Q', annulaire: 'S', majeur: 'D', index: 'F', pouce: 'Espace', 'pouce droit': 'Mouse 5' });
 });
 
 test('V2 : une touche seule par doigt, connue, au bon endroit, sans doublon', () => {
@@ -28,8 +28,8 @@ test('V2 : une touche seule par doigt, connue, au bon endroit, sans doublon', ()
   assert.equal(refus(['Q', 'S', 'D', 'F', 'Espace', 'Mouse 5'], 'Mouse 4'), 'Posture deja complete.');
 });
 
-test('V2 : Maj et Mouse 5 sont des touches de reference possibles', () => {
-  assert.equal(postureDe(poser(['Maj', 'S', 'D', 'F', 'Alt', 'Mouse 5']))['pouce droit'], 'Mouse 5');
+test('V2 : Maj et Mouse 4 sont des touches de reference possibles', () => {
+  assert.equal(postureDe(poser(['Maj', 'S', 'D', 'F', 'Alt', 'Mouse 4']))['pouce droit'], 'Mouse 4');
   assert.equal(postureDe(poser(['Maj']))['auriculaire'], 'Maj');
 });
 
