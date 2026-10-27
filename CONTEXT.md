@@ -47,7 +47,8 @@ Action utile seulement face à un imprévu, comme les villageois inactifs.
 La touche de référence de chaque doigt de la main gauche et du pouce droit.
 
 **Touche de référence** :
-Touche où repose un doigt ; Mouse 4 ou Mouse 5 pour le pouce droit.
+Touche où repose un doigt ; Mouse 4 (bouton latéral arrière) ou Mouse 5
+(bouton latéral avant) pour le pouce droit.
 _Éviter_ : touche de repos
 
 **Grille du jeu** :
@@ -59,7 +60,8 @@ Façon d'appuyer : touche seule, double appui, ou combinaison avec une touche
 maintenue donnée.
 
 **Touche maintenue** :
-Alt, Maj, Ctrl, Mouse 4 ou Mouse 5, tenue pendant l'appui d'une autre touche.
+Alt, Maj ou Ctrl, tenue pendant l'appui d'une autre touche ; le jeu refuse
+de tenir Mouse 4 ou Mouse 5.
 _Éviter_ : modificateur
 
 **Double appui** :
@@ -128,9 +130,9 @@ par domaine ou par rôle.
 _Éviter_ : logique par concept, logique par geste
 
 **Mécanique habituelle** :
-Mécanique proposée d'abord au premier raccourci d'un verbe : prochain sur la
-touche de référence du pouce droit, tous sur la carte sur l'autre bouton, tous
-à l'écran sur Alt.
+Mécanique proposée d'abord au premier raccourci d'un verbe, celle des
+touches par défaut du jeu : prochain sur la touche seule (Échap + touche sur
+la grille), tous sur la carte sur Ctrl, tous à l'écran sur Alt.
 
 **Famille** :
 Actions qu'une logique regroupe et qui gardent la mécanique de leur premier
@@ -143,7 +145,8 @@ l'élément.
 
 **Dernier recours** :
 Touches F, Échap plus une touche de la grille, double appui : proposés
-seulement en cas de gros manque d'intuitivité.
+seulement en cas de gros manque d'intuitivité, sauf Échap plus une touche de
+la grille pour prochain.
 
 ## Choix de l'utilisateur
 
@@ -156,3 +159,13 @@ _Éviter_ : ignorer pour l'instant, passer
 Choix qui laisse une action sans raccourci pour la partie ; elle revient en
 extra au rattrapage.
 _Éviter_ : laisser de côté, refuser
+
+## Profil du jeu
+
+**Profil** :
+Fichier `.rkp` où le jeu garde les raccourcis d'un joueur ; l'export en
+crée un nouveau à partir de celui de l'utilisateur.
+
+**Commande** :
+Nom interne d'une action dans le profil, comme `pick_next_town` ; elle a
+deux places pour une combinaison.
