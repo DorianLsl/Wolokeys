@@ -34,3 +34,8 @@ export function afficherRecapitulatif(historique, recap, surClic) {
   $('optimisee').replaceChildren(...liste(recap.optimisee));
   $('extras').replaceChildren(...liste(recap.extras));
 }
+
+// V31 : ce que l'export a retiré à d'autres commandes du profil.
+export function afficherRetires(retires) {
+  $('retires').textContent = retires.length ? `Retiré du profil : ${retires.map((r) => `${r.commande} (${r.combo})`).join(', ')}.` : '';
+}

@@ -150,6 +150,8 @@
     .legende kbd { font-size: .75rem; }
 
     .recap { display: grid; gap: 12px; }
+    .export { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+    .export p { margin: 0; color: var(--discret); font-size: .9rem; }
     .listes { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 16px; }
     .listes section { display: grid; gap: 6px; align-content: start; }
     .listes ul { list-style: none; margin: 0; padding: 0; display: grid; }
@@ -239,6 +241,12 @@
     </section>
     <section class="recap">
       <h2>Tes raccourcis <span class="score" id="score"></span></h2>
+      <div class="export">
+        <button class="fantome" id="exporter" type="button"><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>Exporter vers mon profil du jeu</button>
+        <input type="file" id="profil" accept=".rkp" hidden>
+        <p>Choisis ton profil dans Documents/My Games/Age of Empires IV/keyBindingProfiles ; le nouveau profil téléchargé va dans ce même dossier.</p>
+        <p id="retires"></p>
+      </div>
       <div class="listes">
         <section><h3><svg class="ic" aria-hidden="true"><use href="#i-crown"/></svg>Partie optimisée</h3><ul id="optimisee"></ul></section>
         <section><h3><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>Extras</h3><ul id="extras"></ul></section>

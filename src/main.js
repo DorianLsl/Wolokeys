@@ -11,7 +11,9 @@ import { geste, touchesEntourees, deplacements, conflits, armement, touchesTenue
 import { afficherScene, afficherMessage, garderLeFocus } from './interface/ui/scene.js';
 import { installerClavier, afficherClavier, apercu } from './interface/ui/clavier.js';
 import { afficherManette } from './interface/ui/manette.js';
-import { afficherRecapitulatif } from './interface/ui/recapitulatif.js';
+import { afficherRecapitulatif, afficherRetires } from './interface/ui/recapitulatif.js';
+import { exporter } from './profil/domain/profil.js';
+import { lireFichier, telecharger } from './profil/adapters/fichier.js';
 import { installerVues } from './interface/ui/vues.js';
 
 let historique = [];
@@ -93,6 +95,22 @@ scene.addEventListener('mouseover', (e) => {
 scene.addEventListener('mouseleave', () => apercu([]));
 document.getElementById('entrainement').addEventListener('change', () => appliquer(basculerEntrainement(historique), false));
 const ecoute = ecouter({ surRaccourci: taper, surRetour: revenir, actif: () => !!etapeEnCours(historique) });
+// Le profil choisi sert de base au nouveau, téléchargé à côté (V29, V30).
+const profil = document.getElementById('profil');
+document.getElementById('exporter').addEventListener('click', () => profil.click());
+profil.addEventListener('change', async () => {
+  const fichier = profil.files[0];
+  profil.value = '';
+  if (!fichier) return;
+  const texte = await lireFichier(fichier);
+  const resultat = texte === null ? { erreur: 'Fichier illisible.' } : exporter(texte, historique);
+  if (resultat.erreur) return appliquer(resultat, false);
+  const telecharge = await telecharger(resultat.nom, resultat.texte);
+  if (telecharge.erreur) return appliquer(telecharge, false);
+  afficherRetires(resultat.retires);
+  const renommer = telecharge.fichier.endsWith('.txt') ? ', retire .txt du nom' : '';
+  return appliquer({ note: ascii(`Profil cree : ${telecharge.fichier}${renommer}`) }, false);
+});
 installerClavier(ecoute.cliquer);
 installerVues();
 afficher();
