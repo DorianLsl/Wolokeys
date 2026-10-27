@@ -19,8 +19,9 @@ export const TOUCHES = [
   { id: 'Win', rangee: 5, largeur: 1.25, code: 'MetaLeft', reservee: 'Win : menu Windows.' },
   { id: 'Alt', rangee: 5, largeur: 1.25, code: 'AltLeft' },
   { id: 'Espace', rangee: 5, largeur: 3.5, code: 'Space' },
-  { id: 'Mouse 4', souris: true, bouton: 4 },
-  { id: 'Mouse 5', souris: true, bouton: 3 },
+  // Le bouton du navigateur : 3 est l'arrière (MouseX1 dans le jeu), 4 l'avant.
+  { id: 'Mouse 4', souris: true, bouton: 3 },
+  { id: 'Mouse 5', souris: true, bouton: 4 },
 ];
 
 export const toucheDe = (id) => TOUCHES.find((t) => t.id === id);

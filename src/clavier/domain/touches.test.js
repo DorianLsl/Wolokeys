@@ -7,9 +7,9 @@ test('une touche inconnue est refusee avec un message', () => {
   assert.deepEqual(lireRaccourci('Alt + Inser'), { erreur: 'Touche inconnue.' });
 });
 
-test('les touches physiques se lisent en AZERTY, les boutons lateraux en Mouse 4 et Mouse 5', () => {
+test('les touches physiques se lisent en AZERTY, les boutons lateraux en Mouse 4 (arriere) et Mouse 5 (avant)', () => {
   assert.deepEqual(['KeyQ', 'KeyA', 'KeyZ', 'KeyW', 'Semicolon', 'Space', 'Backquote'].map(toucheDuCode), ['A', 'Q', 'W', 'Z', 'Semicolon', 'Espace', '²']);
-  assert.deepEqual([4, 3, 0].map(toucheDuBouton), ['Mouse 4', 'Mouse 5', null]);
+  assert.deepEqual([3, 4, 0].map(toucheDuBouton), ['Mouse 4', 'Mouse 5', null]);
 });
 
 test('une touche hors du clavier dessine est refusee, meme si elle porte le nom d une touche connue', () => {
