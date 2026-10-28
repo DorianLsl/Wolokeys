@@ -1,7 +1,7 @@
 import { lireRaccourci, ascii, CHIFFRES } from '../../clavier/domain/touches.js';
 import { refusRaccourci, seGenent } from '../../clavier/domain/raccourcis.js';
 import { etapePosture, choisirTouche } from '../../posture/domain/posture.js';
-import { ACTIONS, ENCHAINEMENTS, MOMENTS } from './donnees.js';
+import { ACTIONS, ENCHAINEMENTS, MOMENTS, elementDe } from './donnees.js';
 import { retour } from './historique.js';
 import { creerGroupe, groupesDe, toucheDeCreation, touchePourCreer } from '../../groupes/domain/groupes.js';
 
@@ -141,10 +141,14 @@ export function conflit(historique, action, raccourci) {
   const regles = raccourcisRegles(historique);
   const creation = toucheDeCreation(historique);
   if (creation && seGenent(`${creation} + 1`, raccourci)) return ascii(`${raccourci} deja pris : groupes.`);
-  // L'alerte sur la touche de la caméra en double appui est la seule exception au conflit (V7), aussi quand la caméra est redemandée.
+  // Deux exceptions au conflit (V7), aussi quand l'une des deux actions est redemandée : l'alerte sur la touche de la caméra en double appui,
   const alerteSurCamera = (autre) => (action === 'alert' && autre === 'camera' && raccourci === `${regles.camera} x2`)
     || (action === 'camera' && autre === 'alert' && regles.alert === `${raccourci} x2`);
-  const tenant = Object.keys(regles).find((a) => a !== action && seGenent(regles[a], raccourci) && !alerteSurCamera(a));
+  const avec = { ...regles, [action]: raccourci };
+  // et « tous les X » sur la touche seule de « prochain X », le premier appui sélectionnant le prochain sans gêne ; un entraînement n'a pas d'action.
+  const prochainEtTous = (autre) => !!ACTIONS[action] && elementDe(autre) === elementDe(action) && [[action, autre], [autre, action]]
+    .some(([p, t]) => ACTIONS[p].verbe === 'prochain' && ACTIONS[t].verbe === 'tous' && avec[t] === `${avec[p]} x2`);
+  const tenant = Object.keys(regles).find((a) => a !== action && seGenent(regles[a], raccourci) && !alerteSurCamera(a) && !prochainEtTous(a));
   return tenant ? ascii(`${raccourci} deja pris : ${ACTIONS[tenant].court}.`) : null;
 }
 

@@ -56,6 +56,17 @@ test('V7 : l alerte prend la touche de la camera en double appui, seule exceptio
   assert.equal(choisir(cameraDouble, 'Espace').erreur, 'Espace deja pris : Camera.', 'seulement l alerte sur le double appui');
 });
 
+test('V7 : tous les X prend en double appui la touche seule de prochain X, seconde exception', () => {
+  const surTous = jusqua(choisir(jusqua(poser(), 'idle'), '²').historique, 'idleAll');
+  assert.equal(raccourcisRegles(choisir(surTous, '² x2').historique).idleAll, '² x2');
+  assert.equal(choisir(surTous, '²').erreur, 'carre deja pris : Inactif.');
+  assert.equal(choisir(surTous, 'B x2').erreur, 'B x2 deja pris : Eclaireur.', 'seulement le meme element');
+  const prochainRedemande = redemander(choisir(surTous, '² x2').historique, 'idle').historique;
+  assert.equal(raccourcisRegles(choisir(prochainRedemande, '²').historique).idle, '²');
+  const prochainDouble = jusqua(choisir(jusqua(poser(), 'idle'), '² x2').historique, 'idleAll');
+  assert.equal(choisir(prochainDouble, '²').erreur, 'carre deja pris : Inactif.', 'seulement prochain seul, tous en double');
+});
+
 test('V7, V27 : la camera redemandee reprend sa touche, l alerte restant en double appui', () => {
   const surAlerte = jusqua(choisir(jusqua(poser(), 'camera'), 'Espace').historique, 'alert');
   const camera = redemander(choisir(surAlerte, 'Espace x2').historique, 'camera').historique;
