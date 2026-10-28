@@ -47,6 +47,8 @@ export const ACTIONS = {
   university: { nom: 'Construire une université', selection: 'villageois', grille: ['R', 'A'] },
 };
 
+export const elementDe = (id) => ACTIONS[id].role || ACTIONS[id].element || id;
+
 // Un aller-retour finit en centrant la caméra sur ce qu'il sélectionne ; puis : ce que l'on produit ensuite (V13, V28).
 export const ENCHAINEMENTS = {
   goBase: { nom: 'Retour aux ouvriers', selection: 'centre-ville', besoins: ['selectTc'], allerRetour: true },

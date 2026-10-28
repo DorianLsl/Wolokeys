@@ -2,7 +2,7 @@ import { TOUCHES, lireRaccourci } from '../../clavier/domain/touches.js';
 import { MAINTENABLES, mecaniqueDe } from '../../clavier/domain/raccourcis.js';
 import { postureDe } from '../../posture/domain/posture.js';
 import { groupePropose, voisinDe, estArmee } from '../../groupes/domain/groupes.js';
-import { ACTIONS } from '../../partie/domain/donnees.js';
+import { ACTIONS, elementDe } from '../../partie/domain/donnees.js';
 import { etapeEnCours, choisir, raccourcisRegles, reglages } from '../../partie/domain/partie.js';
 import { atteinte, effortDe } from './effort.js';
 
@@ -27,7 +27,6 @@ const LOGIQUES = {
 const AVEC_FAMILLES = Object.keys(LOGIQUES).filter((l) => LOGIQUES[l].famille);
 const familleDe = (l, id) => LOGIQUES[l].famille(ACTIONS[id]);
 
-const elementDe = (id) => ACTIONS[id].role || ACTIONS[id].element || id;
 const estCamera = (id) => ACTIONS[id].verbe === 'caméra';
 const touche = (raccourci) => lireRaccourci(raccourci).touche;
 
