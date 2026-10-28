@@ -68,7 +68,7 @@ _Éviter_ : modificateur
 Deux appuis sur la même touche en moins de 0,4 seconde.
 
 **Combinaison** :
-Une touche maintenue plus une autre touche.
+Une touche maintenue plus une autre touche, Mouse 4 ou Mouse 5 compris.
 
 **Raccourci** :
 Ce qui déclenche une action : une touche seule, un double appui ou une
