@@ -38,7 +38,7 @@ test('V29 : seules les commandes des raccourcis regles changent, le reste du pro
   const { texte } = exporter(profil(), regler(poser(), 'Mouse 4'));
   const avant = profil().split('\r\n');
   const changees = texte.split('\r\n').filter((l, i) => l !== avant[i]);
-  assert.deepEqual(changees, [`${T(6)}combo = "MouseX1",`, `${T(6)}combo = "",`, `${T(1)}name = "d aoe-keybinds",`]);
+  assert.deepEqual(changees, [`${T(6)}combo = "MouseX1",`, `${T(6)}combo = "",`, `${T(1)}name = "d Wolokeys",`]);
   assert.ok(!/[^\r]\n/.test(texte), 'fins de ligne CRLF gardees');
 });
 
@@ -55,8 +55,8 @@ test('V29 : un profil en touches classiques, entierement personnalisable ou illi
 
 test('V30 : l export cree un nouveau profil, nomme d apres l original', () => {
   const resultat = exporter(profil(), regler(poser(), 'Mouse 4'));
-  assert.equal(resultat.nom, 'd aoe-keybinds');
-  assert.ok(resultat.texte.includes(`\r\n${T(1)}name = "d aoe-keybinds",\r\n`));
+  assert.equal(resultat.nom, 'd Wolokeys');
+  assert.ok(resultat.texte.includes(`\r\n${T(1)}name = "d Wolokeys",\r\n`));
 });
 
 test('V31 : le raccourci prend la premiere place, la seconde est videe ; la meme combinaison est retiree ailleurs, jamais de la grille', () => {

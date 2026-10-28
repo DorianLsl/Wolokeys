@@ -39,7 +39,7 @@ export function exporter(texte, historique) {
   if (absente) return { erreur: `Commande absente du profil : ${absente}.` };
   const { ecrites, retires, erreur } = ecrire(lignes.slice(0, fin), combos);
   if (erreur) return { erreur };
-  const nom = `${texte.match(/\n\tname = "([^"]*)",/)[1]} aoe-keybinds`;
+  const nom = `${texte.match(/\n\tname = "([^"]*)",/)[1]} Wolokeys`;
   const reste = lignes.slice(fin).map((l) => (l.startsWith('\tname = ') ? `\tname = "${nom}",` : l));
   return { nom, texte: [...ecrites, ...reste].join(texte.includes('\r\n') ? '\r\n' : '\n'), retires };
 }
