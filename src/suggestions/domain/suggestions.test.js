@@ -25,6 +25,14 @@ test('V9, V12 : la meilleure suggestion a le plus d etoiles, puis une par mecani
   assert.equal(suggestions(poser())[0].etoiles, 4);
 });
 
+test('V10 : le double appui sur la touche de l element est parmi les suggestions, sans etre pre-selectionne', () => {
+  const surTous = jusqua(poser(), 'idleAll');
+  assert.equal(raccourcisRegles(surTous).idle, 'Mouse 4');
+  assert.equal(noms(surTous), 'Ctrl + Mouse 4,Alt + Mouse 4,Mouse 4 x2');
+  assert.ok(!/x2/.test(noms(jusqua(poser(), 'scout'))), 'ailleurs, en dernier recours seulement');
+  assert.equal(noms(jusqua(poser(), 'alert')), 'Espace x2', 'l alerte reste pre-selectionnee');
+});
+
 test('V9 : une etoile par critere rempli, sans objet compte comme rempli', () => {
   assert.equal(etoiles({ grille: false, famille: false, doigts: false, element: false }), 0);
   assert.equal(etoiles({ grille: null, famille: null, doigts: true, element: null }), 4);

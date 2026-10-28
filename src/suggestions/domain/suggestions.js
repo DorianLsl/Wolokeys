@@ -55,7 +55,11 @@ function raccourcisProposes(historique, action) {
   const noms = Object.keys(LOGIQUES);
   const [habituelle, ...autres] = noms.map((nom) => LOGIQUES[nom].proposition(contexte, tries));
   const premiersParMecanique = tries.filter((c, i) => tries.findIndex((d) => d.mecanique === c.mecanique) === i);
-  const choisis = [...new Set([habituelle || tries[0], ...autres, ...premiersParMecanique].filter(Boolean))].slice(0, 3);
+  // Le double appui sur la touche de l'élément a toujours sa place, sans être pré-sélectionné, sauf l'alerte (V10).
+  const double = !estCamera(action) && tries.find((c) => c.mecanique === 'double');
+  const meilleur = habituelle || tries.find((c) => c !== double);
+  const premiers = [...new Set([meilleur, ...autres, ...premiersParMecanique].filter((c) => c && c !== double))];
+  const choisis = double ? [...premiers.slice(0, 2), double] : premiers.slice(0, 3);
   const proposees = [habituelle, ...autres];
   return choisis.map((c) => {
     const avecLogiques = { ...c, logiques: noms.filter((nom, i) => proposees[i] === c) };
@@ -127,7 +131,7 @@ function suggestionDeGroupe(historique, selection) {
 // Un groupe est noté comme un raccourci : seuls les doigts comptent, le reste est sans objet.
 export const criteresDuGroupe = (historique, chiffre) => ({ grille: null, famille: null, doigts: effortDe(postureDe(historique), chiffre) === 0, element: null });
 
-// Le double appui n'est suggéré qu'en dernier recours, sauf l'alerte sur la touche de la caméra (V7, V10).
+// Le double appui n'est suggéré qu'en dernier recours, sauf sur la touche de l'élément : l'alerte sur la caméra, tous les X sur prochain X (V7, V10).
 function notees({ historique, action, regles, logiques }) {
   const libres = candidats(historique, action)
     .filter((c) => logiques.some((l) => !prisesAilleurs(regles, l, familleDe(l, action)).includes(c.mecanique)))
@@ -135,7 +139,7 @@ function notees({ historique, action, regles, logiques }) {
       const crit = criteres(historique, action, c.raccourci, logiques);
       return { ...c, criteres: crit, etoiles: etoiles(crit) };
     });
-  const sansDouble = libres.filter((c) => c.mecanique !== 'double' || (estCamera(action) && c.criteres.element));
+  const sansDouble = libres.filter((c) => c.mecanique !== 'double' || c.criteres.element);
   return gardeDernierRecours(sansDouble.length ? sansDouble : libres);
 }
 
