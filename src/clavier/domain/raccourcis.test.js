@@ -20,9 +20,9 @@ test('V10 : seules Alt, Maj et Ctrl se maintiennent, devant une touche ordinaire
   assert.equal(refusRaccourci('Alt + G x2'), 'Alt + G x2 : combinaison impossible.');
 });
 
-test('V10 : un bouton lateral ne sert que seul, le jeu refuse de le combiner', () => {
-  for (const r of ['Mouse 4 + G', 'Mouse 5 + A', 'Mouse 4 + Mouse 5', 'Alt + Mouse 4']) assert.equal(refusRaccourci(r), 'Bouton lateral : seulement seul.', r);
-  for (const permis of ['Mouse 4', 'Mouse 5 x2']) assert.equal(refusRaccourci(permis), null, permis);
+test('V10 : un bouton lateral se combine appuye en second, le jeu refuse de le tenir', () => {
+  for (const r of ['Mouse 4 + G', 'Mouse 5 + A', 'Mouse 4 + Mouse 5']) assert.equal(refusRaccourci(r), 'Bouton lateral : seulement en second.', r);
+  for (const permis of ['Mouse 4', 'Mouse 5 x2', 'Alt + Mouse 4', 'Ctrl + Mouse 5', 'Maj + Mouse 4']) assert.equal(refusRaccourci(permis), null, permis);
 });
 
 test('touches reservees au jeu ou au systeme, seules ou doublees', () => {

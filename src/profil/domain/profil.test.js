@@ -87,9 +87,9 @@ test('V33 : une action en Plus tard garde la touche qu elle a dans le profil', (
 });
 
 test('V34 : la combinaison du jeu ecrit la lettre imprimee en AZERTY et les noms anglais du jeu', () => {
-  const combos = ['Alt + A', '²', '<', 'Mouse 4', 'Mouse 5 x2', 'Espace x2', 'Maj + G', 'Ctrl + G', 'F1', 'Tab', 'Échap + A'].map(comboDe);
+  const combos = ['Alt + A', '²', '<', 'Mouse 4', 'Mouse 5 x2', 'Espace x2', 'Maj + G', 'Ctrl + G', 'Ctrl + Mouse 5', 'F1', 'Tab', 'Échap + A'].map(comboDe);
   assert.deepEqual(combos.map((c) => `${c.combo}${c.repeatCount === 1 ? ' x2' : ''}`),
-    ['Alt+A', 'Apostrophe', 'OEM102', 'MouseX1', 'MouseX2 x2', 'Space x2', 'Shift+G', 'Control+G', 'F1', 'Tab', 'A']);
+    ['Alt+A', 'Apostrophe', 'OEM102', 'MouseX1', 'MouseX2 x2', 'Space x2', 'Shift+G', 'Control+G', 'Control+MouseX2', 'F1', 'Tab', 'A']);
   for (const t of TOUCHES.filter((x) => x.id !== 'Win')) assert.match(comboDe(t.id).combo, /^[A-Za-z0-9]+$/, t.id);
 });
 

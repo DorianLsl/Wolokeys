@@ -1,6 +1,6 @@
 import { toucheDe, lireRaccourci, ascii, CHIFFRES } from './touches.js';
 
-// Le menu du jeu refuse de tenir un bouton latéral (V10).
+// Le menu du jeu refuse de tenir un bouton latéral, qui se combine seulement appuyé en second (V10).
 export const MAINTENABLES = ['Alt', 'Maj', 'Ctrl'];
 // Ctrl et Maj gardent leur sens sur la grille du jeu (groupes, file d'ordres) : seul Alt s'y combine (V3).
 export const MAINTENABLES_GRILLE = ['Alt'];
@@ -16,7 +16,7 @@ export function refusRaccourci(raccourci) {
 
 function refusAvecMaintenue(raccourci, lu, touche) {
   if (lu.maintenue === 'Échap') return touche.grille && !lu.double ? null : 'Echap : seulement avant la grille.';
-  if (touche.souris || toucheDe(lu.maintenue).souris) return 'Bouton lateral : seulement seul.';
+  if (toucheDe(lu.maintenue).souris) return 'Bouton lateral : seulement en second.';
   if (lu.double || !MAINTENABLES.includes(lu.maintenue) || MAINTENABLES.includes(lu.touche) || touche.reservee) return `${raccourci} : combinaison impossible.`;
   return touche.grille && !MAINTENABLES_GRILLE.includes(lu.maintenue) ? 'Grille : seulement avec Alt.' : null;
 }

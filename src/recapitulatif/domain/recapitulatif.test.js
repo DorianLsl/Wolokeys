@@ -39,7 +39,7 @@ test('V5 : une action en Plus tard apparait a definir une fois son age fini', ()
 
 test('V9 : chaque raccourci regle a ses etoiles, et le score les additionne sur 4 par raccourci', () => {
   const fin = jouer(poser());
-  assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [3, 3, null]);
+  assert.deepEqual([ligne(fin, 'selectTc').etoiles, ligne(fin, 'allBarracks').etoiles, ligne(poser(), 'selectTc').etoiles], [4, 3, null]);
   const r = recapitulatif(fin);
   const lignes = [...r.optimisee, ...r.extras];
   assert.deepEqual(r.score, { obtenu: lignes.reduce((total, l) => total + l.etoiles, 0), max: 100 });
