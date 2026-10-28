@@ -33,6 +33,8 @@ test('touches reservees au jeu ou au systeme, seules ou doublees', () => {
   assert.equal(refusRaccourci('Ctrl'), 'Ctrl seul : en combinaison seulement.');
   assert.equal(refusRaccourci('Win'), 'Win : menu Windows.');
   assert.equal(refusRaccourci('Verr.Maj'), 'Verr.Maj : majuscules.');
+  assert.equal(refusRaccourci('Tab'), 'Tab : sous-selection du jeu.');
+  assert.equal(refusRaccourci('Ctrl + Tab'), 'Ctrl + Tab : combinaison impossible.');
   for (const permis of ['Alt', 'Mouse 4', '² x2', 'F1', 'Espace x2']) assert.equal(refusRaccourci(permis), null, permis);
 });
 

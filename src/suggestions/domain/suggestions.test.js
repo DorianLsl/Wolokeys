@@ -119,9 +119,9 @@ test('Suivant sans suggestion, ou apres la fin, rend un message et non une excep
 test('V20 : la partie entiere, logiques comprises, donne des raccourcis figes', () => {
   assert.equal(partie(jouer(poser())), 'selectTc=Mouse 5 scout=G camera=Espace idle=Mouse 4 idleAll=Ctrl + G '
     + 'allBarracks=groupe 6 allRanges=groupe 7 infantryScreen=Alt + F infantry=groupe 1 rangedScreen=< ranged=groupe 2 '
-    + 'militaryBuildings=B idleMilNext=Tab idleMil=Ctrl + Tab cancelUnit=Maj + Espace allStables=groupe 8 cavalryScreen=Alt + G '
+    + 'militaryBuildings=B idleMilNext=² idleMil=Ctrl + ² cancelUnit=Maj + Espace allStables=groupe 8 cavalryScreen=Alt + G '
     + 'cavalry=groupe 3 allTc=Ctrl + < allWorkshops=groupe 9 siegeScreen=Alt + D siege=groupe 4 alert=Espace x2 monasteries=groupe 0 '
-    + 'monk=²');
+    + 'monk=Échap + S');
   assert.ok(partie(jouer(poser(), parGroupe)).startsWith('selectTc=groupe 5 scout=Mouse 5 camera=Espace idle=G idleAll=Ctrl + G'));
 });
 

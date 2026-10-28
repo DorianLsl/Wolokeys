@@ -6,7 +6,7 @@ export const TOUCHES = [
   ...Array.from({ length: 12 }, (_, i) => ({ id: `F${i + 1}`, rangee: 0, code: `F${i + 1}` })),
   { id: '²', rangee: 1, code: 'Backquote' },
   ...CHIFFRES.map((id) => ({ id, rangee: 1, code: 'Digit' + id, reservee: 'Chiffres : groupes de controle.' })),
-  { id: 'Tab', rangee: 2, largeur: 1.5, code: 'Tab' },
+  { id: 'Tab', rangee: 2, largeur: 1.5, code: 'Tab', reservee: 'Tab : sous-selection du jeu.' },
   ...'AZERT'.split('').map((id, i) => ({ id, rangee: 2, code: 'Key' + 'QWERT'[i], grille: true })),
   { id: 'Verr.Maj', rangee: 3, largeur: 1.75, code: 'CapsLock', reservee: 'Verr.Maj : majuscules.' },
   ...'QSDF'.split('').map((id, i) => ({ id, rangee: 3, code: 'Key' + 'ASDF'[i], grille: true })),
