@@ -132,7 +132,8 @@ _Éviter_ : logique par concept, logique par geste
 **Mécanique habituelle** :
 Mécanique proposée d'abord au premier raccourci d'un verbe, celle des
 touches par défaut du jeu : prochain sur la touche seule (Échap + touche sur
-la grille), tous sur la carte sur Ctrl, tous à l'écran sur Alt.
+la grille), tous sur la carte en double appui de la touche de prochain (sinon
+Ctrl), tous à l'écran sur Alt.
 
 **Famille** :
 Actions qu'une logique regroupe et qui gardent la mécanique de leur premier
@@ -152,7 +153,8 @@ d'abord la case : la ligne de sa famille, la colonne de son élément.
 **Dernier recours** :
 Touches F, Échap plus une touche de la grille, double appui : proposés
 seulement en cas de gros manque d'intuitivité, sauf Échap plus une touche de
-la grille pour prochain.
+la grille pour prochain, et le double appui pour l'alerte et pour tous sur la
+touche de prochain.
 
 ## Choix de l'utilisateur
 
