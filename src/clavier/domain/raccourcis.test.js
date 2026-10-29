@@ -2,11 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { refusRaccourci, seGenent, mecaniqueDe, estDouble } from './raccourcis.js';
 
-test('V3 : la grille reste au jeu, sauf avec Alt ou apres Echap', () => {
+test('V3 : la grille reste au jeu, sauf avec Alt, Ctrl ou apres Echap', () => {
   assert.equal(refusRaccourci('A'), 'A deja pris : grille.');
   assert.equal(refusRaccourci('T x2'), 'T x2 deja pris : grille.');
-  assert.equal(refusRaccourci('Ctrl + A'), 'Grille : seulement avec Alt.');
-  assert.equal(refusRaccourci('Maj + S'), 'Grille : seulement avec Alt.');
+  assert.equal(refusRaccourci('Ctrl + A'), null, 'le jeu accepte Ctrl avec la grille');
+  assert.equal(refusRaccourci('Maj + S'), 'Grille : pas avec Maj (file).');
   for (const permis of ['Alt + A', 'Échap + A', 'G', 'Ctrl + G']) assert.equal(refusRaccourci(permis), null, permis);
   assert.equal(refusRaccourci('Échap + G'), 'Echap : seulement avant la grille.');
 });

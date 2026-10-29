@@ -15,7 +15,7 @@ export const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran
 const DOMAINES = { 'économie': "de l'économie", militaire: 'du militaire' };
 // Comme les touches par défaut du jeu : prochain seule (Échap + touche sur la grille), tous Ctrl, à l'écran Alt (V24).
 const HABITUDES = { prochain: 'seule', tous: 'Ctrl', 'écran': 'Alt' };
-// Le militaire prend Alt, seule touche maintenue qui se combine avec la grille (V16, V21).
+// Le militaire prend Alt, sous le pouce, l'économie Ctrl (V16, V21).
 const TOUCHES_DES_DOMAINES = { militaire: 'Alt', 'économie': 'Ctrl' };
 
 // Toutes calculées (V20), chacune avec ses familles (V11) et sa proposition, faite sans être imposée.

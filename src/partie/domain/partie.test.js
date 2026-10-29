@@ -218,7 +218,7 @@ test('les refus sont en ASCII simple, en 8 mots au plus', () => {
   const refus = [
     choisir(surEcuries, '5').erreur, choisir(jusqua(groupe5, 'allRanges'), '9').erreur,
     choisir(jusqua(champsDeTirEn7, 'allStables'), '7').erreur, choisir(jusqua(champsDeTirEn7, 'allStables'), '9').erreur,
-    choisir(groupe5, 'Alt + Maj').erreur, choisir(groupe5, 'Ctrl + A').erreur, choisir(groupe5, 'Verr.Maj').erreur,
+    choisir(groupe5, 'Alt + Maj').erreur, choisir(groupe5, 'Maj + A').erreur, choisir(groupe5, 'Verr.Maj').erreur,
     choisir(jusqua(groupe5, 'militaryBuildings'), 'Espace x2').erreur, plusTard([]).erreur,
   ];
   for (const r of refus) {

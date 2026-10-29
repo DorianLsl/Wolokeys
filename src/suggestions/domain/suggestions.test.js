@@ -21,7 +21,7 @@ const jouer = (h, auxGroupes = suivant) => {
 };
 
 test('V9, V12 : la meilleure suggestion a le plus d etoiles, puis une par mecanique, sans double appui', () => {
-  assert.equal(noms(poser()), 'Mouse 5,Ctrl + Mouse 5,Alt + F');
+  assert.equal(noms(poser()), 'Mouse 5,Ctrl + F,Alt + F');
   assert.equal(suggestions(poser())[0].etoiles, 4);
 });
 
@@ -83,8 +83,7 @@ test('V26 : les touches F et Echap + touche seulement en cas de gros manque d in
   assert.ok(!/(^|,)(F\d|Échap)/.test(noms(poser())), noms(poser()));
   assert.equal(gardeDernierRecours([{ etoiles: 1 }, { etoiles: 3, dernierRecours: true }]).length, 2);
   assert.equal(gardeDernierRecours([{ etoiles: 2 }, { etoiles: 3, dernierRecours: true }]).length, 1);
-  const surEcuries = raccourcis(jusqua(poser(), 'allStables')).find((s) => s.raccourci === 'Échap + S');
-  assert.ok(surEcuries && surEcuries.dernierRecours, 'tous : Echap + touche en dernier recours');
+  assert.ok(!raccourcis(jusqua(poser(), 'allStables')).some((s) => s.raccourci.startsWith('Échap')), 'tous : Ctrl + E passe devant Echap + S');
 });
 
 test('V24, V26 : sur une touche de la grille, prochain passe par Echap + touche, hors dernier recours', () => {
@@ -113,7 +112,7 @@ test('V12 : Suivant seul joue toute la partie, et chaque suggestion est acceptee
 });
 
 test('V12 : la meilleure suggestion passe en premier, le groupe avant les raccourcis quand il passe d abord', () => {
-  assert.deepEqual(suggestions(poser()).map((p) => p.raccourci || `groupe ${p.groupe.chiffre}`), ['Mouse 5', 'Ctrl + Mouse 5', 'Alt + F', 'groupe 5']);
+  assert.deepEqual(suggestions(poser()).map((p) => p.raccourci || `groupe ${p.groupe.chiffre}`), ['Mouse 5', 'Ctrl + F', 'Alt + F', 'groupe 5']);
   assert.deepEqual(suggestions(jusqua(poser(), 'allBarracks')).map((p) => p.raccourci || `groupe ${p.groupe.chiffre}`)[0], 'groupe 6');
   const groupeCree = accepter(jusqua(poser(), 'allBarracks'), suggestions(jusqua(poser(), 'allBarracks'))[0]).historique;
   assert.deepEqual(reglages(groupeCree).allBarracks, { chiffre: '6' });
@@ -134,9 +133,9 @@ test('Suivant sans suggestion, ou apres la fin, rend un message et non une excep
 test('V20 : la partie entiere, logiques comprises, donne des raccourcis figes', () => {
   assert.equal(partie(jouer(poser())), 'selectTc=Mouse 5 scout=Échap + E camera=Espace idle=G idleAll=Ctrl + G '
     + 'allBarracks=groupe 6 allRanges=groupe 7 infantryScreen=Alt + A infantry=groupe 1 rangedScreen=Alt + Z ranged=groupe 2 '
-    + 'militaryBuildings=Ctrl + Mouse 4 idleMilNext=< idleMil=Ctrl + < cancelUnit=B allStables=groupe 8 cavalryScreen=Alt + E '
+    + 'militaryBuildings=Ctrl + F idleMilNext=Mouse 4 idleMil=Ctrl + Mouse 4 cancelUnit=< allStables=groupe 8 cavalryScreen=Alt + E '
     + 'cavalry=groupe 3 allTc=Ctrl + Mouse 5 allWorkshops=groupe 9 siegeScreen=Alt + R siege=groupe 4 alert=Espace x2 monasteries=groupe 0 '
-    + 'monk=²');
+    + 'monk=B');
   assert.ok(partie(jouer(poser(), parGroupe)).startsWith('selectTc=groupe 5 scout=Échap + E camera=Espace idle=Mouse 5 idleAll=Ctrl + Mouse 5'));
 });
 
@@ -153,8 +152,8 @@ test('V24 : la mecanique habituelle du verbe passe d abord : prochain seule, tou
 
 test('V16, V20 : au premier raccourci militaire, Alt reservee au militaire ; le choix fixe la logique', () => {
   const surEclaireur = jusqua(choisir(poser(), 'Ctrl + G').historique, 'scout');
-  assert.equal(noms(surEclaireur), 'Alt + E,Ctrl + Mouse 5,Échap + E');
-  assert.deepEqual(raccourcis(surEclaireur)[0].logiques, ['role', 'domaine']);
+  assert.equal(noms(surEclaireur), 'Ctrl + E,Alt + E,Échap + E');
+  assert.deepEqual([raccourcis(surEclaireur)[1].logiques, raccourcis(surEclaireur)[1].logique.texte], [['domaine'], 'Touche du militaire : Alt']);
   assert.deepEqual(logiquesPossibles(surEclaireur), ['verbe', 'domaine']);
   const parDomaine = choisir(surEclaireur, 'Alt + F').historique;
   assert.deepEqual(logiquesPossibles(parDomaine), ['domaine']);
@@ -196,7 +195,7 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   const logiques = (h) => suggestions(h).map((s) => [s.raccourci || `groupe ${s.groupe.chiffre}`, s.logique.texte, s.logique.action]);
   assert.deepEqual(logiques(poser()), [
     ['Mouse 5', 'Habitude : seule pour « prochain »', null],
-    ['Ctrl + Mouse 5', "Touche de l'économie : Ctrl", null],
+    ['Ctrl + F', "Touche de l'économie : Ctrl", null],
     ['Alt + F', "Pouce s'étire", null],
     ['groupe 5', 'Numéro habituel des bâtiments', null],
   ]);
@@ -204,9 +203,9 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   assert.deepEqual(logiques(jusqua(centreVille, 'scout')), [
     ['Échap + E', 'Rôle cavalerie sur E', null],
     ['Alt + E', 'Touche du militaire : Alt', null],
-    ['Maj + Espace', "Auriculaire s'étire", null],
+    ['Ctrl + E', "Pouce s'étire", null],
   ]);
-  assert.deepEqual(logiques(jusqua(choisir(poser(), 'Ctrl + G').historique, 'scout'))[1], ['Ctrl + Mouse 5', 'Même geste que Centre-ville', 'selectTc']);
+  assert.deepEqual(logiques(jusqua(centreVille, 'idle'))[0], ['G', 'Même geste que Centre-ville', 'selectTc']);
   const surInactifs = jusqua(centreVille, 'idleAll');
   assert.deepEqual(logiques(surInactifs)[0], ['Ctrl + G', 'Même touche que Inactif', 'idle']);
   assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
@@ -217,7 +216,7 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
     ['Alt + F', "Pouce s'étire", null],
     ['Maj + Espace', "Auriculaire s'étire", null],
   ]);
-  assert.deepEqual(logiques(jusqua(poser(), 'allStables'))[2], ['Échap + S', 'Même place que dans la grille : S', null]);
+  assert.deepEqual(logiques(jusqua(poser(['A', 'Z', 'E', 'R', 'Espace', 'Mouse 4']), 'idle'))[1], ['Alt + A', 'Même place que dans la grille : A', null]);
 });
 
 test('V9 : le groupe propose a ses criteres, seuls les doigts comptent', () => {

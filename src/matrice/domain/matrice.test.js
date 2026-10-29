@@ -11,10 +11,10 @@ const lire = (m) => m.cases.map((ligne) => ligne.map((c) => (c.actions.length ? 
 
 test('V35 : par touche, une ligne par mecanique et une colonne par touche, qui apparaissent au fil des choix', () => {
   assert.deepEqual(matriceParTouche(poser(), null), { lignes: [], colonnes: [], cases: [] });
-  const m = matriceParTouche(cinq(), null);
-  assert.deepEqual(m.lignes, [{ id: 'seule', nom: 'prochain · caméra' }, { id: 'Ctrl', nom: 'tous sur la carte' }]);
-  assert.deepEqual(m.colonnes, [{ id: 'E', nom: 'cavalerie' }, { id: 'G', nom: 'inactifs' }, { id: 'Espace', nom: 'caméra' }, { id: 'Mouse 5', nom: 'centre-ville' }]);
-  assert.deepEqual(lire(m), ['scout | idle | camera | selectTc', '— | idleAll | libre | libre']);
+  const m = matriceParTouche(cinq(), { raccourci: 'Maj + G' });
+  assert.deepEqual(m.lignes, [{ id: 'seule', nom: 'prochain · caméra' }, { id: 'Maj', nom: 'tous sur la carte' }, { id: 'Ctrl', nom: 'tous sur la carte' }]);
+  assert.deepEqual(m.colonnes, [{ id: 'E', nom: 'cavalerie' }, { id: 'G', nom: 'inactifs · infanterie' }, { id: 'Espace', nom: 'caméra' }, { id: 'Mouse 5', nom: 'centre-ville' }]);
+  assert.deepEqual(lire(m), ['scout | idle | camera | selectTc', '— | allBarracks* | libre | libre', 'libre | idleAll | libre | libre']);
 });
 
 test('V35 : par touche, la grille du jeu seule, et la suggestion marquee dans sa case', () => {
