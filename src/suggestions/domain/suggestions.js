@@ -13,7 +13,8 @@ const DOIGTS = ['index', 'majeur', 'annulaire', 'auriculaire', 'pouce', 'pouce d
 const ROLES = { infanterie: 'A', distance: 'Z', cavalerie: 'E', 'siège': 'R' };
 export const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran': "tous à l'écran", 'caméra': 'caméra', ordre: 'ordre' };
 const DOMAINES = { 'économie': "de l'économie", militaire: 'du militaire' };
-// Comme les touches par défaut du jeu : prochain seule (Échap + touche sur la grille), tous Ctrl, à l'écran Alt (V24).
+// Comme les touches par défaut du jeu : prochain seule (Échap + touche sur la grille), tous Ctrl, à l'écran Alt (V24) ;
+// « tous » prend d'abord le double appui de la touche de « prochain » (doubleDuProchain).
 const HABITUDES = { prochain: 'seule', tous: 'Ctrl', 'écran': 'Alt' };
 // Le militaire prend Alt, sous le pouce, l'économie Ctrl (V16, V21).
 const TOUCHES_DES_DOMAINES = { militaire: 'Alt', 'économie': 'Ctrl' };
@@ -55,11 +56,12 @@ function raccourcisProposes(historique, action) {
   const noms = Object.keys(LOGIQUES);
   const [habituelle, ...autres] = noms.map((nom) => LOGIQUES[nom].proposition(contexte, tries));
   const premiersParMecanique = tries.filter((c, i) => tries.findIndex((d) => d.mecanique === c.mecanique) === i);
-  // Le double appui sur la touche de l'élément a toujours sa place, sans être pré-sélectionné, sauf l'alerte (V10).
+  // Le double appui sur la touche de l'élément a toujours sa place ; pré-sélectionné seulement sur la touche de « prochain X » (V10, V24).
   const double = !estCamera(action) && tries.find((c) => c.mecanique === 'double');
   const meilleur = habituelle || tries.find((c) => c !== double);
   const premiers = [...new Set([meilleur, ...autres, ...premiersParMecanique].filter((c) => c && c !== double))];
-  const choisis = double ? [...premiers.slice(0, 2), double] : premiers.slice(0, 3);
+  const duProchain = double && double.raccourci === doubleDuProchain(contexte.regles, action);
+  const choisis = !double ? premiers.slice(0, 3) : duProchain ? [double, ...premiers.slice(0, 2)] : [...premiers.slice(0, 2), double];
   const proposees = [habituelle, ...autres];
   return choisis.map((c) => {
     const avecLogiques = { ...c, logiques: noms.filter((nom, i) => proposees[i] === c) };
@@ -134,7 +136,7 @@ export const criteresDuGroupe = (historique, chiffre) => ({ grille: null, famill
 // Le double appui n'est suggéré qu'en dernier recours, sauf sur la touche de l'élément : l'alerte sur la caméra, tous les X sur prochain X (V7, V10).
 function notees({ historique, action, regles, logiques }) {
   const libres = candidats(historique, action)
-    .filter((c) => logiques.some((l) => !prisesAilleurs(regles, l, familleDe(l, action)).includes(c.mecanique)))
+    .filter((c) => estDoubleDuProchain(regles, action, c.raccourci) || logiques.some((l) => !prisesAilleurs(regles, l, familleDe(l, action)).includes(c.mecanique)))
     .map((c) => {
       const crit = criteres(historique, action, c.raccourci, logiques);
       const ligne = criteres(historique, action, c.raccourci, logiquesDeLaMatrice(logiques)).famille;
@@ -169,16 +171,28 @@ function candidats(historique, action) {
 // Le premier choix qui les départage fixe la logique de l'utilisateur (V20) ; la touche seule reste commune.
 export function logiquesPossibles(historique) {
   const regles = raccourcisRegles(historique);
-  const tenus = Object.keys(regles).filter((id) => mecaniqueDe(regles[id]) !== 'seule');
+  const tenus = Object.keys(regles).filter((id) => mecaniqueDe(regles[id]) !== 'seule' && !estDoubleDuProchain(regles, id, regles[id]));
   const tient = (l) => tenus.every((p) => tenus.every((q) => (familleDe(l, p) === familleDe(l, q)) === (mecaniqueDe(regles[p]) === mecaniqueDe(regles[q]))));
   const possibles = AVEC_FAMILLES.filter(tient);
   return possibles.length ? possibles : ['verbe'];
 }
 
-const modeleDe = (regles, l, famille) => Object.keys(regles).find((id) => familleDe(l, id) === famille);
+// « Tous les X » en double appui sur la touche seule de « prochain X » (V24) ne fixe la mécanique d'aucune famille, comme la touche
+// seule : il ne prend pas le double appui à l'alerte, ni ne change la logique de l'utilisateur (V11, V20).
+function doubleDuProchain(regles, action) {
+  if (ACTIONS[action].verbe !== 'tous') return null;
+  const prochain = Object.keys(regles).find((x) => ACTIONS[x].verbe === 'prochain' && elementDe(x) === elementDe(action));
+  const lu = prochain && lireRaccourci(regles[prochain]);
+  return lu && !lu.maintenue && !lu.double ? `${regles[prochain]} x2` : null;
+}
+
+const estDoubleDuProchain = (regles, action, raccourci) => raccourci === doubleDuProchain(regles, action);
+const fixeLaFamille = (regles, id) => !estDoubleDuProchain(regles, id, regles[id]);
+
+const modeleDe = (regles, l, famille) => Object.keys(regles).find((id) => familleDe(l, id) === famille && fixeLaFamille(regles, id));
 
 const prisesAilleurs = (regles, l, famille) => Object.keys(regles)
-  .filter((id) => familleDe(l, id) !== famille).map((id) => mecaniqueDe(regles[id])).filter((m) => m !== 'seule');
+  .filter((id) => familleDe(l, id) !== famille && fixeLaFamille(regles, id)).map((id) => mecaniqueDe(regles[id])).filter((m) => m !== 'seule');
 
 // Critères d'intuitivité (V9) : true, false, ou null quand le critère est sans objet.
 export function criteres(historique, action, raccourci, logiques = logiquesPossibles(historique)) {

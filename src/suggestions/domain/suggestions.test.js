@@ -25,12 +25,19 @@ test('V9, V12 : la meilleure suggestion a le plus d etoiles, puis une par mecani
   assert.equal(suggestions(poser())[0].etoiles, 4);
 });
 
-test('V10 : le double appui sur la touche de l element est parmi les suggestions, sans etre pre-selectionne', () => {
+test('V10, V24 : tous les X en double appui sur la touche seule de prochain X, pre-selectionne ; sinon Ctrl', () => {
   const surTous = jusqua(poser(), 'idleAll');
   assert.equal(raccourcisRegles(surTous).idle, 'G');
-  assert.equal(noms(surTous), 'Ctrl + G,Alt + G,G x2');
+  assert.equal(noms(surTous).split(',')[0], 'G x2');
+  const surCasernes = raccourcis(jusqua(choisir(surTous, 'G x2').historique, 'allBarracks'));
+  assert.equal(surCasernes[0].raccourci, 'Ctrl + A', 'sans prochain : Ctrl sur la touche du role');
   assert.ok(!/x2/.test(noms(jusqua(poser(), 'scout'))), 'ailleurs, en dernier recours seulement');
-  assert.equal(raccourcis(jusqua(poser(), 'alert'))[0].raccourci, 'Espace x2', 'l alerte reste pre-selectionnee');
+  const prochainCombine = jusqua(choisir(jusqua(poser(), 'idle'), 'Ctrl + G').historique, 'idleAll');
+  assert.ok(!/x2/.test(noms(prochainCombine).split(',')[0]), 'prochain sur une combinaison : pas de double pre-selectionne');
+  assert.equal(raccourcis(jusqua(poser(), 'alert'))[0].raccourci, 'Espace x2', 'l alerte garde le double appui de la camera (V11)');
+  const parDomaine = jusqua(choisir(jusqua(choisir(poser(), 'Ctrl + G').historique, 'scout'), 'Alt + F').historique, 'idleMilNext');
+  const tousMilitaires = choisir(choisir(parDomaine, '<').historique, '< x2').historique;
+  assert.deepEqual(logiquesPossibles(tousMilitaires), ['domaine'], 'la logique de l utilisateur ne change pas (V20)');
 });
 
 test('V36 : la case de la matrice d abord, ligne de la famille et colonne du role, avant les doigts immobiles', () => {
@@ -129,21 +136,21 @@ test('Suivant sans suggestion, ou apres la fin, rend un message et non une excep
 });
 
 // Les raccourcis obtenus sont figés : ceux du prototype P1 v14 ont changé quand le jeu a refusé de tenir les boutons latéraux (V10, V24),
-// puis quand la case de la matrice est passée d'abord (V36).
+// puis quand la case de la matrice est passée d'abord (V36) et « tous » sur le double appui du prochain (V24).
 test('V20 : la partie entiere, logiques comprises, donne des raccourcis figes', () => {
-  assert.equal(partie(jouer(poser())), 'selectTc=Mouse 5 scout=Échap + E camera=Espace idle=G idleAll=Ctrl + G '
+  assert.equal(partie(jouer(poser())), 'selectTc=Mouse 5 scout=Échap + E camera=Espace idle=G idleAll=G x2 '
     + 'allBarracks=groupe 6 allRanges=groupe 7 infantryScreen=Alt + A infantry=groupe 1 rangedScreen=Alt + Z ranged=groupe 2 '
-    + 'militaryBuildings=Ctrl + F idleMilNext=Mouse 4 idleMil=Ctrl + Mouse 4 cancelUnit=< allStables=groupe 8 cavalryScreen=Alt + E '
-    + 'cavalry=groupe 3 allTc=Ctrl + Mouse 5 allWorkshops=groupe 9 siegeScreen=Alt + R siege=groupe 4 alert=Espace x2 monasteries=groupe 0 '
+    + 'militaryBuildings=Ctrl + F idleMilNext=Mouse 4 idleMil=Mouse 4 x2 cancelUnit=< allStables=groupe 8 cavalryScreen=Alt + E '
+    + 'cavalry=groupe 3 allTc=Mouse 5 x2 allWorkshops=groupe 9 siegeScreen=Alt + R siege=groupe 4 alert=Espace x2 monasteries=groupe 0 '
     + 'monk=B');
-  assert.ok(partie(jouer(poser(), parGroupe)).startsWith('selectTc=groupe 5 scout=Échap + E camera=Espace idle=Mouse 5 idleAll=Ctrl + Mouse 5'));
+  assert.ok(partie(jouer(poser(), parGroupe)).startsWith('selectTc=groupe 5 scout=Échap + E camera=Espace idle=Mouse 5 idleAll=Mouse 5 x2'));
 });
 
-test('V24 : la mecanique habituelle du verbe passe d abord : prochain seule, tous sur la carte Ctrl, a l ecran Alt', () => {
+test('V24 : la mecanique habituelle du verbe passe d abord : prochain seule, tous sur la carte Ctrl apres le double du prochain, a l ecran Alt', () => {
   const premiere = raccourcis(poser())[0];
   assert.deepEqual([premiere.mecanique, premiere.logiques.includes('verbe')], ['seule', true], noms(poser()));
   const surTous = jusqua(poser(), 'idleAll');
-  assert.ok(raccourcis(surTous)[0].raccourci.startsWith('Ctrl + ') && raccourcis(surTous)[0].logiques.includes('verbe'), noms(surTous));
+  assert.ok(raccourcis(surTous)[1].raccourci.startsWith('Ctrl + ') && raccourcis(surTous)[1].logiques.includes('verbe'), noms(surTous));
   const surEcran = jusqua(poser(), 'infantryScreen');
   assert.ok(raccourcis(surEcran)[0].raccourci.startsWith('Alt + ') && raccourcis(surEcran)[0].logiques.includes('verbe'), noms(surEcran));
   const ecranSurB = choisir(surEcran, 'B').historique;
@@ -207,7 +214,7 @@ test('V18 : chaque suggestion dit sa logique en une ligne, avec l action qui l i
   ]);
   assert.deepEqual(logiques(jusqua(centreVille, 'idle'))[0], ['G', 'Même geste que Centre-ville', 'selectTc']);
   const surInactifs = jusqua(centreVille, 'idleAll');
-  assert.deepEqual(logiques(surInactifs)[0], ['Ctrl + G', 'Même touche que Inactif', 'idle']);
+  assert.deepEqual(logiques(surInactifs)[0], ['G x2', 'Même touche que Inactif', 'idle']);
   assert.deepEqual(logiques(jusqua(parGroupe(poser()), 'allBarracks'))[0], ['groupe 6', 'À côté de ton groupe 5', 'selectTc']);
   assert.deepEqual(logiques(choisir(poser(), 'Ctrl + 5').historique)[3], ['groupe 5', 'Ton groupe 5', null]);
   assert.deepEqual(logiques(jusqua(poser(), 'infantry')), [['groupe 1', "Numéro habituel de l'armée", null]]);
@@ -229,7 +236,7 @@ test('V26 : prochain et tous les militaires inactifs partagent une touche', () =
   const prochain = raccourcisRegles(surTous).idleMilNext;
   const [meilleure] = raccourcis(surTous);
   assert.equal(etapeEnCours(surTous).action, 'idleMil');
-  assert.equal(meilleure.raccourci.split(' + ').pop(), prochain.split(' + ').pop(), `${prochain} puis ${meilleure.raccourci}`);
+  assert.equal(meilleure.raccourci.split(' + ').pop().replace(/ x2$/, ''), prochain.split(' + ').pop(), `${prochain} puis ${meilleure.raccourci}`);
   assert.deepEqual(meilleure.logique, { texte: 'Même touche que Militaire inactif', action: 'idleMilNext' });
 });
 
