@@ -7,11 +7,11 @@ import { etapeEnCours, choisir, raccourcisRegles, reglages } from '../../partie/
 import { atteinte, effortDe } from './effort.js';
 
 // Départage, de la plus simple à la plus composée.
-const MECANIQUES = ['seule', 'double', ...MAINTENABLES];
+export const MECANIQUES = ['seule', 'double', ...MAINTENABLES];
 const DOIGTS = ['index', 'majeur', 'annulaire', 'auriculaire', 'pouce', 'pouce droit'];
 // Les touches sous 1, 2, 3, 4, comme les groupes de l'armée chez les joueurs reconnus (V25).
 const ROLES = { infanterie: 'A', distance: 'Z', cavalerie: 'E', 'siège': 'R' };
-const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran': "tous à l'écran" };
+export const VERBES = { prochain: 'prochain', tous: 'tous sur la carte', 'écran': "tous à l'écran", 'caméra': 'caméra', ordre: 'ordre' };
 const DOMAINES = { 'économie': "de l'économie", militaire: 'du militaire' };
 // Comme les touches par défaut du jeu : prochain seule (Échap + touche sur la grille), tous Ctrl, à l'écran Alt (V24).
 const HABITUDES = { prochain: 'seule', tous: 'Ctrl', 'écran': 'Alt' };
