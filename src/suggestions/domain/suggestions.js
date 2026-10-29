@@ -137,13 +137,18 @@ function notees({ historique, action, regles, logiques }) {
     .filter((c) => logiques.some((l) => !prisesAilleurs(regles, l, familleDe(l, action)).includes(c.mecanique)))
     .map((c) => {
       const crit = criteres(historique, action, c.raccourci, logiques);
-      return { ...c, criteres: crit, etoiles: etoiles(crit) };
+      const ligne = criteres(historique, action, c.raccourci, logiquesDeLaMatrice(logiques)).famille;
+      return { ...c, criteres: crit, etoiles: etoiles(crit), matrice: [ligne, crit.element].filter((v) => v === true).length };
     });
   const sansDouble = libres.filter((c) => c.mecanique !== 'double' || c.criteres.element);
   return gardeDernierRecours(sansDouble.length ? sansDouble : libres);
 }
 
-const triees = (candidats) => [...candidats].sort((p, q) => q.etoiles - p.etoiles || p.effort - q.effort
+// Les lignes de la matrice sont des verbes, sauf si les choix de l'utilisateur ont écarté cette logique (V36).
+const logiquesDeLaMatrice = (logiques) => (logiques.includes('verbe') ? ['verbe'] : logiques);
+
+// La case de la matrice d'abord : la ligne de sa famille et la colonne de son élément (V36).
+const triees = (candidats) => [...candidats].sort((p, q) => q.matrice - p.matrice || q.etoiles - p.etoiles || p.effort - q.effort
   || MECANIQUES.indexOf(p.mecanique) - MECANIQUES.indexOf(q.mecanique) || DOIGTS.indexOf(p.doigtTouche) - DOIGTS.indexOf(q.doigtTouche));
 
 // La touche de référence du pouce reste à la caméra (V7) ; une touche maintenable ne se suggère pas seule (V11) ;

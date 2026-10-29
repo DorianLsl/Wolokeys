@@ -29,8 +29,8 @@ test('V9 : le geste anime montre la touche du doigt, la suggestion choisie ou l 
 test('V18 : les touches de l action qui inspire la suggestion sont entourees, ou le chiffre de son groupe', () => {
   const h = poser();
   assert.deepEqual(touchesEntourees(h, suggestions(h)[0]), []);
-  const surEclaireur = jusqua(choisir(h, 'Mouse 5').historique, 'scout');
-  assert.deepEqual(touchesEntourees(surEclaireur, suggestions(surEclaireur)[0]), ['Mouse 5']);
+  const surInactifs = jusqua(choisir(h, 'Mouse 5').historique, 'idleAll');
+  assert.deepEqual(touchesEntourees(surInactifs, suggestions(surInactifs)[0]), ['G']);
   const surCasernes = jusqua(accepter(h, suggestions(h)[3]).historique, 'allBarracks');
   assert.deepEqual(touchesEntourees(surCasernes, suggestions(surCasernes)[0]), ['5']);
 });
