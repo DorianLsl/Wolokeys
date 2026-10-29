@@ -143,6 +143,12 @@ Intuitivité d'un raccourci, de 0 à 4 : une par critère rempli parmi place
 dans la grille, mécanique de la famille, doigts immobiles, même touche que
 l'élément.
 
+**Matrice** :
+Tableau des raccourcis réglés, qui se remplit au fil des choix : par touche
+(une ligne par mécanique, une colonne par touche) ou par verbe (une ligne par
+verbe, une colonne par élément). La suggestion pré-sélectionnée en suit
+d'abord la case : la ligne de sa famille, la colonne de son élément.
+
 **Dernier recours** :
 Touches F, Échap plus une touche de la grille, double appui : proposés
 seulement en cas de gros manque d'intuitivité, sauf Échap plus une touche de
