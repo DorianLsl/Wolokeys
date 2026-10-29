@@ -15,6 +15,7 @@ import { afficherRecapitulatif, afficherRetires } from './interface/ui/recapitul
 import { exporter } from './profil/domain/profil.js';
 import { lireFichier, telecharger } from './profil/adapters/fichier.js';
 import { installerVues } from './interface/ui/vues.js';
+import { installerAffichage, afficherMatrices } from './interface/ui/matrice.js';
 
 let historique = [];
 let message = '';
@@ -53,7 +54,9 @@ function afficher() {
   afficherMessage(message, estNote);
   afficherClavier(historique, etape, { g, entourees, enConflit: conflits(historique), groupe, tenues });
   afficherManette(historique, etape, { g, entourees, mouvements: deplacements(historique, g), tenues });
-  afficherRecapitulatif(historique, recap, (action) => appliquer(redemander(historique, action), false));
+  const revenirSur = (action) => appliquer(redemander(historique, action), false);
+  afficherRecapitulatif(historique, recap, revenirSur);
+  afficherMatrices(historique, liste[choisie], revenirSur);
   garderLeFocus();
 }
 
@@ -113,4 +116,5 @@ profil.addEventListener('change', async () => {
 });
 installerClavier(ecoute.cliquer);
 installerVues();
+installerAffichage();
 afficher();

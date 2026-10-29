@@ -161,6 +161,18 @@
     .nom { min-width: 0; }
     .valeur { display: inline-flex; align-items: center; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
     .etat { color: var(--discret); display: inline-flex; gap: 4px; align-items: center; }
+    .tete-recap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+    .recap[data-affichage="matrices"] .listes, .recap:not([data-affichage="matrices"]) .matrices { display: none; }
+    .matrices { display: grid; gap: 20px; overflow-x: auto; }
+    .matrice { border-collapse: collapse; font-size: .9rem; }
+    .matrice caption { text-align: left; font-family: var(--affichage); font-weight: 700; padding-bottom: 6px; }
+    .matrice th, .matrice td { border-bottom: 1px solid var(--trait); padding: 6px 8px; text-align: center; vertical-align: middle; }
+    .matrice th[scope="row"] { text-align: left; white-space: nowrap; }
+    .matrice th small { display: block; color: var(--discret); font-weight: 400; }
+    .matrice td.vide { color: var(--discret); font-style: italic; }
+    .matrice td.suggeree { outline: 2px dashed var(--accent); outline-offset: -4px; }
+    .matrice td button, .matrice td span { display: inline-flex; align-items: center; gap: 4px; background: none; border: 0; padding: 2px 4px; }
+    .matrice td button:hover { background: var(--touche); }
   </style>
 </head>
 <body>
@@ -240,7 +252,13 @@
       </ul>
     </section>
     <section class="recap">
-      <h2>Tes raccourcis <span class="score" id="score"></span></h2>
+      <div class="tete-recap">
+        <h2>Tes raccourcis <span class="score" id="score"></span></h2>
+        <div class="vues" role="group" aria-label="Affichage des raccourcis">
+          <button type="button" id="affichage-liste" aria-pressed="true">Liste</button>
+          <button type="button" id="affichage-matrices" aria-pressed="false">Matrices</button>
+        </div>
+      </div>
       <div class="export">
         <button class="fantome" id="exporter" type="button"><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>Exporter vers mon profil du jeu</button>
         <input type="file" id="profil" accept=".rkp" hidden>
@@ -251,6 +269,7 @@
         <section><h3><svg class="ic" aria-hidden="true"><use href="#i-crown"/></svg>Partie optimisée</h3><ul id="optimisee"></ul></section>
         <section><h3><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>Extras</h3><ul id="extras"></ul></section>
       </div>
+      <div class="matrices" id="matrices"></div>
     </section>
   </main>
   <script type="module" src="src/main.js"></script>
